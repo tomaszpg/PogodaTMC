@@ -1,0 +1,13 @@
+INPUT(
+./debug\main.o
+./debug\mainwindow.o
+./debug\filedownloader.o
+./debug\geolayer.o
+./debug\viewport.o
+./debug\clickablelabel.o
+./debug\moc_mainwindow.o
+./debug\moc_filedownloader.o
+./debug\moc_geolayer.o
+./debug\moc_viewport.o
+./debug\moc_clickablelabel.o
+);
