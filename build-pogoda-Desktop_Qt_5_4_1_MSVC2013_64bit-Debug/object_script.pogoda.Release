@@ -1,0 +1,15 @@
+INPUT(
+./release\main.o
+./release\mainwindow.o
+./release\filedownloader.o
+./release\geolayer.o
+./release\viewport.o
+./release\clickablelabel.o
+./release\mapwindow.o
+./release\moc_mainwindow.o
+./release\moc_filedownloader.o
+./release\moc_geolayer.o
+./release\moc_viewport.o
+./release\moc_clickablelabel.o
+./release\moc_mapwindow.o
+);

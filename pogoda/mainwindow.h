@@ -6,6 +6,7 @@
 #include "geolayer.h"
 #include "viewport.h"
 #include <QTreeWidgetItem>
+#include "mapwindow.h"
 namespace Ui {
 class MainWindow;
 }
@@ -33,6 +34,7 @@ private:
     int wSizeY;
     int layerNum;
     QVector<GeoLayer*> *layers;
+    MapWindow *map;
 
 private slots:
     void setupGUI();
@@ -47,7 +49,6 @@ private slots:
     void on_checkFilter_clicked(bool checked);
     void on_bShowWeather_clicked();
     void processFile();
-    void refreshView();
     void showPosition();
     void on_bColor1_clicked();
     void on_bColor2_clicked();
@@ -63,6 +64,9 @@ private slots:
     void on_bLayerDown_clicked();
     void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);
     void on_bLayerVisibility_clicked();
+
+public slots:
+    void refreshView();
 };
 
 #endif // MAINWINDOW_H

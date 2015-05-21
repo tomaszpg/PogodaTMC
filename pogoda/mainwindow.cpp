@@ -1,3 +1,4 @@
+#define _USE_MATH_DEFINES
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QString>
@@ -12,6 +13,7 @@
 #include <vector>
 #include <QFileDialog>
 #include <QDir>
+#include "mapwindow.h"
 #define deg2rad(d) (((d)*M_PI)/180)
 #define rad2deg(d) (((d)*180)/M_PI)
 #define earth_radius 6378137
@@ -25,10 +27,14 @@ MainWindow::MainWindow(QWidget *parent) :
     setColors();
     wMetaData = new double[6];
     dlWMetaData();
-    vPort = new Viewport(512, 512, this);
+    //vPort = new Viewport(512, 512, this);
     advancedMode = false;
     logPrint("Hello!");
-    connect(ui->imageLabel, SIGNAL (clicked()), this, SLOT (showPosition()));
+    map = new MapWindow;
+    map->show();
+    vPort = map->getHandle();
+    connect(map->getLabel(), SIGNAL (clicked()), this, SLOT (showPosition()));
+    connect(map, SIGNAL (resizeSignal()), this, SLOT (refreshView()));
     layerNum=0;
     layers=new QVector<GeoLayer*>();
     //double dtest1 = lat2y_d(48.5);
@@ -65,7 +71,7 @@ void MainWindow::setColors()
 
 void MainWindow::showPosition()
 {
-    QPoint point = ui->imageLabel->getPos();
+    QPoint point = map->getLabel()->getPos();
     GeoLayer::point latLonPoint = vPort->getLatLon(point);
     logPrint(QString("Szerokość: %1 Długość: %2").arg(QString::number (latLonPoint.x, 'g', 10), QString::number (latLonPoint.y, 'g', 10)));
     //qDebug() << point.x() << point.y();
@@ -303,8 +309,9 @@ void MainWindow::refreshView()
     }
     /*else
         image.fill(Qt::black);*/
-    ui->imageLabel->setPixmap(QPixmap::fromImage(image));
-    ui->imageLabel->show();
+    //ui->imageLabel->setPixmap(QPixmap::fromImage(image));
+    //ui->imageLabel->show();
+    map->drawImage(image);
 }
 
 void MainWindow::on_bColor1_clicked()

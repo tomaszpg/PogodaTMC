@@ -35,6 +35,7 @@ public:
     void moveDown();
     void scaleUp();
     void scaleDown();
+    void resize(int w, int h);
     GeoLayer::point getLatLon(QPoint point);
 };
 

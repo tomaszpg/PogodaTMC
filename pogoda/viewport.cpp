@@ -1,3 +1,4 @@
+#define _USE_MATH_DEFINES
 #include "viewport.h"
 #include <QDebug>
 #include <math.h>
@@ -31,9 +32,9 @@ Viewport::Viewport(int sizeX_init, int sizeY_init, QObject *parent) : QObject(pa
     zoom[2] = 2.813;
     zoom[3] = 1.406;
     zoom[4] = 0.703;
-    incX = (cornerMaxRB.x - cornerMaxLU.x) / 512;
-    incY = (cornerMaxLU.y - cornerMaxRB.y) / 512;
-    image = new QImage (512, 512, QImage::Format_RGB32);
+    incX = (cornerMaxRB.x - cornerMaxLU.x) / sizeX;
+    incY = (cornerMaxLU.y - cornerMaxRB.y) / sizeY;
+    image = new QImage (sizeX, sizeY, QImage::Format_RGB32);
     image->fill(Qt::black);
 }
 
@@ -41,10 +42,10 @@ Viewport::Viewport(int sizeX_init, int sizeY_init, QObject *parent) : QObject(pa
 QImage Viewport::draw(GeoLayer *&layer, int a = 255)
 {
     double range = lat2y_d(cornerLU.y) - lat2y_d(cornerRB.y);
-    for (int i = 0; i < 512; i++)
+    for (int i = 0; i < sizeX; i++)
     {
         double lat = cornerLU.x + (i * incX);
-        for (int j = 0; j < 512; j++)
+        for (int j = 0; j < sizeY; j++)
         {
             double lon = ((lat2y_d(cornerLU.y - (j * incY)) - lat2y_d(cornerRB.y))/range) * (cornerLU.y - cornerRB.y) + cornerRB.y;
             double opacity = double(a) / 255.0;
@@ -66,6 +67,15 @@ QImage Viewport::draw(GeoLayer *&layer, int a = 255)
     return *image;
 }
 
+void Viewport::resize(int w, int h)
+{
+    sizeX = w;
+    sizeY = h;
+    incX = (cornerRB.x - cornerLU.x) / sizeX;
+    incY = (cornerLU.y - cornerRB.y) / sizeY;
+    image = new QImage (w, h, QImage::Format_RGB32);
+    //qDebug() << "Resized to" << w << "," << h;
+}
 
 GeoLayer::point Viewport::getLatLon(QPoint point)
 {
@@ -88,8 +98,8 @@ void Viewport::moveTo(GeoLayer::point point)
     cornerLU.y = point.y;
     cornerRB.x = point.x + zoom[currentZoom];
     cornerRB.y = y2lat_d(lat2y_d(point.y) - zoom[currentZoom]);
-    incX = (cornerRB.x - cornerLU.x) / 512;
-    incY = (cornerLU.y - cornerRB.y) / 512;
+    incX = (cornerRB.x - cornerLU.x) / sizeX;
+    incY = (cornerLU.y - cornerRB.y) / sizeY;
     //qDebug() << "New size:" << cornerRB.x - cornerLU.x << cornerLU.y - cornerRB.y;
 }
 

@@ -19,12 +19,15 @@ SOURCES += main.cpp\
     filedownloader.cpp \
     geolayer.cpp \
     viewport.cpp \
-    clickablelabel.cpp
+    clickablelabel.cpp \
+    mapwindow.cpp
 
 HEADERS  += mainwindow.h \
     filedownloader.h \
     geolayer.h \
     viewport.h \
-    clickablelabel.h
+    clickablelabel.h \
+    mapwindow.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    mapwindow.ui
