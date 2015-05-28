@@ -19,6 +19,8 @@ private:
     GeoLayer::point cornerMaxRB;
     GeoLayer::point center;
     double* zoom;
+    double* zoomX;
+    double* zoomY;
     double incX;
     double incY;
     int currentZoom;
@@ -29,6 +31,7 @@ public:
     QImage draw(GeoLayer*& layer, int a);
     void clear();
     void moveTo(GeoLayer::point point);
+    void goToMinimapPos(int x, int y);
     void moveLeft();
     void moveRight();
     void moveUp();
@@ -37,6 +40,11 @@ public:
     void scaleDown();
     void resize(int w, int h);
     GeoLayer::point getLatLon(QPoint point);
+    void getBoundingBox(int *leftUpperX, int *leftUpperY, int *rightBottomX, int *rightBootomY);
+    void setCorners(GeoLayer::point cornerLU_init, GeoLayer::point cornerRB_init);
+
+signals:
+    void refresh();
 };
 
 #endif // VIEWPORT

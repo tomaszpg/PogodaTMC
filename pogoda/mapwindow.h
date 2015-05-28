@@ -27,7 +27,7 @@ public slots:
     Viewport * getHandle();
     void drawImage(QImage image);
     clickableLabel * getLabel();
-
+    void updateGradient(float min, float max, QString text, QColor colorMin, QColor colorMax);
 
 private slots:
     void resizeEvent(QResizeEvent *);

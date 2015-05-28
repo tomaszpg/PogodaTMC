@@ -20,14 +20,30 @@ SOURCES += main.cpp\
     geolayer.cpp \
     viewport.cpp \
     clickablelabel.cpp \
-    mapwindow.cpp
+    mapwindow.cpp \
+    minimap.cpp \
+    settingsdialog.cpp
 
 HEADERS  += mainwindow.h \
     filedownloader.h \
     geolayer.h \
     viewport.h \
     clickablelabel.h \
-    mapwindow.h
+    mapwindow.h \
+    minimap.h \
+    settingsdialog.h
 
 FORMS    += mainwindow.ui \
-    mapwindow.ui
+    mapwindow.ui \
+    minimap.ui \
+    settingsdialog.ui
+
+unix|win32: LIBS += -L$$PWD/../../takie_tam/studia/mapy_cyfrowe/laboratorium/TMCLab1/FWTools2.4.7/lib/ -lgdal_i
+
+INCLUDEPATH += $$PWD/../../takie_tam/studia/mapy_cyfrowe/laboratorium/TMCLab1/FWTools2.4.7/include
+DEPENDPATH += $$PWD/../../takie_tam/studia/mapy_cyfrowe/laboratorium/TMCLab1/FWTools2.4.7/include
+
+unix|win32: LIBS += -L$$PWD/../../takie_tam/studia/mapy_cyfrowe/laboratorium/TMCLab1/FWTools2.4.7/lib/ -lgdal_i
+
+INCLUDEPATH += $$PWD/../../takie_tam/studia/mapy_cyfrowe/laboratorium/TMCLab1/FWTools2.4.7/include
+DEPENDPATH += $$PWD/../../takie_tam/studia/mapy_cyfrowe/laboratorium/TMCLab1/FWTools2.4.7/include

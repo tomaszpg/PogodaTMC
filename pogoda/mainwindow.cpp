@@ -14,6 +14,8 @@
 #include <QFileDialog>
 #include <QDir>
 #include "mapwindow.h"
+//#include "gdal_priv.h"
+//#include "cpl_conv.h"
 #define deg2rad(d) (((d)*M_PI)/180)
 #define rad2deg(d) (((d)*180)/M_PI)
 #define earth_radius 6378137
@@ -23,20 +25,29 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    settings = new SettingsDialog;
     setupGUI();
     setColors();
     wMetaData = new double[6];
-    dlWMetaData();
     //vPort = new Viewport(512, 512, this);
-    advancedMode = false;
-    logPrint("Hello!");
+    advancedMode = true;
+    logPrint("Hello! New");
     map = new MapWindow;
     map->show();
+    miniMap = new MiniMap(map->getHandle(), this);
+    miniMap->show();
     vPort = map->getHandle();
+    dlWMetaData();
     connect(map->getLabel(), SIGNAL (clicked()), this, SLOT (showPosition()));
     connect(map, SIGNAL (resizeSignal()), this, SLOT (refreshView()));
+    connect(vPort, SIGNAL (refresh()), this, SLOT (refreshView()));
+    connect(settings, SIGNAL (settingsChanged()), this, SLOT (updateSettings()));
     layerNum=0;
     layers=new QVector<GeoLayer*>();
+    layerNum_osm=0;
+    layers_osm=new QVector<GeoLayer*>();
+    zoom=7.0;
+    flaga=false;
     //double dtest1 = lat2y_d(48.5);
     //double dtest2 = lat2y_d(55.4148);
     //qDebug() << dtest1 << dtest2;
@@ -77,6 +88,43 @@ void MainWindow::showPosition()
     //qDebug() << point.x() << point.y();
 }
 
+void MainWindow::updateSettings()
+{
+    ui->comboParam->clear();
+    int num = settings->getParamNumber();
+    for (int i = 0; i < num; i++)
+    {
+        QString str1, str2;
+        settings->getParamList(&str1, &str2, i);
+        ui->comboParam->addItem(str1, str2);
+    }
+}
+
+QString MainWindow::parseUrl(QString url)
+{
+    QRegExp rx("(\\%)");
+    QStringList query = url.split(rx);
+    for (int i = 0; i < query.length(); i++)
+    {
+        if (!QString::compare(query[i], "y/", Qt::CaseSensitive))
+            query[i] = QString("%1/").arg(QString::number(ui->calendarWidget->selectedDate().year()));
+        if (!QString::compare(query[i], "m/", Qt::CaseSensitive))
+            query[i] = QString("%1/").arg(QString::number(ui->calendarWidget->selectedDate().month()));
+        if (!QString::compare(query[i], "d/", Qt::CaseSensitive))
+            query[i] = QString("%1/").arg(QString::number(ui->calendarWidget->selectedDate().day()));
+        if (!QString::compare(query[i], "h/", Qt::CaseSensitive))
+            query[i] = QString("%1/").arg(ui->comboHour->currentText());
+    }
+    url = QString();
+    for (int i = 0; i < query.length(); i++)
+    {
+        url.append(query[i]);
+    }
+    url.append((ui->comboParam->itemData(ui->comboParam->currentIndex())).toString());
+    qDebug() << url;
+    return url;
+}
+
 void MainWindow::setupGUI()
 {
     // dodanie listy wyboru godzin
@@ -88,13 +136,16 @@ void MainWindow::setupGUI()
     ui->comboHour->addItems(list);
     list.clear();
 
+    updateSettings();
     //dodanie listy wyboru paremetrów pogody
-    ui->comboParam->addItem(QStringLiteral("Temperatura powietrza"), QStringLiteral("T2MEAN2m.csv"));
-    ui->comboParam->addItem(QStringLiteral("Opady"), QStringLiteral("ACM_TOTAL_PERCIP.csv"));
-    ui->comboParam->addItem(QStringLiteral("Niskie chmury"), QStringLiteral("LOW_CLOUD_FRACTION.csv"));
-    ui->comboParam->addItem(QStringLiteral("Średnie chmury"), QStringLiteral("MID_CLOUD_FRACTION.csv"));
-    ui->comboParam->addItem(QStringLiteral("Wysokie chmury"), QStringLiteral("HIGH_CLOUD_FRACTION.csv"));
-    ui->comboParam->addItem(QStringLiteral("Wilgotność"), QStringLiteral("SURFACE_REL_HUMID.csv"));
+    /*
+    ui->comboParam->addItem(QStringLiteral("Temperatura powietrza [K]"), QStringLiteral("T2MEAN2m.csv"));
+    ui->comboParam->addItem(QStringLiteral("Opady [mm H2O]"), QStringLiteral("ACM_TOTAL_PERCIP.csv"));
+    ui->comboParam->addItem(QStringLiteral("Niskie chmury [%]"), QStringLiteral("LOW_CLOUD_FRACTION.csv"));
+    ui->comboParam->addItem(QStringLiteral("Średnie chmury [%]"), QStringLiteral("MID_CLOUD_FRACTION.csv"));
+    ui->comboParam->addItem(QStringLiteral("Wysokie chmury [%]"), QStringLiteral("HIGH_CLOUD_FRACTION.csv"));
+    ui->comboParam->addItem(QStringLiteral("Wilgotność [%]"), QStringLiteral("SURFACE_REL_HUMID.csv"));
+    */
 }
 
 MainWindow::~MainWindow()
@@ -132,6 +183,7 @@ void MainWindow::on_checkFilter_clicked(bool checked)
 // nalozenie obrazu parametrow na mape
 void MainWindow::on_bShowWeather_clicked()
 {
+    /*
     QString fileUrl = QString("http://ksgmet.eti.pg.gda.pl/prognozy/CSV/poland/%1/%2/%3/%4/%5").arg(
                 QString::number(ui->calendarWidget->selectedDate().year()),
                 QString::number(ui->calendarWidget->selectedDate().month()),
@@ -139,6 +191,8 @@ void MainWindow::on_bShowWeather_clicked()
                 ui->comboHour->currentText(),
                 (ui->comboParam->itemData(ui->comboParam->currentIndex())).toString()
                 );
+    */
+    QString fileUrl = parseUrl(settings->getUrl());
     //QUrl fileUrl("http://ksgmet.eti.pg.gda.pl/prognozy/CSV/poland/2015/4/11/11/ACM_CONVECTIVE_PERCIP.csv");
     m_pFileCtrl = new FileDownloader(QUrl(fileUrl), this);
 
@@ -147,9 +201,12 @@ void MainWindow::on_bShowWeather_clicked()
 
 void MainWindow::dlWMetaData()
 {
+    /*
     QString fileUrl = QString("http://ksgmet.eti.pg.gda.pl/prognozy/CSV/poland/%1/current.nfo").arg(
                 QString::number(ui->calendarWidget->selectedDate().year())
                 );
+                */
+   QString fileUrl = settings->getMetaUrl();
    n_pFileCtrl = new FileDownloader(QUrl(fileUrl), this);
    connect(n_pFileCtrl, SIGNAL (downloaded()), this, SLOT (setWMetaData()));
 }
@@ -173,11 +230,11 @@ void MainWindow::setWMetaData()
         wMetaData[5] = (query[6].toDouble());
         for (int i = 0; i < 6; i++)
         {
-            ui->textBrowser->append(QString::number(wMetaData[i], 'g', 16));
+            //ui->textBrowser->append(QString::number(wMetaData[i], 'g', 16));
         }
-        ui->textBrowser->append(QString::number(wSizeX));
-        ui->textBrowser->append(QString::number(wSizeY));
-        ui->textBrowser->append(QString::number(wMetaData[1]/wMetaData[5]));
+        //ui->textBrowser->append(QString::number(wSizeX));
+        //ui->textBrowser->append(QString::number(wSizeY));
+        //ui->textBrowser->append(QString::number(wMetaData[1]/wMetaData[5]));
     }
 }
 
@@ -254,6 +311,7 @@ void MainWindow::processFile()
                         wLayer.setPixel(j, i, colorValue);
                 }
             }
+            map->updateGradient(minValue, maxValue, ui->comboParam->currentText(), colorMin, colorMax);
             GeoLayer::point cornerLU;
             GeoLayer::point cornerRB;
             cornerLU.x = wMetaData[0];
@@ -296,14 +354,39 @@ void MainWindow::refreshView()
 {
     vPort->clear();
     QImage image;
-    if(layerNum>0)
+    if(ui->tabMapType->currentIndex()==0)
     {
-        for(int i=0;i<layerNum;i++)
+        if(layerNum>0)
         {
-            GeoLayer*war=ui->treeWidget->topLevelItem(i)->data(0,Qt::UserRole).value<GeoLayer*>();
-            if(war->visibility==true)
+            for(int i=0;i<layerNum;i++)
             {
-                image = vPort->draw(war,128);
+                GeoLayer*war=ui->treeWidget->topLevelItem(i)->data(0,Qt::UserRole).value<GeoLayer*>();
+                if(i==0)
+                {
+                    vPort->setCorners(war->cornerLU,war->cornerRB);
+                }
+                if(war->visibility==true)
+                {
+                    image = vPort->draw(war,128);
+                }
+            }
+        }
+    }
+    else if(ui->tabMapType->currentIndex()==1)
+    {
+        if(layerNum_osm>0)
+        {
+            for(int i=0;i<layerNum_osm;i++)
+            {
+                GeoLayer*war=ui->treeWidget_2->topLevelItem(i)->data(0,Qt::UserRole).value<GeoLayer*>();
+                if(i==0)
+                {
+                    vPort->setCorners(war->cornerLU,war->cornerRB);
+                }
+                if(war->visibility==true)
+                {
+                    image = vPort->draw(war,128);
+                }
             }
         }
     }
@@ -312,6 +395,7 @@ void MainWindow::refreshView()
     //ui->imageLabel->setPixmap(QPixmap::fromImage(image));
     //ui->imageLabel->show();
     map->drawImage(image);
+    miniMap->getBox();
 }
 
 void MainWindow::on_bColor1_clicked()
@@ -338,13 +422,73 @@ void MainWindow::on_bColor2_clicked()
 
 void MainWindow::on_bNavUp_2_clicked()
 {
-    vPort->scaleDown();
+    if(ui->tabMapType->currentIndex()==0)
+        vPort->scaleDown();
+    else if(layerNum_osm>0)
+    {
+        double lon=ui->textEdit->toPlainText().toDouble();
+        double lat=ui->textEdit_2->toPlainText().toDouble();
+        zoom++;
+        double n=pow(2.0,zoom);
+        double x=deg2rad(lon);
+        double y=asinh(tan(deg2rad(lat)));
+        x=round(n*(1+(x/M_PI))/2);
+        y=round(n*(1-(y/M_PI))/2);
+        GeoLayer::point cornerLU, cornerRB;
+        cornerLU.x=lon;
+        cornerLU.y=lat;
+        double dangle_lon=360.0/n;
+        double dangle_lat=170.1022/n;
+        cornerRB.x=cornerLU.x+dangle_lon;
+        cornerRB.y=cornerLU.y-dangle_lat;
+        int i=ui->treeWidget_2->currentIndex().row();
+        GeoLayer*war=ui->treeWidget_2->topLevelItem(i)->data(0,Qt::UserRole).value<GeoLayer*>();
+        war->setCorners(cornerLU, cornerRB);
+        flaga=true;
+        QString fileUrl = QString("http://otile1.mqcdn.com/tiles/1.0.0/osm/%1/%2/%3.jpg").arg(
+                    QString::number(zoom),
+                    QString::number(x),
+                    QString::number(y)
+                    );
+        osm_pFileCtrl = new FileDownloader(QUrl(fileUrl), this);
+        connect(osm_pFileCtrl, SIGNAL (downloaded()), this, SLOT (show_url_image()));
+    }
     refreshView();
 }
 
 void MainWindow::on_bNavUp_3_clicked()
 {
-    vPort->scaleUp();
+    if(ui->tabMapType->currentIndex()==0)
+        vPort->scaleUp();
+    else if(layerNum_osm>0)
+    {
+        double lon=ui->textEdit->toPlainText().toDouble();
+        double lat=ui->textEdit_2->toPlainText().toDouble();
+        zoom--;
+        double n=pow(2.0,zoom);
+        double x=deg2rad(lon);
+        double y=asinh(tan(deg2rad(lat)));
+        x=round(n*(1+(x/M_PI))/2);
+        y=round(n*(1-(y/M_PI))/2);
+        GeoLayer::point cornerLU, cornerRB;
+        cornerLU.x=lon;
+        cornerLU.y=lat;
+        double dangle_lon=360.0/n;
+        double dangle_lat=170.1022/n;
+        cornerRB.x=cornerLU.x+dangle_lon;
+        cornerRB.y=cornerLU.y-dangle_lat;
+        int i=ui->treeWidget_2->currentIndex().row();
+        GeoLayer*war=ui->treeWidget_2->topLevelItem(i)->data(0,Qt::UserRole).value<GeoLayer*>();
+        war->setCorners(cornerLU, cornerRB);
+        flaga=true;
+        QString fileUrl = QString("http://otile1.mqcdn.com/tiles/1.0.0/osm/%1/%2/%3.jpg").arg(
+                    QString::number(zoom),
+                    QString::number(x),
+                    QString::number(y)
+                    );
+        osm_pFileCtrl = new FileDownloader(QUrl(fileUrl), this);
+        connect(osm_pFileCtrl, SIGNAL (downloaded()), this, SLOT (show_url_image()));
+    }
     refreshView();
 }
 
@@ -374,18 +518,31 @@ void MainWindow::on_bNavLeft_clicked()
 
 void MainWindow::on_bLayerNew_clicked()
 {
+    //GDALDataset *poDataset;
+    //GDALAllRegister();
     QString fileName = QFileDialog::getOpenFileName(this,"Open Image File",QDir::currentPath());
-    if(!fileName.isEmpty())
+    //QByteArray array =fileName.toLocal8Bit();
+    //char* buffer = array.data();
+    //poDataset = (GDALDataset *) GDALOpen( buffer, GA_ReadOnly );
+    //ui->textBrowser->setText(QString::fromUtf8(poDataset->GetProjectionRef(),5));
+    if(1)
     {
+        //double*coefficients=new double[6];
+        //poDataset->GetGeoTransform(coefficients);
         QImage Image = QImage(fileName,"PNM");
         GeoLayer::point corLU, corRB;
         corLU.x=19.45 - 5.625;
         corLU.y=y2lat_d(lat2y_d(48.5) + 11.25);
         corRB.x=19.45 + 5.625;
         corRB.y=48.5;
+        //ui->label_3->setText(QString::number(corRB.x-corLU.x));
+        //ui->label_4->setText(QString::number(corLU.y-corRB.y));
+        ui->textEdit->setText(QString::number(corLU.x));
+        ui->textEdit_2->setText(QString::number(corLU.y));
         GeoLayer*warstwa=new GeoLayer(&Image,1,corLU,corRB,this);
         layers->append(warstwa);
         layerNum++;
+        //vPort->setCorners(corLU, corRB);
         QTreeWidgetItem*item=new QTreeWidgetItem();
         QString tekst=QString("Warstwa")+QString::number((double)layerNum);
         item->setText(0,tekst);
@@ -403,30 +560,37 @@ void MainWindow::on_bLayerDelete_clicked()
     int i = ui->treeWidget->indexOfTopLevelItem(item);
     ui->treeWidget->takeTopLevelItem(i);
     delete item;
+    layers->remove(i);
     layerNum--;
     refreshView();
 }
 
 void MainWindow::on_bLayerUp_clicked()
 {
-    QTreeWidgetItem* item_down = ui->treeWidget->currentItem();
-    QTreeWidgetItem* item_clone=item_down->clone();
-    int index=ui->treeWidget->currentIndex().row();
-    delete item_down;
-    ui->treeWidget->insertTopLevelItem(index-1,item_clone);
-    ui->treeWidget->setCurrentItem(item_clone);
-    refreshView();
+    if(ui->treeWidget->currentIndex().row()>0)
+    {
+        QTreeWidgetItem* item_down = ui->treeWidget->currentItem();
+        QTreeWidgetItem* item_clone=item_down->clone();
+        int index=ui->treeWidget->currentIndex().row();
+        delete item_down;
+        ui->treeWidget->insertTopLevelItem(index-1,item_clone);
+        ui->treeWidget->setCurrentItem(item_clone);
+        refreshView();
+    }
 }
 
 void MainWindow::on_bLayerDown_clicked()
 {
-    QTreeWidgetItem* item_down = ui->treeWidget->currentItem();
-    QTreeWidgetItem* item_clone=item_down->clone();
-    int index=ui->treeWidget->currentIndex().row();
-    delete item_down;
-    ui->treeWidget->insertTopLevelItem(index+1,item_clone);
-    ui->treeWidget->setCurrentItem(item_clone);
-    refreshView();
+    if(ui->treeWidget->currentIndex().row()<layerNum-1)
+    {
+        QTreeWidgetItem* item_down = ui->treeWidget->currentItem();
+        QTreeWidgetItem* item_clone=item_down->clone();
+        int index=ui->treeWidget->currentIndex().row();
+        delete item_down;
+        ui->treeWidget->insertTopLevelItem(index+1,item_clone);
+        ui->treeWidget->setCurrentItem(item_clone);
+        refreshView();
+    }
 }
 
 void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
@@ -436,11 +600,138 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
 
 void MainWindow::on_bLayerVisibility_clicked()
 {
-    bool visible=ui->treeWidget->currentItem()->data(0,Qt::UserRole).value<GeoLayer*>()->visibility;
-    ui->treeWidget->currentItem()->data(0,Qt::UserRole).value<GeoLayer*>()->visibility=!visible;
-    if(!visible==true)
-        ui->treeWidget->currentItem()->setTextColor(0,QColor("green"));
-    else
-        ui->treeWidget->currentItem()->setTextColor(0,QColor("red"));
+    if(layerNum>0 && ui->treeWidget->currentIndex().row()>=0)
+    {
+        bool visible=ui->treeWidget->currentItem()->data(0,Qt::UserRole).value<GeoLayer*>()->visibility;
+        ui->treeWidget->currentItem()->data(0,Qt::UserRole).value<GeoLayer*>()->visibility=!visible;
+        if(!visible==true)
+            ui->treeWidget->currentItem()->setTextColor(0,QColor("green"));
+        else
+            ui->treeWidget->currentItem()->setTextColor(0,QColor("red"));
+        refreshView();
+    }
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    double lon=ui->textEdit->toPlainText().toDouble();
+    double lat=ui->textEdit_2->toPlainText().toDouble();
+    double n=pow(2.0,zoom);
+    double x=deg2rad(lon);
+    double y=asinh(tan(deg2rad(lat)));
+    x=round(n*(1+(x/M_PI))/2);
+    y=round(n*(1-(y/M_PI))/2);
+    //ui->label_3->setText(QString::number(x));
+    //ui->label_4->setText(QString::number(y));
+    QString fileUrl = QString("http://otile1.mqcdn.com/tiles/1.0.0/osm/%1/%2/%3.jpg").arg(
+                QString::number(zoom),
+                QString::number(x),
+                QString::number(y)
+                );
+    osm_pFileCtrl = new FileDownloader(QUrl(fileUrl), this);
+    connect(osm_pFileCtrl, SIGNAL (downloaded()), this, SLOT (show_url_image()));
+}
+void MainWindow::show_url_image()
+{
+    if (!osm_pFileCtrl->downloadedData().isNull())
+    {
+        if(flaga==false)
+        {
+            double lon=ui->textEdit->toPlainText().toDouble();
+            double lat=ui->textEdit_2->toPlainText().toDouble();
+            double n=pow(2.0,zoom);
+            GeoLayer::point cornerLU, cornerRB;
+            cornerLU.x=lon;
+            cornerLU.y=lat;
+            double dangle_lon=360.0/n;
+            double dangle_lat=170.1022/n;
+            cornerRB.x=cornerLU.x+dangle_lon;
+            cornerRB.y=cornerLU.y-dangle_lat;
+            QImage image;
+            image.loadFromData(osm_pFileCtrl->downloadedData());
+            GeoLayer*warstwa=new GeoLayer(&image,1,cornerLU,cornerRB,this);
+            layers_osm->append(warstwa);
+            layerNum_osm++;
+            QTreeWidgetItem*item=new QTreeWidgetItem();
+            QString tekst=QString("Warstwa")+QString::number((double)layerNum_osm)+QString("-OSM");
+            item->setText(0,tekst);
+            item->setTextColor(0,QColor("red"));
+            ui->treeWidget_2->addTopLevelItem(item);
+            item->setData(0,Qt::UserRole,QVariant::fromValue<GeoLayer*>(warstwa));
+        }
+        else
+        {
+            int i=ui->treeWidget_2->currentIndex().row();
+            QImage image;
+            image.loadFromData(osm_pFileCtrl->downloadedData());
+            GeoLayer*war=ui->treeWidget_2->topLevelItem(i)->data(0,Qt::UserRole).value<GeoLayer*>();
+            war->setImage(image);
+            flaga=false;
+            ui->treeWidget_2->currentItem()->setData(0,Qt::UserRole,QVariant::fromValue<GeoLayer*>(war));
+        }
+        refreshView();
+    }
+}
+
+void MainWindow::on_actionUstawienia_programu_triggered()
+{
+    settings->show();
+}
+
+void MainWindow::on_bLayerVisibility_2_clicked()
+{
+    if(layerNum_osm>0 && ui->treeWidget_2->currentIndex().row()>=0)
+    {
+        bool visible=ui->treeWidget_2->currentItem()->data(0,Qt::UserRole).value<GeoLayer*>()->visibility;
+        ui->treeWidget_2->currentItem()->data(0,Qt::UserRole).value<GeoLayer*>()->visibility=!visible;
+        if(!visible==true)
+            ui->treeWidget_2->currentItem()->setTextColor(0,QColor("green"));
+        else
+            ui->treeWidget_2->currentItem()->setTextColor(0,QColor("red"));
+        refreshView();
+    }
+}
+
+void MainWindow::on_bLayerUp_2_clicked()
+{
+    if(ui->treeWidget_2->currentIndex().row()>0)
+    {
+        QTreeWidgetItem* item_down = ui->treeWidget_2->currentItem();
+        QTreeWidgetItem* item_clone=item_down->clone();
+        int index=ui->treeWidget_2->currentIndex().row();
+        delete item_down;
+        ui->treeWidget_2->insertTopLevelItem(index-1,item_clone);
+        ui->treeWidget_2->setCurrentItem(item_clone);
+        refreshView();
+    }
+}
+
+void MainWindow::on_bLayerDown_2_clicked()
+{
+    if(ui->treeWidget_2->currentIndex().row()<layerNum_osm-1)
+    {
+        QTreeWidgetItem* item_down = ui->treeWidget_2->currentItem();
+        QTreeWidgetItem* item_clone=item_down->clone();
+        int index=ui->treeWidget_2->currentIndex().row();
+        delete item_down;
+        ui->treeWidget_2->insertTopLevelItem(index+1,item_clone);
+        ui->treeWidget_2->setCurrentItem(item_clone);
+        refreshView();
+    }
+}
+
+void MainWindow::on_tabMapType_currentChanged(int index)
+{
+    refreshView();
+}
+
+void MainWindow::on_bLayerDelete_2_clicked()
+{
+    QTreeWidgetItem* item = ui->treeWidget_2->currentItem();
+    int i = ui->treeWidget_2->indexOfTopLevelItem(item);
+    ui->treeWidget_2->takeTopLevelItem(i);
+    delete item;
+    layers_osm->remove(i);
+    layerNum_osm--;
     refreshView();
 }

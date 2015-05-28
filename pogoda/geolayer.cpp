@@ -50,4 +50,12 @@ QColor GeoLayer::getPixel(double lat, double lon)
     }
     return color;
 }
-
+void GeoLayer::setImage(QImage img)
+{
+    image=img.copy();
+}
+void GeoLayer::setCorners(point corLU, point corRB)
+{
+    cornerLU = corLU;
+    cornerRB = corRB;
+}

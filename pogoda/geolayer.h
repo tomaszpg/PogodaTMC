@@ -29,6 +29,8 @@ public:
     QColor getPixel (double lat, double lon);
     int getImgHeight();
     QImage getImage();
+    void setImage(QImage img);
+    void setCorners(point corLU, point corBR);
 };
 
 #endif // GEOLAYER_H

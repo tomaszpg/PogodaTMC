@@ -7,6 +7,8 @@
 #include "viewport.h"
 #include <QTreeWidgetItem>
 #include "mapwindow.h"
+#include "minimap.h"
+#include "settingsdialog.h"
 namespace Ui {
 class MainWindow;
 }
@@ -24,6 +26,7 @@ private:
     bool advancedMode;
     FileDownloader *m_pFileCtrl;
     FileDownloader *n_pFileCtrl;
+    FileDownloader *osm_pFileCtrl;
     QColor colorMin;
     QColor colorMax;
     //GeoLayer *weatherLayer;
@@ -33,8 +36,14 @@ private:
     int wSizeX;
     int wSizeY;
     int layerNum;
+    int layerNum_osm;
     QVector<GeoLayer*> *layers;
+    QVector<GeoLayer*> *layers_osm;
     MapWindow *map;
+    MiniMap *miniMap;
+    double zoom;
+    SettingsDialog *settings;
+    bool flaga;
 
 private slots:
     void setupGUI();
@@ -50,6 +59,8 @@ private slots:
     void on_bShowWeather_clicked();
     void processFile();
     void showPosition();
+    void updateSettings();
+    QString parseUrl(QString url);
     void on_bColor1_clicked();
     void on_bColor2_clicked();
     void on_bNavUp_2_clicked();
@@ -65,8 +76,24 @@ private slots:
     void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);
     void on_bLayerVisibility_clicked();
 
+    void on_pushButton_clicked();
+    void show_url_image();
+
+    void on_actionUstawienia_programu_triggered();
+
+    void on_bLayerVisibility_2_clicked();
+
+    void on_bLayerUp_2_clicked();
+
+    void on_bLayerDown_2_clicked();
+
+    void on_tabMapType_currentChanged(int index);
+
+    void on_bLayerDelete_2_clicked();
+
 public slots:
     void refreshView();
+
 };
 
 #endif // MAINWINDOW_H
