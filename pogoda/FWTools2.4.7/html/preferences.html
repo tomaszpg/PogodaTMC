@@ -1,0 +1,145 @@
+<html>
+<head>
+<title>Preferences Dialog</title>
+</head>
+<body bgcolor="#ffffff">
+<h1>Preferences Dialog</h1>
+
+
+<h2>Tracking Tool</h2>
+
+<img src="pref_tracking.gif"><p>
+
+The tracking tool preferences are used to control the types of information
+displayed by the tracking tool.  This is the display area at the bottom
+of the <a href="mainwindow.html">Main OpenEV Window</a> that shows 
+information about the location pointed to by the cursor in the window. <p>
+
+<b>Coordinate</b>: Possible values are:<p>
+<ol>
+<li> Off: Do not show the cursor position in the tracking area.<p>
+<li> Raster Pixel/Line: Show the pixel/line (column/row) location of the
+cursor on the top most raster layer under the cursor.<p>
+<li> Georeferenced: Show the cursor position in the current coordinate
+system of the view (which could be pixel/line, UTM, lat/long, etc). <p>
+<li> Geodetic (lat/long): Show the cursor position in geodetic (lat/long)
+coordinates if possible.  If not possible this will operate the same as
+Georeferenced.<p>
+</ol>
+<p>
+
+<b>Lat/Long Format</b>: Determins the format to display Lat/Long values for the
+tracking tool.  Possible formats are:<p>
+<ul>
+<li> ddd:mm:ss.ss  Degree Minute Second notation<p>
+<li> ddd.ddddddd  Degrees to seven decimal places<p>
+</ul>
+<p>
+
+<b>Pixel Value</b>: Determines whether the tracker should report the top
+most raster layers pixel value under the cursor.  Note that fetching the
+pixel value can be expensive for some organizations of raster file, and thus
+can slow down interactive performance. <p>
+
+<h2><a name="Raster">Raster</a></h2>
+
+<img src="pref_raster.gif"><p>
+
+<b>Display Georeferencing:</b>
+Determines whether views loaded with a raster image should operate in
+georeferenced coordinates for that raster, or in raw pixel/line.  A few points
+of note:<p>
+
+<ul>
+<li> The tracking tool can report georeferenced, or geodetic coordinates even 
+if the view is drawn in pixel/line coordinates.<p>
+
+<li> The coordinate system of any vector layers must match the coordinate
+system of the view in order for the vectors to correctly overlay displayed
+rasters.  Thus, only use No if vectors to be overlayed are in pixel/line 
+coordinates, or yes, if they are in the georeferencing system of the raster.<p>
+
+<li> If the raster has GCPs, but no affine transformation, the raster will
+be given a first, or second order warp (depending on the number of GCPs) in
+order to display the raster in the projection of the GCPs.  This can be
+fairly inappropriate for raw scenes with lat/long GCPs (such as most CEOS
+scenes). <p>
+</ul>
+
+<b>Overview Sampling</b>: 
+Determines the sampling method to use when downsampling rasters for displays
+of overview images.  Note that the sample method is a property of a raster,
+and is established at the point the raster is first displayed in a given
+OpenEV session based on the preferences.  Changing this preference will only
+affect subsequently opened rasters.<p>
+
+<ul>
+<li> <b>Average</b>: Average all the pixels contributing to an overview
+pixel.<p>
+<li> <b>Decimate</b>: Just take one of the source pixels when computing
+an overview layer (the top left). <p>
+</ul>
+
+Decimation is the default, as it is less computationally expensive and 
+gives more appropriate results when viewing complex phase images.
+Averaging can give much more viewable results for noisy data such as radar 
+images.  However, it makes loading overviews of large images without 
+pre-computed overviews much more expensive because data must always be
+loaded at full resolution and averaged down to display resolution on the
+fly, whereas decimated displays often only need to load a small portion of
+the total available scanlines in order to compute the decimated display.<p>
+
+<b>Subpixel Interpolation</b>:
+Determines how a pixel is displayed close-up.<p>
+
+<ul>
+<li> <b>Bilinear</b>: The display intensity within a pixel varies from
+its center to its edges, based on the values of surrounding pixels.<p>
+<li> <b>Off (Nearest)</b>: The display intensity within a pixel is 
+constant.<p>
+</ul>
+
+<b>Autoscaling Method</b>:
+Determines the method used to scale an image.
+
+<ul>
+<li> <b>Percent Tail Trim</b>: The intensity mapping is based on the
+minimum and maximum sorted data values with a user-defined percentage 
+of the highest and lowest values not included.<p>
+<li> <b>Standard Deviations</b>: The intensity mapping is based on the
+mean data value plus/minus a user-defined number of standard deviations.<p>
+</ul>
+
+<h2>Caching</h2>
+
+Caching issues are covered in more detail in the 
+<a href="performance.html">Performance Tuning</a> page.<P>
+
+<img src="pref_cache.gif"><p>
+
+
+<b>File Cache</b>: Number of bytes of memory available for caching raw raster
+data from disk.<p>
+
+<b>GL Texture</b>: Number of bytes of video or system memory available
+for caching image texturse.<p>
+
+<h2>Help Browser</h2>
+
+This tab is unavailable on Windows where the system default web/html browser
+is automatically used. <p>
+
+<img src="pref_help.gif"><p>
+
+Enter a command to be used to display a web page containing help (such as
+this one).  If the command includes the value "%s" then the name of the file
+or URL to display will be substituted for the %s.  Otherwise it will be 
+appended to the command.  By default OpenEV attempts to find one of a few
+common web browsers.<P> 
+
+To test a newly entered value, go to the main view window help menu and 
+select a topic, or hit <b>F1</b> over the preferences panel, after clicking
+outside the text box.<p>
+
+</body>
+</html>

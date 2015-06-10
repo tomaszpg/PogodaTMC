@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_MapWindow_t {
-    QByteArrayData data[14];
-    char stringdata[125];
+    QByteArrayData data[20];
+    char stringdata[171];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -38,17 +38,24 @@ QT_MOC_LITERAL(5, 44, 9), // "drawImage"
 QT_MOC_LITERAL(6, 54, 5), // "image"
 QT_MOC_LITERAL(7, 60, 8), // "getLabel"
 QT_MOC_LITERAL(8, 69, 15), // "clickableLabel*"
-QT_MOC_LITERAL(9, 85, 11), // "resizeEvent"
-QT_MOC_LITERAL(10, 97, 13), // "QResizeEvent*"
-QT_MOC_LITERAL(11, 111, 9), // "resizeMap"
-QT_MOC_LITERAL(12, 121, 1), // "w"
-QT_MOC_LITERAL(13, 123, 1) // "h"
+QT_MOC_LITERAL(9, 85, 14), // "updateGradient"
+QT_MOC_LITERAL(10, 100, 3), // "min"
+QT_MOC_LITERAL(11, 104, 3), // "max"
+QT_MOC_LITERAL(12, 108, 4), // "text"
+QT_MOC_LITERAL(13, 113, 8), // "colorMin"
+QT_MOC_LITERAL(14, 122, 8), // "colorMax"
+QT_MOC_LITERAL(15, 131, 11), // "resizeEvent"
+QT_MOC_LITERAL(16, 143, 13), // "QResizeEvent*"
+QT_MOC_LITERAL(17, 157, 9), // "resizeMap"
+QT_MOC_LITERAL(18, 167, 1), // "w"
+QT_MOC_LITERAL(19, 169, 1) // "h"
 
     },
     "MapWindow\0resizeSignal\0\0getHandle\0"
     "Viewport*\0drawImage\0image\0getLabel\0"
-    "clickableLabel*\0resizeEvent\0QResizeEvent*\0"
-    "resizeMap\0w\0h"
+    "clickableLabel*\0updateGradient\0min\0"
+    "max\0text\0colorMin\0colorMax\0resizeEvent\0"
+    "QResizeEvent*\0resizeMap\0w\0h"
 };
 #undef QT_MOC_LITERAL
 
@@ -58,7 +65,7 @@ static const uint qt_meta_data_MapWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       6,   14, // methods
+       7,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -66,14 +73,15 @@ static const uint qt_meta_data_MapWindow[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,   44,    2, 0x06 /* Public */,
+       1,    0,   49,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       3,    0,   45,    2, 0x0a /* Public */,
-       5,    1,   46,    2, 0x0a /* Public */,
-       7,    0,   49,    2, 0x0a /* Public */,
-       9,    1,   50,    2, 0x08 /* Private */,
-      11,    2,   53,    2, 0x08 /* Private */,
+       3,    0,   50,    2, 0x0a /* Public */,
+       5,    1,   51,    2, 0x0a /* Public */,
+       7,    0,   54,    2, 0x0a /* Public */,
+       9,    5,   55,    2, 0x0a /* Public */,
+      15,    1,   66,    2, 0x08 /* Private */,
+      17,    2,   69,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void,
@@ -82,8 +90,9 @@ static const uint qt_meta_data_MapWindow[] = {
     0x80000000 | 4,
     QMetaType::Void, QMetaType::QImage,    6,
     0x80000000 | 8,
-    QMetaType::Void, 0x80000000 | 10,    2,
-    QMetaType::Void, QMetaType::Int, QMetaType::Int,   12,   13,
+    QMetaType::Void, QMetaType::Float, QMetaType::Float, QMetaType::QString, QMetaType::QColor, QMetaType::QColor,   10,   11,   12,   13,   14,
+    QMetaType::Void, 0x80000000 | 16,    2,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int,   18,   19,
 
        0        // eod
 };
@@ -99,8 +108,9 @@ void MapWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
         case 2: _t->drawImage((*reinterpret_cast< QImage(*)>(_a[1]))); break;
         case 3: { clickableLabel* _r = _t->getLabel();
             if (_a[0]) *reinterpret_cast< clickableLabel**>(_a[0]) = _r; }  break;
-        case 4: _t->resizeEvent((*reinterpret_cast< QResizeEvent*(*)>(_a[1]))); break;
-        case 5: _t->resizeMap((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 4: _t->updateGradient((*reinterpret_cast< float(*)>(_a[1])),(*reinterpret_cast< float(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3])),(*reinterpret_cast< QColor(*)>(_a[4])),(*reinterpret_cast< QColor(*)>(_a[5]))); break;
+        case 5: _t->resizeEvent((*reinterpret_cast< QResizeEvent*(*)>(_a[1]))); break;
+        case 6: _t->resizeMap((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -140,13 +150,13 @@ int MapWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 6)
+        if (_id < 7)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 6;
+        _id -= 7;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 6)
+        if (_id < 7)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 6;
+        _id -= 7;
     }
     return _id;
 }

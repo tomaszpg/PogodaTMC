@@ -1,0 +1,256 @@
+<html>
+<head>
+<title>Edit Tools</title>
+</head>
+<body bgcolor="#ffffff">
+<h1>Edit Tools</h1>
+
+The follow tools allow manipulation of vectors, as well as some special
+view management operations.  Only one mode may be active at a time (with the
+exception of Link Views), and most operate on a single vector layer (with the
+exception of Zoom, Draw ROI, and Link Views) which must be the active layer
+in the <a href="layerdlg.html">Layer Management Dialog</a>.  The various
+vector editing tools will attempt to make a vector layer active if there is
+no active layer, or if the active layer is not a vector layer.  It is a 
+common frustration to be unable to select or modify vectors because they are
+not in the active layer.<p>
+
+Most of the editing modes have particular button combinations to do actions,
+but in all editing modes the standard <a href="viewarea_keys.html">View Area
+Button/Key Sequences</a> remain valid.  Note that while not explicitly disabled
+in 3D mode the various editing interactions will generally not work properly
+in 3D mode.<p>
+
+Also, note that essentially all editing operations can be undone by hitting
+Control-Z or selecting Edit->Undo in the menu.<p>
+
+<img src="edittools.gif">
+
+<p>
+
+<h2>Select</h2>
+
+Select mode allows selection of vector features, and limited manipulation
+of those features.  Selected features are highlighted with small diamonds
+around the nodes.  Selection may be accomplished in several ways:
+
+<ul>
+<li> <b>LeftButton-Click</b>: Select the feature at the click location.  Note
+that points and lines have only a modest tolerance for selection.  Clicking 
+inside a filled area will select the area.  If more than one features overlaps
+the click location, only one will be selected (based on internal stacking 
+order).  
+
+<li> <b>LeftButton-Drag</b>: Drags out a box and on release selects all 
+features intersecting the box.  Note that the box drag has to start at a 
+location where there is no feature, otherwise it will be interpreted as a
+single selection, and the selected feature will be dragged instead of a box
+being drawn. <p>
+
+<li> <b>Shift-LeftButton-Click</b>: Operates like LeftButton-Click, but adds
+or removes the selected feature from the current selection instead of clearing
+the existing selection.  In most editing systems this would be 
+Control-LeftButton-Click, but that is already bound to continuous zoom.<p>
+
+</ul>
+
+While in selection mode it is also possible to drag the selected features
+around by left clicking on a selected feature, and dragging.  If multiple
+features are already selected, they are all dragged as a group. <p>
+
+The <b>Delete</b> or <b>Backspace</b> key may be used to delete the 
+currently selected feature(s).<p>
+
+
+<h2>Zoom</h2>
+
+Zoom mode is not for editing of vector features, but instead adds some
+simplified view operations.  The following are always available via the
+generic <b>Control</b> chorded alternatives described in 
+<a href="viewarea_keys.html">View Area Button/Key Sequences</a>
+but in zoom mode these simplier alternatives are made available.<p>
+
+<ul>
+
+<li> <b>LeftButton-DoubleClick</b>: Zoom in by one increment (normally
+a factor of two), and recenter on target location.<p>
+
+<li> <b>LeftButton-Drag</b>: Drag out a zoom rectangle, and zoom on release.<p>
+
+<li> <b>LeftButton-PressAndHold</b>: Continuous zoom in.<p>
+
+<li> <b>RightButton-DoubleClick</b>: Zoom out by one increment 
+(normally a factor of two), and recenter on target location.<p>
+
+<li> <b>RightButton-PressAndHold</b>: Continuous zoom out.<p>
+
+<li> <b>MiddleButton-Drag</b>: Drag the image to pan.<p>
+
+</ul>
+
+<h2>Point Edit</h2>
+
+Point edit mode is for creation of point features.<p>
+
+Each <b>LeftButton-Clock</b> in the view will result in a new point feature
+being created, and after creation it will be the selected feature.  The
+<b>Delete</b> key can be used to delete the currently selected point if there
+is one.  It is not possible to move, or otherwise manipulate points in this
+mode.  Switch to <b>Select</b> mode to do that.<p>
+
+<h2>Point Query</h2>
+
+Point Query mode operates the same as Point Edit mode, but it operates on a
+point query layer, instead of a normal vector layer. <p>
+
+On entering Point Query mode, a new point query layer will be created if one
+is not already available on the current view.  Otherwise the point query layer
+will be made the active layer if it is not already active. <p>
+
+Point query layers can show location and raster pixel value information for
+the selected points.  The <a href="gvpquerypropdlg.html">Point Query
+Properties</a> panel has options for controlling what is shown for each
+query point.<p>
+
+<h2>Draw Line</h2>
+
+Line edit mode is for digitizing new line features.  Note that Select
+mode is used to modify existing lines, and Node edit mode is used to modify
+individual nodes within an existing line. <p>
+
+The <b>LeftButton-Click</b> action is used to initiate digitizing of a 
+new polyline.  Subsequent left clicks will add new nodes to the polyline. 
+The <b>RightButton-Click</b> or <b>Escape</b> key can be used to terminate
+line mode.  While digitizing a line, the <b>Delete</b> key can be used to
+delete the last node added.<p>
+
+Note that while digitizing a line undo support is temporarily disabled.<p>
+
+<h2>Rotate/Resize</h2>
+
+Rotate/resize mode allows lines, areas and point symbols to be rotated and 
+resized.  At this time textual labels and plain points (not using symbols) 
+cannot be rotated or resized.<p>
+
+The <b>LeftButton-Click</b> action can be used to select a shape to operate
+on.  Once selected the shape will be drawn with the normal selection styling
+but a resize/rotate control will also be drawn in red, centered on the shape 
+to be modified.  It will look something like this:<p>
+
+<img src="rotatetool.gif"><p>
+
+The <b>LeftButton-Drag</b> action on the red two-directional arrowhead
+will rotate the shape in question.  A <b>LeftButton-Drag</b> action on the
+red one directional arrow head will allow scaling the shape larger or smaller. 
+A <b>RightButton-Drag</b> action on either arrowhead will result in a rotation
+and scaling effect.<p>
+
+Rotation and scaling are around a center point for the shape (the crossing
+point of the two arrows).  Rotation and scaling applied to a point symbol 
+result in the angle and scaling parameters being modified.  Rotation and
+scaling applied to a line or area shape result in the actual vertex
+locations being modified.<p>
+
+Note that selecting the boxes around vertex of lines or areas has no effect
+in rotation and scaling mode.  The <b>Escape</b> key may be used to terminate
+a rotation or scaling drag.<p>
+
+<h2>Draw Rectangle</h2>
+
+Rectangle drawing mode is for digitizing and modifying rectangular area 
+features.  While the rectangles created are just stored internally as normal 
+area polygons, like
+those produced by Draw Area, rectangle mode offers special editing capabilities
+that maintains the rectangular constraint.<p>
+
+In rectangle mode <b>LeftButton-Drag</b> can be used to draw a new rectangle
+feature.  If you click on the corner of an existing rectangle, that corner
+can be dragged, resizing the existing rectangle.  If you click on the edge
+of an existing rectangle, that edge can be dragged resizing the existing
+rectangle.<p>
+
+The <b>Escape</b> key can be used to abort creation of a new rectangle, but 
+while dragging an edge or corner of an existing rectangle it will just stop
+the dragged, equivelent to releasing the button. <p>
+
+<h2>Draw Area</h2>
+
+Area drawing mode is for digitizing area (polygon) features, which can contain
+holes.  Moving existing areas is done with Select mode, and adding, removing
+or moving nodes in an existing polygon is done with Node Edit mode.<p>
+
+Digitizing a new polygon is accomplished by <b>LeftButton-Click</b>ing at
+each vertex location.  When complete a <b>RightButton-Clock</b> terminates
+the process, and the polygon is closed.<p>
+
+Adding an internal ring (a hole) to an existing polygon is done by digitizing
+a new polygon entirely within the old polygon.  The nesting is recognised, and
+the new polygon is treated as an internal ring to the main polygon.  Note that
+this implies it is impossible to digitize a separate polygon that is inside
+another polygon ... to accomplish this, digitize it elsewhere, and then drag
+it into the area.  If you digitize an a new polygon that starts inside
+another polygon, but goes outside the parent, it will be discarded on 
+termination as a corrupt hole.<p>
+
+<h2>Edit Node</h2>
+
+Edit node mode is used to add, move, and remove individual nodes making up
+point, line and area features.  To create new features use the point, 
+line and area drawing modes.<p>
+
+In order to manipulate the nodes of a feature it is necessary to feature
+select the feature.  Node editing mode only supports selection of a single
+feature at a time, by <b>LeftButton-Click</b>ing on it.  Area selects are
+not supported.  Selecting a feature will highlight all it's nodes at which
+point one of them can be selected, by left clicking on it.<p>
+
+A new node may be introduced into the selected feature by 
+<b>LeftButton-Press</b>ing on an edge, but not too close to a node.  The 
+new node may then be positioned by dragging it before releasing.<p>
+
+An existing node is selected by clicking on it (or very close to it), at
+which point the node will be highlighted and filled in.  The node may then
+be dragged to a new location.  A node may be deleted by hitting the 
+<b>Delete</b> key.<p>
+
+<h2>Draw Labels</h2>
+
+Label mode is used to draw labels on a shapes layer.
+
+<h2>Draw ROI</h2>
+
+The ROI tool allows a rectangular region of interest (ROI) to be drawn.  The
+value of a raster rectangle selected with the ROI tool can also be used
+with the get_roi() function to create a subregion array for use with
+Numeric Python. <p>
+
+The ROI tool does not operate on a feature layer.  It draws a free standing
+rectangle by <b>LeftButton-Drag</b>ing it out.  Edges, and corners can also
+be grabbed and dragged.<p>
+
+<h2>Choose POI</h2>
+
+The POI tool allows a point of interest (POI) to be drawn.  The location
+of the selected pixel can be found using the get_poi() function.  The
+POI tool does not operate on a feature layer.  It can be used to draw a 
+free standing point by <b>LeftButton-Click</b>ing.
+
+<h2>Link Views</h2>
+
+Selecting Link Views will cause the view of each all windows to be
+linked.  Pressing the button again will unlink the views.  Any change of
+view in a linked window will result in all other windows also being updated
+similarly.<p>
+
+View characteristics includes the view position, zoom level, and rotation in 
+2D.  In 3D this includes the view position, view direction, and vertical 
+exaggeration.  View characters does not include details about layers 
+displayed, layer colors or anything of that sort.<p>
+
+Link windows will only operate correctly if all views are in the same 
+coordinate system.  For instance, if one view is georeferenced in UTM, and
+another is in lat/long degrees, the linked views will not operate in a useful
+manner.<p>
+
+</body>
+</html>

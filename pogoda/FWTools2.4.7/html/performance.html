@@ -1,0 +1,132 @@
+<html>
+<head>
+<title>OpenEV Performance Tuning</title>
+</head>
+<body bgcolor="#ffffff">
+<h1>OpenEV Performance Tuning</h1>
+
+OpenEV is designed to be a high performance viewing environment.  Nevertheless
+there are a number of factors to keep in mind to optimize performance. 
+These are three main areas to address to get good performance.<p>
+
+<h2>Accelerated OpenGL Support</h2>
+
+OpenEV is based on OpenGL, a standard for high performance 2D and 3D
+rendering.  Software versions of OpenGL are available which do all operations
+in memory using conventional CPU resources, but these implementations tend to
+be much slower than optimized OpenGL drivers that utilize capabilities of
+accelerated 3D video cards.<p>
+
+In general OpenEV will operate <i>much</i> faster on systems with accelerated
+OpenGL support.  On Windows NT, it is generally sufficient to install 
+vendor provided drivers if you have a 3D video card (most medium to high 
+end video cards).  On Silicon Graphics systems, accelerated support is
+the standard.  On Sun systems it may be available depending on the card
+in use.  On Linux it is often necessary to hunt down and install 3D accelerated
+drivers from one of a number of sources, though software vendors like
+<a href="http://www.xig.com/">Xi Graphics</a> offer good OpenGL drivers for
+many popular cards on Linux. <p>
+
+Without accelerated OpenGL support redraws will be much slower (often 50x 
+slower).  The effect of this on user interaction can be reduced by keeping
+a few things in mind:
+
+<ul>
+<li> Avoid <i>dragging</i> operations that require a redraw after each drag
+increment.  This means some of the vector editing modes will be very
+painful if there is a raster being displayed.  Also, avoid trying to drag
+out a rectangle for zooming.<p>
+
+<li> Avoid continuous zoom and pan.  Use the PageUp/PageDown keys for zooming
+in descrete jumps, and use the arrow keys (with Shift and Control chording)
+for panning. <p>
+
+<li> Avoid having more raster layers displayed than necessary.  Even if drawn
+over one another each will add substantially to redraw time. <p>
+
+<li> Don't make the view window larger than you need, as redraw time will
+be proportional to the number of screen pixels.<p>
+
+<li> Turn off linear interpolation if you don't need it in the raster 
+properties panel, as it adds substantially to the redraw time.<p>
+</ul>
+
+<h2>Texture and File Caching</h2>
+
+OpenEV does two types of caching for raster data, to accelerate redisplay
+speeds.  The first is the caching of raw data from the file, and the second
+is the caching of preprocessed textures.  The application preferences dialog
+can be used to control the cache size for both of these, and appropriate 
+settings primarily depend on the hardware available.<p>
+
+Raw data caching is done on a tiled basis, and holds raw data values, before
+scaling or other preprocessing.  A substantial file cache (raw data cache)
+is most important to accelerate texture regeneration when preprocessing 
+parameters such as scaling values, and color tables are changed.  The disk
+cache is kept in system RAM, and should generally not be larger than 50% of
+system RAM.<p>
+
+Texture data caching involves caching of preprocessed textures.  On accelerated
+systems the textures are kept in video RAM, allowing very rapid redisplay of
+the image.  On software OpenGL systems the textures are cached in main memory.
+Generally speaking the textures cache should be about the size of video
+card RAM less 8MB for frame buffer memory.<p>
+
+It is critical to have enough texture cache memory to hold all the textures
+required for one complete view display or an thrashing condition can occur. 
+In this situation, the display is continually redraw, with different files
+dropping out of the redraw on each refresh.  To correct this problem, go into
+Edit->Preferences, and increase the texture cache size.  
+
+<h2>Disk File Format</h2>
+
+OpenEV is a disk based viewer.  It is intended to operate on images much
+larger than can be kept in physical RAM.  While for small datasets and
+with large file cache sizes it may be practical to hold the entire image in
+memory, that is not the case for large files.  To optimize access to large
+files it is helpful to organize the file for easier access.  Three
+things can help in this regard, building overviews, tiling the data, and 
+ensuring the data is on local (high speed) media.<P>
+
+Having pre-built overviews (pyramids) will ensure that the initial display of 
+large datasets can be very fast, as only a small reduced resolution image
+needs to be read to display the overview on screen.  Overviews can be built
+for most GDAL supported formats with the <i>gdaladdo</i> commandline program,
+and File-&gt;Imported rasters will always have overviews built.  A few 
+applications, notably Atlantis processing tasks, will produce datasets with 
+pre-built overviews for fast initial viewing.<p>
+
+OpenEV naturally accesses data by tiles, typically 256x256 rectangles of the
+source file.  In order to read one tile from a line interleaved raster
+file that is 10Kx10K pixels in size, it is necessary to read 256 full 
+scanlines, or 2.5 million pixels of data, in order to satisfy a request for
+about 64000 pixels.  While OpenEV attempts to cache those scanlines to 
+satisfy other tile requests in the same row, it is often the case that the
+viewer will only need a small portion of the whole scanline for a view.  
+Accessing so much extra disk content can substantiallly slow displays.   By
+reorganizing the data into pre-tiled format, local full resolution access
+can be accomplished much more efficiently.  This can be accomplished by
+translating a file into a tiled file format.  Tiling is available (optionally)
+in the TIFF and MFF formats.  The File-&gt;Import operation converts data into
+a tiled TIFF file.<p>
+
+By default OpenEV uses averaging to compute reduced resolution overviews
+for display.  To display a small overview of a very large image with no
+pre-built overviews it is still necessary to read all the data, and then
+average it down for display.  This can be very slow.  If this is a problem
+the user is encouraged to change the <b>Sample Method</b> on the <b>Raster</b>
+preference tab in the <a href="preferences.html#Raster">Preferences Dialog</a>
+to <b>Decimate</b>.  This will reduce computation effort, and can also 
+substantially reduce the number of disk scanlines that need to be read
+to display an image.<p>
+
+Finally, it is generally prudent to place data files on the highest speed
+media available.  Accessing datasets over slow NFS connections, or from 
+CDROM will of course be much slower than having them on the local disk.  
+The File-&gt;Import operation will put the imported file in the current
+working directory, under the assumption that this will be local and fast.<p>
+
+In summary, importing raster files will often substantially improve
+access time.<p>
+</body>
+</html>

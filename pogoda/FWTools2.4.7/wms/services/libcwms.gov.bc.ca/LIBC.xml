@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE WMT_MS_Capabilities SYSTEM "http://libcwms.gov.bc.ca/wmsconnector/schema/wms/1.1.0/capabilities_1_1_0.dtd" >
+<WMT_MS_Capabilities version="1.1.0" updateSequence="0">
+	<Service>
+		<Name>Ministry of Sustainable Resource Management, British Columbia, Canada</Name>
+		<Title>ogc_layer_service</Title>
+		<Abstract>This is an OGC compliant MapService served By ESRI. The engine used to serve this MapService is ArcIMS</Abstract>
+		<KeywordList>
+			<Keyword>ESRI</Keyword>
+			<Keyword>ArcIMS Image MapService</Keyword>
+		</KeywordList>
+		<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://libcwms.gov.bc.ca/wmsconnector/com.esri.wsit.WMSServlet/ogc_layer_service?" xlink:type="simple" />
+		<ContactInformation>
+			<ContactPersonPrimary>
+				<ContactPerson>Michael Ross</ContactPerson>
+				<ContactOrganization>Ministry of Sustainable Resource Management, British Colunbia, Canada</ContactOrganization>
+			</ContactPersonPrimary>
+			<ContactPosition />
+			<ContactAddress>
+				<AddressType>postal</AddressType>
+				<Address>PO Box 9364, Stn Prov Govt</Address>
+				<City>Victoria</City>
+				<StateOrProvince>British Columbia</StateOrProvince>
+				<PostCode>V8W 9M3</PostCode>
+				<Country>Canada</Country>
+			</ContactAddress>
+			<ContactVoiceTelephone>250-387-3995</ContactVoiceTelephone>
+			<ContactFacsimileTelephone>250-387-1085</ContactFacsimileTelephone>
+			<ContactElectronicMailAddress>Michael.Ross@gems7.gov.bc.ca</ContactElectronicMailAddress>
+		</ContactInformation>
+		<Fees>none</Fees>
+		<AccessConstraints>none</AccessConstraints>
+	</Service>
+	<Capability>
+		<Request>
+			<GetCapabilities>
+				<Format>application/vnd.ogc.wms_xml</Format>
+				<DCPType>
+					<HTTP>
+						<Get>
+							<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://libcwms.gov.bc.ca/wmsconnector/com.esri.wsit.WMSServlet/ogc_layer_service?" xlink:type="simple" />
+						</Get>
+					</HTTP>
+				</DCPType>
+				<DCPType>
+					<HTTP>
+						<Post>
+							<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://libcwms.gov.bc.ca/wmsconnector/com.esri.wsit.WMSServlet/ogc_layer_service?" xlink:type="simple" />
+						</Post>
+					</HTTP>
+				</DCPType>
+			</GetCapabilities>
+			<GetMap>
+				<Format>image/jpeg</Format>
+				<Format>image/png</Format>
+				<DCPType>
+					<HTTP>
+						<Get>
+							<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://libcwms.gov.bc.ca/wmsconnector/com.esri.wsit.WMSServlet/ogc_layer_service?" xlink:type="simple" />
+						</Get>
+					</HTTP>
+				</DCPType>
+			</GetMap>
+			<GetFeatureInfo>
+				<Format>text/xml</Format>
+				<Format>text/html</Format>
+				<Format>text/plain</Format>
+				<Format>application/vnd.esri.xml</Format>
+				<DCPType>
+					<HTTP>
+						<Get>
+							<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://libcwms.gov.bc.ca/wmsconnector/com.esri.wsit.WMSServlet/ogc_layer_service?" xlink:type="simple" />
+						</Get>
+					</HTTP>
+				</DCPType>
+			</GetFeatureInfo>
+		</Request>
+		<Exception>
+			<Format>application/vnd.ogc.se_xml</Format>
+		</Exception>
+		<VendorSpecificCapabilities />
+		<UserDefinedSymbolization SupportSLD="1" UserLayer="1" UserStyle="1" RemoteWFS="0" />
+		<Layer noSubsets="0" opaque="0" queryable="1">
+			<Title>ogc_layer_service</Title>
+			<!--SRS>EPSG:102190 EPSG:42102 EPSG:3005 EPSG:4326</SRS-->
+			<SRS>EPSG:102190 EPSG:42102 EPSG:3005 EPSG:4269 EPSG:4326 EPSG:26708 EPSG:26709 EPSG:26710 EPSG:26711 EPSG:26712 EPSG:26908 EPSG:26909 EPSG:26910 EPSG:26911 EPSG:26912 EPSG:32608 EPSG:32609 EPSG:32610 EPSG:32611 EPSG:32612</SRS>
+			<LatLonBoundingBox minx="-138.0" miny="47.0" maxx="-113.0" maxy="60.0" />
+			<BoundingBox SRS="EPSG:102190" minx="143183" miny="281901" maxx="1918550" maxy="1773050" />
+			<Layer queryable="0" opaque="0" noSubsets="0">
+				<Name>TRIMOrthomosaic</Name>
+				<Title>TRIM Orthomosaic</Title>
+				<ScaleHint min="0" max="150000" />
+			</Layer>
+			<Layer queryable="0" opaque="0" noSubsets="0">
+				<Name>TRIMOrthomosaicOverview</Name>
+				<Title>TRIM Orthomosaic Overview</Title>
+				<ScaleHint min="150000" max="10000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>BC_WATER_POLYS_5KM</Name>
+				<Title>Rivers and Lakes (1:6M)</Title>
+				<ScaleHint min="5000000" max="15000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>BC_BASEMAP_LINES_5KM_water</Name>
+				<Title>Water - Lines (1:6M)</Title>
+				<ScaleHint min="5000000" max="15000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>BC_BASEMAP_LINES_5KM_transport</Name>
+				<Title>Transportation - Lines (1:6M)</Title>
+				<ScaleHint min="5000000" max="15000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>BC_BASEMAP_LINES_5KM_boundary</Name>
+				<Title>Provincial Boundary (1:6M)</Title>
+				<ScaleHint min="5000000" max="15000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>BC_RIV_LAKE_WET_POLYS_500M</Name>
+				<Title>Rivers, Lakes, Wetlands (1:2M)</Title>
+				<ScaleHint min="1000000" max="5000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>BC_WATER_LINES_500M</Name>
+				<Title>Water - Lines (1:2M)</Title>
+				<ScaleHint min="1000000" max="5000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>BC_TRANSPORT_LINES_500M</Name>
+				<Title>Transportation - Lines (1:2M)</Title>
+				<ScaleHint min="1000000" max="5000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>BC_PROV_BOUNDARIES_LINES_500M</Name>
+				<Title>Provincial Boundary (1:2M)</Title>
+				<ScaleHint min="1000000" max="5000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>BC_MANMADE_LINES_500M</Name>
+				<Title>Man-Made Features - Lines (1:2M)</Title>
+				<ScaleHint min="1000000" max="5000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>BC_MAJOR_CITIES_POINTS_500M</Name>
+				<Title>Major Cities (1:2M)</Title>
+				<ScaleHint min="1000000" max="5000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>BC_WATER_POINTS_500M</Name>
+				<Title>Water - Points (1:2M)</Title>
+				<ScaleHint min="1000000" max="5000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>BC_TRANSPORT_POINTS_500M</Name>
+				<Title>Transportation - Points (1:2M)</Title>
+				<ScaleHint min="1000000" max="5000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>BC_SPOT_ELEVATION_POINTS_500M</Name>
+				<Title>Spot Elevation - Points (1:2M)</Title>
+				<ScaleHint min="1000000" max="5000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>BC_MANMADE_POINTS_500M</Name>
+				<Title>Man-Made Features - Points (1:2M)</Title>
+				<ScaleHint min="1000000" max="5000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>NTS_BC_COASTLINE_POLYS_125M</Name>
+				<Title>BC Coastline - Polygons (1:250K)</Title>
+				<ScaleHint min="80000" max="1000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>NTS_BC_RIV_LAKE_WET_POLYS_125M</Name>
+				<Title>Rivers, Lakes, Wetlands (1:250K)</Title>
+				<ScaleHint min="80000" max="1000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>NTS_BC_COASTLINE_LINES_125M</Name>
+				<Title>BC Coastline - Lines (1:250K)</Title>
+				<ScaleHint min="80000" max="1000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>NTS_BC_CONTOUR_LINES_125M</Name>
+				<Title>Contours - Lines (1:250K)</Title>
+				<ScaleHint min="80000" max="1000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>NTS_BC_LANDCOVER_LINES_125M</Name>
+				<Title>Land Cover - Lines (1:250K)</Title>
+				<ScaleHint min="80000" max="1000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>NTS_BC_LANDFORM_LINES_125M</Name>
+				<Title>Land Form - Lines (1:250K)</Title>
+				<ScaleHint min="80000" max="1000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>NTS_BC_MANMADE_LINES_125M</Name>
+				<Title>Man-Made Features - Lines (1:250K)</Title>
+				<ScaleHint min="80000" max="1000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>NTS_BC_TRANSPORT_LINES_125M</Name>
+				<Title>Transportation - Lines (1:250K)</Title>
+				<ScaleHint min="80000" max="1000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>NTS_BC_WATER_LINES_125M</Name>
+				<Title>Water - Lines (1:250K)</Title>
+				<ScaleHint min="80000" max="1000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>NTS_BC_MANMADE_POINTS_125M</Name>
+				<Title>Man-Made Features - Points (1:250K)</Title>
+				<ScaleHint min="80000" max="1000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>NTS_BC_TRANSPORT_POINTS_125M</Name>
+				<Title>Transportation - Points (1:250K)</Title>
+				<ScaleHint min="80000" max="1000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>NTS_BC_WATER_POINTS_125M</Name>
+				<Title>Water - Points (1:250K)</Title>
+				<ScaleHint min="80000" max="1000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>NTS_BC_LANDFORM_POINTS_125M</Name>
+				<Title>Land Form - Points (1:250K)</Title>
+				<ScaleHint min="80000" max="1000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>NTS_BC_ANNO</Name>
+				<Title>Annotation (1:250K)</Title>
+				<ScaleHint min="80000" max="1000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>TRIM_EBM_OCEAN</Name>
+				<Title>Ocean - Polygons (1:20K)</Title>
+				<ScaleHint min="0" max="80000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>TRIM_EBM_WATERBODIES</Name>
+				<Title>Water Bodies - Polygons (1:20K)</Title>
+				<ScaleHint min="0" max="80000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>TRIM_EBM_WATERCOURSES</Name>
+				<Title>Water Courses - Polygons (1:20K)</Title>
+				<ScaleHint min="0" max="80000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>TRIM_EBM_WETLANDS</Name>
+				<Title>Wetlands - Polygons (1:20K)</Title>
+				<ScaleHint min="0" max="80000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>TWTR_LINES</Name>
+				<Title>Water - Lines (1:20K)</Title>
+				<ScaleHint min="0" max="80000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>TTRN_LINES</Name>
+				<Title>Transportation - Lines (1:20K)</Title>
+				<ScaleHint min="0" max="80000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>TSRF_LINES</Name>
+				<Title>Surface Features - Lines (1:20K)</Title>
+				<ScaleHint min="0" max="80000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>TMISC_LINES</Name>
+				<Title>Miscellaneous Features - Lines (1:20K)</Title>
+				<ScaleHint min="0" max="80000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>TCVR_LINES</Name>
+				<Title>Land Cover - Lines (1:20K)</Title>
+				<ScaleHint min="0" max="80000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>TCVR_POINTS</Name>
+				<Title>Land Cover - Points (1:20K)</Title>
+				<ScaleHint min="0" max="80000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>TCUL_LINES</Name>
+				<Title>Cultural Features - Lines (1:20K)</Title>
+				<ScaleHint min="0" max="80000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>TCTR_LINES</Name>
+				<Title>Elevation - Lines (1:20K)</Title>
+				<ScaleHint min="0" max="80000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>TWTR_POINTS</Name>
+				<Title>Water - Points (1:20K)</Title>
+				<ScaleHint min="0" max="80000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>TTRN_POINTS</Name>
+				<Title>Transportation - Points (1:20K)</Title>
+				<ScaleHint min="0" max="80000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>TSRF_POINTS</Name>
+				<Title>Surface Features - Points (1:20K)</Title>
+				<ScaleHint min="0" max="80000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>TMISC_POINTS</Name>
+				<Title>Miscellaneous Features - Points (1:20K)</Title>
+				<ScaleHint min="0" max="80000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>TCUL_POINTS</Name>
+				<Title>Cultural Features - Points (1:20K)</Title>
+				<ScaleHint min="0" max="80000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>TCTR_POINTS</Name>
+				<Title>Elevation - Points (1:20K)</Title>
+				<ScaleHint min="0" max="80000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>WHSE_BASEMAPPING.TRIM_TEXT_ANNO</Name>
+				<Title>Annotation (1:20K)</Title>
+				<ScaleHint min="0" max="80000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>TWTR_ANNO</Name>
+				<Title>Water - Text (1:20K)</Title>
+				<ScaleHint min="0" max="80000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>TTRN_ANNO</Name>
+				<Title>Transportation - Text (1:20K)</Title>
+				<ScaleHint min="0" max="80000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>TSRF_ANNO</Name>
+				<Title>Surface Features - Text (1:20K)</Title>
+				<ScaleHint min="0" max="80000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>TMISC_ANNO</Name>
+				<Title>Miscellaneous Features - Text (1:20K)</Title>
+				<ScaleHint min="0" max="80000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>TCVR_ANNO</Name>
+				<Title>Land Cover - Text (1:20K)</Title>
+				<ScaleHint min="0" max="80000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>TCUL_ANNO</Name>
+				<Title>Cultural Features - Text (1:20K)</Title>
+				<ScaleHint min="0" max="80000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>TCTR_ANNO</Name>
+				<Title>Elevation - Text (1:20K)</Title>
+				<ScaleHint min="0" max="80000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>FOREST_COVER</Name>
+				<Title>Forest Cover</Title>
+				<ScaleHint min="0" max="150000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>BCGS_GRID</Name>
+				<Title>BCGS Grid</Title>
+				<ScaleHint min="0" max="500000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>NTS_GRID</Name>
+				<Title>NTS Grid</Title>
+				<ScaleHint min="500000" max="13000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>DBM_7H_MIL_BATHYMETRIC_POLY</Name>
+				<Title>Bathymetric</Title>
+				<ScaleHint min="3000000" max="35000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>DBM_7H_MIL_POLITICAL_POLY_BC</Name>
+				<Title>British Columbia</Title>
+				<ScaleHint min="3000000" max="35000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>DBM_7H_MIL_POLITICAL_POLY_PS</Name>
+				<Title>Provinces and States</Title>
+				<ScaleHint min="3000000" max="35000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>DBM_7H_MIL_PARK_POLY</Name>
+				<Title>Federal Parks</Title>
+				<ScaleHint min="3000000" max="35000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>DBM_7H_MIL_ROADS_LINE</Name>
+				<Title>Major Roads</Title>
+				<ScaleHint min="3000000" max="35000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>DBM_7H_MIL_DRAINAGE_POLY</Name>
+				<Title>Drainage Polygons</Title>
+				<ScaleHint min="3000000" max="35000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>DBM_7H_MIL_DRAINAGE_LINE</Name>
+				<Title>Drainage Lines</Title>
+				<ScaleHint min="3000000" max="35000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>DBM_7H_MIL_BOUNDARIES_LINE</Name>
+				<Title>Boundary Lines</Title>
+				<ScaleHint min="3000000" max="35000000" />
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>DBM_7H_MIL_POPULATION_POINT</Name>
+				<Title>Major Cities</Title>
+				<ScaleHint min="3000000" max="35000000" />
+			</Layer>
+		</Layer>
+	</Capability>
+</WMT_MS_Capabilities>

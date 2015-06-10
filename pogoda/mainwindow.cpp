@@ -13,9 +13,13 @@
 #include <vector>
 #include <QFileDialog>
 #include <QDir>
+#include <QMessageBox>
 #include "mapwindow.h"
-//#include "gdal_priv.h"
-//#include "cpl_conv.h"
+#include "gdal_priv.h"
+#include "cpl_conv.h"
+#include <unistd.h>
+#include <ogr_spatialref.h>
+#include <string>
 #define deg2rad(d) (((d)*M_PI)/180)
 #define rad2deg(d) (((d)*180)/M_PI)
 #define earth_radius 6378137
@@ -31,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent) :
     wMetaData = new double[6];
     //vPort = new Viewport(512, 512, this);
     advancedMode = true;
+    fileChanged = true;
     logPrint("Hello! New");
     map = new MapWindow;
     map->show();
@@ -46,8 +51,17 @@ MainWindow::MainWindow(QWidget *parent) :
     layers=new QVector<GeoLayer*>();
     layerNum_osm=0;
     layers_osm=new QVector<GeoLayer*>();
+    osm_pFileCtrl=new QVector<FileDownloader *>();
     zoom=7.0;
     flaga=false;
+    zoom_levels=new double[5];
+    zoom_levels[0]=11.25;
+    zoom_levels[1] = 5.625;
+    zoom_levels[2] = 2.813;
+    zoom_levels[3] = 1.406;
+    zoom_levels[4] = 0.703;
+    temp_size=0;
+    ui->progressBar->setValue(0);
     //double dtest1 = lat2y_d(48.5);
     //double dtest2 = lat2y_d(55.4148);
     //qDebug() << dtest1 << dtest2;
@@ -153,24 +167,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-// przejscie do trybu zaawansowanego
-void MainWindow::on_checkBox_clicked(bool checked)
-{
-    if (checked)
-    {
-        ui->groupAdvanced->setEnabled(true);
-        ui->groupGraph->setEnabled(true);
-        advancedMode = true;
-
-    }
-    else
-    {
-        ui->groupAdvanced->setEnabled(false);
-        ui->groupGraph->setEnabled(false);
-        advancedMode = false;
-    }
-}
-
 // uruchomienie filtracji parametru
 void MainWindow::on_checkFilter_clicked(bool checked)
 {
@@ -192,11 +188,12 @@ void MainWindow::on_bShowWeather_clicked()
                 (ui->comboParam->itemData(ui->comboParam->currentIndex())).toString()
                 );
     */
+    fileChanged = true;
     QString fileUrl = parseUrl(settings->getUrl());
     //QUrl fileUrl("http://ksgmet.eti.pg.gda.pl/prognozy/CSV/poland/2015/4/11/11/ACM_CONVECTIVE_PERCIP.csv");
-    m_pFileCtrl = new FileDownloader(QUrl(fileUrl), this);
+    m_pFileCtrl = new FileDownloader(QUrl(fileUrl),0, this);
 
-    connect(m_pFileCtrl, SIGNAL (downloaded()), this, SLOT (processFile()));
+    connect(m_pFileCtrl, SIGNAL (downloaded(int)), this, SLOT (processFile(int)));
 }
 
 void MainWindow::dlWMetaData()
@@ -207,34 +204,52 @@ void MainWindow::dlWMetaData()
                 );
                 */
    QString fileUrl = settings->getMetaUrl();
-   n_pFileCtrl = new FileDownloader(QUrl(fileUrl), this);
-   connect(n_pFileCtrl, SIGNAL (downloaded()), this, SLOT (setWMetaData()));
+   n_pFileCtrl = new FileDownloader(QUrl(fileUrl),0, this);
+   connect(n_pFileCtrl, SIGNAL (downloaded(int)), this, SLOT (setWMetaData(int)));
 }
 
-void MainWindow::setWMetaData()
+void MainWindow::setWMetaData(int num)
 {
     if (!n_pFileCtrl->downloadedData().isNull())
     {
+
         // PRZETWARZANIE PLIKU NFO (META)
         //ui->labelLog->setText("Plik wczytany.");
         QString data = (n_pFileCtrl->downloadedData());
         QRegExp rx("(\\ |\\,|\\t|\\n)");
         QStringList query = data.split(rx);
-        wSizeX = query[7].toInt();
-        wSizeY = query[8].toInt();
-        wMetaData[0] = query[3].toDouble();
-        wMetaData[1] = query[4].toDouble();
-        wMetaData[2] = 0.0f;
-        wMetaData[3] = (query[5].toDouble())+(query[6].toDouble()*(double)wSizeY);
-        wMetaData[4] = 0.0f;
-        wMetaData[5] = (query[6].toDouble());
-        for (int i = 0; i < 6; i++)
+        if (query.length() > 8)
         {
-            //ui->textBrowser->append(QString::number(wMetaData[i], 'g', 16));
+            wSizeX = query[7].toInt();
+            wSizeY = query[8].toInt();
+            wMetaData[0] = query[3].toDouble();
+            wMetaData[1] = query[4].toDouble();
+            wMetaData[2] = 0.0f;
+            wMetaData[3] = (query[5].toDouble())+(query[6].toDouble()*(double)wSizeY);
+            wMetaData[4] = 0.0f;
+            wMetaData[5] = (query[6].toDouble());
+            for (int i = 0; i < 6; i++)
+            {
+                //ui->textBrowser->append(QString::number(wMetaData[i], 'g', 16));
+            }
+            //ui->textBrowser->append(QString::number(wSizeX));
+            //ui->textBrowser->append(QString::number(wSizeY));
+            //ui->textBrowser->append(QString::number(wMetaData[1]/wMetaData[5]));
         }
-        //ui->textBrowser->append(QString::number(wSizeX));
-        //ui->textBrowser->append(QString::number(wSizeY));
-        //ui->textBrowser->append(QString::number(wMetaData[1]/wMetaData[5]));
+        else
+        {
+            QMessageBox::information(
+                this,
+                tr("Błąd"),
+                tr("Plik meta nie istnieje. Sprawdź ustawienia URL.") );
+        }
+    }
+    else
+    {
+        QMessageBox::information(
+            this,
+            tr("Błąd"),
+            tr("Plik meta nie istnieje. Sprawdź ustawienia URL.") );
     }
 }
 
@@ -243,7 +258,7 @@ void MainWindow::logPrint(QString text)
     ui->labelLog->setText(text);
 }
 
-void MainWindow::processFile()
+void MainWindow::processFile(int num)
 {
     if (!m_pFileCtrl->downloadedData().isNull())
     {
@@ -279,6 +294,18 @@ void MainWindow::processFile()
                 for (int j = 0; j < wSizeX; j++)
                 {
                     dataGrid[i][j] = query[(wSizeY-i-1)*wSizeX + j].toFloat();
+                    if (ui->checkFilter->isChecked() && ui->lineHigher->text().toFloat() < ui->lineLower->text().toFloat())
+                    {
+                        if (ui->lineHigher->text().toFloat() > dataGrid[i][j])
+                        {
+                            dataGrid[i][j] = ui->lineHigher->text().toFloat();
+                        }
+                        if (ui->lineLower->text().toFloat() < dataGrid[i][j])
+                        {
+                            dataGrid[i][j] = ui->lineLower->text().toFloat();
+                        }
+                    }
+
                     if (dataGrid[i][j] > maxValue)
                         maxValue = dataGrid[i][j];
                     if (dataGrid[i][j] > -9999.9f && dataGrid[i][j] < minValue)
@@ -298,7 +325,10 @@ void MainWindow::processFile()
                 {
                     float grad;
                     if (range != 0)
+                    {
                         grad = (dataGrid[i][j] - minValue)/range;
+
+                    }
                     else
                         grad = 0;
 
@@ -342,11 +372,17 @@ void MainWindow::processFile()
 
         }
         else
-            logPrint(QString::number(query.size()));
+            QMessageBox::information(
+                this,
+                tr("Błąd"),
+                tr("Plik nie istnieje. Sprawdź ustawienia URL.") );
     }
     else
     {
-        ui->labelLog->setText("Brak pliku na serwerze.");
+        QMessageBox::information(
+            this,
+            tr("Błąd"),
+            tr("Plik nie istnieje. Sprawdź ustawienia URL.") );
     }
 }
 
@@ -358,16 +394,16 @@ void MainWindow::refreshView()
     {
         if(layerNum>0)
         {
-            for(int i=0;i<layerNum;i++)
+            for(int i=layerNum-1;i>=0;i--)
             {
                 GeoLayer*war=ui->treeWidget->topLevelItem(i)->data(0,Qt::UserRole).value<GeoLayer*>();
-                if(i==0)
-                {
-                    vPort->setCorners(war->cornerLU,war->cornerRB);
-                }
                 if(war->visibility==true)
                 {
-                    image = vPort->draw(war,128);
+                    QString str = ui->treeWidget->topLevelItem(i)->text(0);
+                    if(str[str.length()-1] == 'p')
+                        image = vPort->draw(war,128);
+                    else
+                        image = vPort->draw(war,255);
                 }
             }
         }
@@ -376,16 +412,12 @@ void MainWindow::refreshView()
     {
         if(layerNum_osm>0)
         {
-            for(int i=0;i<layerNum_osm;i++)
+            for(int i=layerNum_osm-1;i>=0;i--)
             {
-                GeoLayer*war=ui->treeWidget_2->topLevelItem(i)->data(0,Qt::UserRole).value<GeoLayer*>();
-                if(i==0)
-                {
-                    vPort->setCorners(war->cornerLU,war->cornerRB);
-                }
+                GeoLayer*war=layers_osm->value(i);
                 if(war->visibility==true)
                 {
-                    image = vPort->draw(war,128);
+                    image = vPort->draw(war,255);
                 }
             }
         }
@@ -422,73 +454,106 @@ void MainWindow::on_bColor2_clicked()
 
 void MainWindow::on_bNavUp_2_clicked()
 {
-    if(ui->tabMapType->currentIndex()==0)
+    //if(ui->tabMapType->currentIndex()==0)
         vPort->scaleDown();
-    else if(layerNum_osm>0)
+    /*else if(layerNum_osm>0)
     {
-        double lon=ui->textEdit->toPlainText().toDouble();
-        double lat=ui->textEdit_2->toPlainText().toDouble();
+        layers_osm->clear();
+        osm_pFileCtrl->clear();
         zoom++;
+        layerNum_osm=0;
         double n=pow(2.0,zoom);
-        double x=deg2rad(lon);
-        double y=asinh(tan(deg2rad(lat)));
-        x=round(n*(1+(x/M_PI))/2);
-        y=round(n*(1-(y/M_PI))/2);
-        GeoLayer::point cornerLU, cornerRB;
-        cornerLU.x=lon;
-        cornerLU.y=lat;
-        double dangle_lon=360.0/n;
-        double dangle_lat=170.1022/n;
-        cornerRB.x=cornerLU.x+dangle_lon;
-        cornerRB.y=cornerLU.y-dangle_lat;
-        int i=ui->treeWidget_2->currentIndex().row();
-        GeoLayer*war=ui->treeWidget_2->topLevelItem(i)->data(0,Qt::UserRole).value<GeoLayer*>();
-        war->setCorners(cornerLU, cornerRB);
-        flaga=true;
+        double x_min,x_max, y_min, y_max;
+        y_max=asinh(tan(deg2rad(y2lat_d(lat2y_d(48.5) + 11.25))))*zoom_levels[(int)zoom-7]/zoom_levels[0];
+        y_min=asinh(tan(deg2rad(48.5)))*zoom_levels[(int)zoom-7]/zoom_levels[0];
+        x_min=deg2rad(13.825)*zoom_levels[(int)zoom-7]/zoom_levels[0];
+        x_max=deg2rad(25.075)*zoom_levels[(int)zoom-7]/zoom_levels[0];
+        x_max=round(n*(1+(x_max/M_PI))/2.0);
+        y_min=round(n*(1-(y_min/M_PI))/2.0);
+        x_min=round(n*(1+(x_min/M_PI))/2.0);
+        y_max=round(n*(1-(y_max/M_PI))/2.0);
+        ui->label_3->setText(QString::number(y_max));
+        ui->textBrowser->setText(QString::number(y_min));
+
+       /* for(int i=(int)x_min;i<(int)x_max;i++)
+            for(int j=(int)y_max;j<(int)y_min;j++)
+            {
+
+                aktualX=i;
+                aktualY=j;
+                double x=(double)aktualX;
+                double y=(double)aktualY;
         QString fileUrl = QString("http://otile1.mqcdn.com/tiles/1.0.0/osm/%1/%2/%3.jpg").arg(
                     QString::number(zoom),
                     QString::number(x),
                     QString::number(y)
                     );
-        osm_pFileCtrl = new FileDownloader(QUrl(fileUrl), this);
-        connect(osm_pFileCtrl, SIGNAL (downloaded()), this, SLOT (show_url_image()));
-    }
+        FileDownloader * downloader=new FileDownloader(QUrl(fileUrl),(4*(i-69)+j-40), this);
+        osm_pFileCtrl->append(downloader);
+            }
+        //osm_pFileCtrl = new FileDownloader(QUrl(fileUrl), this);
+
+        //osm_pFileCtrl->append(downloader);
+        int count=(x_max-x_min)*(y_min-y_max);
+        for(int i=0;i<count;i++)
+        {
+            FileDownloader * downloader=osm_pFileCtrl->value(i);
+            connect(downloader, SIGNAL (downloaded(int)), this, SLOT (show_url_image(int)));
+        }
+    }*/
     refreshView();
 }
 
 void MainWindow::on_bNavUp_3_clicked()
 {
-    if(ui->tabMapType->currentIndex()==0)
+    //if(ui->tabMapType->currentIndex()==0)
         vPort->scaleUp();
-    else if(layerNum_osm>0)
+    /*else if(layerNum_osm>0)
     {
-        double lon=ui->textEdit->toPlainText().toDouble();
-        double lat=ui->textEdit_2->toPlainText().toDouble();
+        layers_osm->clear();
+        osm_pFileCtrl->clear();
         zoom--;
+        layerNum_osm=0;
         double n=pow(2.0,zoom);
-        double x=deg2rad(lon);
-        double y=asinh(tan(deg2rad(lat)));
-        x=round(n*(1+(x/M_PI))/2);
-        y=round(n*(1-(y/M_PI))/2);
-        GeoLayer::point cornerLU, cornerRB;
-        cornerLU.x=lon;
-        cornerLU.y=lat;
-        double dangle_lon=360.0/n;
-        double dangle_lat=170.1022/n;
-        cornerRB.x=cornerLU.x+dangle_lon;
-        cornerRB.y=cornerLU.y-dangle_lat;
-        int i=ui->treeWidget_2->currentIndex().row();
-        GeoLayer*war=ui->treeWidget_2->topLevelItem(i)->data(0,Qt::UserRole).value<GeoLayer*>();
-        war->setCorners(cornerLU, cornerRB);
-        flaga=true;
+        double x_min,x_max, y_min, y_max;
+        y_max=asinh(tan(deg2rad(y2lat_d(lat2y_d(48.5) + 11.25))))*zoom_levels[(int)zoom-7]/zoom_levels[0];
+        y_min=asinh(tan(deg2rad(48.5)))*zoom_levels[(int)zoom-7]/zoom_levels[0];
+        x_min=deg2rad(13.825)*zoom_levels[(int)zoom-7]/zoom_levels[0];
+        x_max=deg2rad(25.075)*zoom_levels[(int)zoom-7]/zoom_levels[0];
+        x_max=round(n*(1+(x_max/M_PI))/2.0);
+        y_min=round(n*(1-(y_min/M_PI))/2.0);
+        x_min=round(n*(1+(x_min/M_PI))/2.0);
+        y_max=round(n*(1-(y_max/M_PI))/2.0);
+        ui->label_3->setText(QString::number(x_min));
+        ui->textBrowser->setText(QString::number(x_max));
+
+        for(int i=(int)x_min;i<(int)x_max;i++)
+            for(int j=(int)y_max;j<(int)y_min;j++)
+            {
+
+                aktualX=i;
+                aktualY=j;
+                double x=(double)aktualX;
+                double y=(double)aktualY;
         QString fileUrl = QString("http://otile1.mqcdn.com/tiles/1.0.0/osm/%1/%2/%3.jpg").arg(
                     QString::number(zoom),
                     QString::number(x),
                     QString::number(y)
                     );
-        osm_pFileCtrl = new FileDownloader(QUrl(fileUrl), this);
-        connect(osm_pFileCtrl, SIGNAL (downloaded()), this, SLOT (show_url_image()));
-    }
+        temp_size=y_min-y_max;
+        FileDownloader * downloader=new FileDownloader(QUrl(fileUrl),(temp_size*(i-x_min)+j-y_max), this);
+        osm_pFileCtrl->append(downloader);
+            }
+        //osm_pFileCtrl = new FileDownloader(QUrl(fileUrl), this);
+
+        //osm_pFileCtrl->append(downloader);
+        int count=(x_max-x_min)*(y_min-y_max);
+        for(int i=0;i<count;i++)
+        {
+            FileDownloader * downloader=osm_pFileCtrl->value(i);
+            connect(downloader, SIGNAL (downloaded(int)), this, SLOT (show_url_image(int)));
+        }
+    }*/
     refreshView();
 }
 
@@ -518,27 +583,57 @@ void MainWindow::on_bNavLeft_clicked()
 
 void MainWindow::on_bLayerNew_clicked()
 {
-    //GDALDataset *poDataset;
-    //GDALAllRegister();
+    GDALDatasetH poDataset;
+    GDALAllRegister();
     QString fileName = QFileDialog::getOpenFileName(this,"Open Image File",QDir::currentPath());
-    //QByteArray array =fileName.toLocal8Bit();
-    //char* buffer = array.data();
-    //poDataset = (GDALDataset *) GDALOpen( buffer, GA_ReadOnly );
+    QByteArray array =fileName.toLocal8Bit();
+    char* buffer = array.data();
+    poDataset = (GDALDataset *) GDALOpen( buffer, GA_ReadOnly );
     //ui->textBrowser->setText(QString::fromUtf8(poDataset->GetProjectionRef(),5));
-    if(1)
+    if(fileName!=NULL)
     {
-        //double*coefficients=new double[6];
-        //poDataset->GetGeoTransform(coefficients);
+        double*coefficients=new double[6];
+        coefficients[0]=0;
+        coefficients[1]=0;
+        coefficients[2]=0;
+        coefficients[3]=0;
+        coefficients[4]=0;
+        coefficients[5]=0;
+        GDALGetGeoTransform(poDataset,coefficients);
+        for(int i=0;i<6;i++)
+            qDebug() <<coefficients[i]<<endl;
+        //OGRSpatialReference* referenceObject=new OGRSpatialReference();
+        OGRSpatialReferenceH referenceObject=OSRNewSpatialReference(GDALGetProjectionRef(poDataset));
+        //OSRImportFromProj4(referenceObject,GDALGetProjectionRef(poDataset));
+        /*OGRSpatialReferenceH referenceObject;
+        char *pszProjection;
+        pszProjection=(char *) GDALGetGCPProjection( poDataset);
+        OSRImportFromWkt(referenceObject,&pszProjection);*/
+        //OGRSpatialReference* referenceObject2=referenceObject->CloneGeogCS();
+        OGRSpatialReferenceH referenceObject2=OSRCloneGeogCS(referenceObject);
+        double x=0.0;
+        double y=0.0;
+        OGRCoordinateTransformationH transformationObject=OCTNewCoordinateTransformation(referenceObject,referenceObject2);
+        double finalX=x*coefficients[1]+coefficients[0];
+        double finalY=y*coefficients[5]+coefficients[3];
+        int wynik2=OCTTransformEx(transformationObject,1,&finalX,&finalY,NULL,NULL);
         QImage Image = QImage(fileName,"PNM");
+        int x1=Image.width();
+        int y1=Image.height();
+
+        double finalX1=double(x1)*coefficients[1]+coefficients[0];
+        double finalY1=double(y1)*coefficients[5]+coefficients[3];
+        wynik2=OCTTransformEx(transformationObject,1,&finalX1,&finalY1,NULL,NULL);
         GeoLayer::point corLU, corRB;
-        corLU.x=19.45 - 5.625;
-        corLU.y=y2lat_d(lat2y_d(48.5) + 11.25);
-        corRB.x=19.45 + 5.625;
-        corRB.y=48.5;
-        //ui->label_3->setText(QString::number(corRB.x-corLU.x));
-        //ui->label_4->setText(QString::number(corLU.y-corRB.y));
-        ui->textEdit->setText(QString::number(corLU.x));
-        ui->textEdit_2->setText(QString::number(corLU.y));
+        corLU.x=finalX;
+        corLU.y=finalY;
+        corRB.x=finalX1;
+        corRB.y=finalY1;
+        qDebug() << finalX<<finalY<<finalX1<<finalY1;
+        /*corLU.x = 19.45 - 5.625;
+        corRB.x = 19.45 + 5.625;
+        corLU.y = y2lat_d(lat2y_d(48.5) + 11.25);
+        corRB.y = 48.5;*/
         GeoLayer*warstwa=new GeoLayer(&Image,1,corLU,corRB,this);
         layers->append(warstwa);
         layerNum++;
@@ -614,124 +709,168 @@ void MainWindow::on_bLayerVisibility_clicked()
 
 void MainWindow::on_pushButton_clicked()
 {
-    double lon=ui->textEdit->toPlainText().toDouble();
+    /*double lon=ui->textEdit->toPlainText().toDouble();
     double lat=ui->textEdit_2->toPlainText().toDouble();
-    double n=pow(2.0,zoom);
+    double dangle_lon=0.0;
+    double n=0.0;*/
+   /*while(dangle_lon<25.0)
+    {
+        zoom--;
+        n=pow(2.0,zoom);
+        dangle_lon=360.0/n;
+    }*/
+    /*n=pow(2.0,zoom);
+    ui->label_3->setText(QString::number(zoom));
     double x=deg2rad(lon);
     double y=asinh(tan(deg2rad(lat)));
-    x=round(n*(1+(x/M_PI))/2);
-    y=round(n*(1-(y/M_PI))/2);
-    //ui->label_3->setText(QString::number(x));
-    //ui->label_4->setText(QString::number(y));
+    x=round(n*(1+(x/M_PI))/2.0);
+    y=round(n*(1-(y/M_PI))/2.0);*/
+    //osm_pFileCtrl = new FileDownloader(QUrl(fileUrl), this);
+    ui->progressBar->setValue(0);
+    double n=pow(2.0,zoom);
+    double x_min,x_max, y_min, y_max;
+    y_max=asinh(tan(deg2rad(y2lat_d(lat2y_d(48.5) + 11.25))))*zoom_levels[(int)zoom-7]/zoom_levels[0];
+    y_min=asinh(tan(deg2rad(48.5)))*zoom_levels[(int)zoom-7]/zoom_levels[0];
+    x_min=deg2rad(13.825)*zoom_levels[(int)zoom-7]/zoom_levels[0];
+    x_max=deg2rad(25.075)*zoom_levels[(int)zoom-7]/zoom_levels[0];
+    x_max=round(n*(1+(x_max/M_PI))/2.0);
+    y_min=round(n*(1-(y_min/M_PI))/2.0);
+    x_min=round(n*(1+(x_min/M_PI))/2.0);
+    y_max=round(n*(1-(y_max/M_PI))/2.0);
+    ui->label_3->setText(QString::number(x_min));
+    temp_size=y_min-y_max;
+    for(int i=(int)x_min;i<(int)x_max;i++)
+        for(int j=(int)y_max;j<(int)y_min;j++)
+        {
+
+            aktualX=i;
+            aktualY=j;
+            double x=(double)aktualX;
+            double y=(double)aktualY;
     QString fileUrl = QString("http://otile1.mqcdn.com/tiles/1.0.0/osm/%1/%2/%3.jpg").arg(
                 QString::number(zoom),
                 QString::number(x),
                 QString::number(y)
                 );
-    osm_pFileCtrl = new FileDownloader(QUrl(fileUrl), this);
-    connect(osm_pFileCtrl, SIGNAL (downloaded()), this, SLOT (show_url_image()));
-}
-void MainWindow::show_url_image()
-{
-    if (!osm_pFileCtrl->downloadedData().isNull())
+    FileDownloader * downloader=new FileDownloader(QUrl(fileUrl),(temp_size*(i-x_min)+j-y_max), this);
+    osm_pFileCtrl->append(downloader);
+        }
+    //osm_pFileCtrl = new FileDownloader(QUrl(fileUrl), this);
+
+    //osm_pFileCtrl->append(downloader);
+    int count=(x_max-x_min)*(y_min-y_max);
+    for(int i=0;i<count;i++)
     {
-        if(flaga==false)
-        {
-            double lon=ui->textEdit->toPlainText().toDouble();
-            double lat=ui->textEdit_2->toPlainText().toDouble();
+        FileDownloader * downloader=osm_pFileCtrl->value(i);
+        connect(downloader, SIGNAL (downloaded(int)), this, SLOT (show_url_image(int)));
+    }
+
+}
+void MainWindow::show_url_image(int num)
+{
+    //if (!osm_pFileCtrl->downloadedData().isNull())
+    if(!osm_pFileCtrl->value(num)->downloadedData().isNull())
+    {
+            int cur = ui->progressBar->value();
+            cur += 6;
+            if (cur > 100)
+                cur = 100;
+            if (cur == 96)
+                cur = 100;
+            ui->progressBar->setValue(cur);
             double n=pow(2.0,zoom);
+            double dangle_lon=11.25/4;
+            double dangle_lat=((y2lat_d(lat2y_d(48.5) + 11.25)-48.5))/4;
+            //double dangle_lon=360.0/n;
+            //double dangle_lat=170.1022/n;
+            //double dangle_lat=rad2deg(atan(sinh(deg2rad(170.1022/n))));
+            //double lon=ui->textEdit->toPlainText().toDouble();
+            //double lat=ui->textEdit_2->toPlainText().toDouble();
+            double lon=19.45 - 5.625;
+            double lat=y2lat_d(lat2y_d(48.5) + 11.25);
             GeoLayer::point cornerLU, cornerRB;
-            cornerLU.x=lon;
-            cornerLU.y=lat;
-            double dangle_lon=360.0/n;
-            double dangle_lat=170.1022/n;
+            cornerLU.x=lon+(num/temp_size)*dangle_lon+0.001+0.39;
+            cornerLU.y=lat-(num%temp_size)*dangle_lat+0.26;
             cornerRB.x=cornerLU.x+dangle_lon;
             cornerRB.y=cornerLU.y-dangle_lat;
             QImage image;
-            image.loadFromData(osm_pFileCtrl->downloadedData());
+            image.loadFromData(osm_pFileCtrl->value(num)->downloadedData());
             GeoLayer*warstwa=new GeoLayer(&image,1,cornerLU,cornerRB,this);
+            warstwa->visibility=true;
             layers_osm->append(warstwa);
             layerNum_osm++;
-            QTreeWidgetItem*item=new QTreeWidgetItem();
-            QString tekst=QString("Warstwa")+QString::number((double)layerNum_osm)+QString("-OSM");
-            item->setText(0,tekst);
-            item->setTextColor(0,QColor("red"));
-            ui->treeWidget_2->addTopLevelItem(item);
-            item->setData(0,Qt::UserRole,QVariant::fromValue<GeoLayer*>(warstwa));
-        }
-        else
-        {
-            int i=ui->treeWidget_2->currentIndex().row();
-            QImage image;
-            image.loadFromData(osm_pFileCtrl->downloadedData());
-            GeoLayer*war=ui->treeWidget_2->topLevelItem(i)->data(0,Qt::UserRole).value<GeoLayer*>();
-            war->setImage(image);
-            flaga=false;
-            ui->treeWidget_2->currentItem()->setData(0,Qt::UserRole,QVariant::fromValue<GeoLayer*>(war));
-        }
         refreshView();
     }
 }
-
 void MainWindow::on_actionUstawienia_programu_triggered()
 {
     settings->show();
 }
 
-void MainWindow::on_bLayerVisibility_2_clicked()
-{
-    if(layerNum_osm>0 && ui->treeWidget_2->currentIndex().row()>=0)
-    {
-        bool visible=ui->treeWidget_2->currentItem()->data(0,Qt::UserRole).value<GeoLayer*>()->visibility;
-        ui->treeWidget_2->currentItem()->data(0,Qt::UserRole).value<GeoLayer*>()->visibility=!visible;
-        if(!visible==true)
-            ui->treeWidget_2->currentItem()->setTextColor(0,QColor("green"));
-        else
-            ui->treeWidget_2->currentItem()->setTextColor(0,QColor("red"));
-        refreshView();
-    }
-}
 
-void MainWindow::on_bLayerUp_2_clicked()
-{
-    if(ui->treeWidget_2->currentIndex().row()>0)
-    {
-        QTreeWidgetItem* item_down = ui->treeWidget_2->currentItem();
-        QTreeWidgetItem* item_clone=item_down->clone();
-        int index=ui->treeWidget_2->currentIndex().row();
-        delete item_down;
-        ui->treeWidget_2->insertTopLevelItem(index-1,item_clone);
-        ui->treeWidget_2->setCurrentItem(item_clone);
-        refreshView();
-    }
-}
 
-void MainWindow::on_bLayerDown_2_clicked()
-{
-    if(ui->treeWidget_2->currentIndex().row()<layerNum_osm-1)
-    {
-        QTreeWidgetItem* item_down = ui->treeWidget_2->currentItem();
-        QTreeWidgetItem* item_clone=item_down->clone();
-        int index=ui->treeWidget_2->currentIndex().row();
-        delete item_down;
-        ui->treeWidget_2->insertTopLevelItem(index+1,item_clone);
-        ui->treeWidget_2->setCurrentItem(item_clone);
-        refreshView();
-    }
-}
 
 void MainWindow::on_tabMapType_currentChanged(int index)
 {
     refreshView();
 }
 
-void MainWindow::on_bLayerDelete_2_clicked()
+void MainWindow::on_b_showIcons_clicked()
 {
-    QTreeWidgetItem* item = ui->treeWidget_2->currentItem();
-    int i = ui->treeWidget_2->indexOfTopLevelItem(item);
-    ui->treeWidget_2->takeTopLevelItem(i);
-    delete item;
-    layers_osm->remove(i);
-    layerNum_osm--;
-    refreshView();
+    QString tempUrl = QString("http://ksgmet.eti.pg.gda.pl/prognozy/CSV/poland/%1/%2/%3/%4/T2MEAN2m.csv").arg(
+                QString::number(ui->calendarWidget->selectedDate().year()),
+                QString::number(ui->calendarWidget->selectedDate().month()),
+                QString::number(ui->calendarWidget->selectedDate().day()),
+                ui->comboHour->currentText()
+                );
+    QString cloudUrl = QString("http://ksgmet.eti.pg.gda.pl/prognozy/CSV/poland/%1/%2/%3/%4/LOW_CLOUD_FRACTION.csv").arg(
+                QString::number(ui->calendarWidget->selectedDate().year()),
+                QString::number(ui->calendarWidget->selectedDate().month()),
+                QString::number(ui->calendarWidget->selectedDate().day()),
+                ui->comboHour->currentText()
+                );
+    QString rainUrl = QString("http://ksgmet.eti.pg.gda.pl/prognozy/CSV/poland/%1/%2/%3/%4/ACM_TOTAL_PERCIP.csv").arg(
+                QString::number(ui->calendarWidget->selectedDate().year()),
+                QString::number(ui->calendarWidget->selectedDate().month()),
+                QString::number(ui->calendarWidget->selectedDate().day()),
+                ui->comboHour->currentText()
+                );
+    if (!fileChanged)
+        tempUrl = "OLD";
+    else
+        fileChanged = false;
+    map->getLayers(tempUrl, cloudUrl, rainUrl);
+}
+
+void MainWindow::on_actionWyj_cie_triggered()
+{
+    QApplication::quit();
+}
+
+void MainWindow::on_actionMapa_triggered()
+{
+    map->show();
+}
+
+void MainWindow::on_actionMinimapa_triggered()
+{
+    miniMap->show();
+}
+
+void MainWindow::on_actionO_programie_triggered()
+{
+    QMessageBox::information(
+        this,
+        tr("O Programie"),
+        tr("Projekt z przedmiotu Technologie Map Cyfrowych.\nWykonali:\nKamil Kołakowski\nTomasz Kraczaj") );
+}
+
+void MainWindow::on_comboHour_currentIndexChanged(int index)
+{
+    fileChanged = true;
+}
+
+void MainWindow::on_calendarWidget_selectionChanged()
+{
+    fileChanged = true;
 }

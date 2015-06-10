@@ -1,0 +1,688 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE WMT_MS_Capabilities SYSTEM "http://gisdata.usgs.net/capabilities/capabilities_1_1_0.dtd">
+<WMT_MS_Capabilities version="1.1.0">
+<Service>
+<Name>OGC:WMS</Name>
+<Title>USGS EROS Data Center WMS Map Server:  EDC_GNIS</Title>
+<Abstract>This is an OGC compliant MapService served By the USGS EROS Data Center, Sioux Falls, South Dakota </Abstract>
+<KeywordList>
+<Keyword>ArcIMS</Keyword>
+<Keyword>ESRI</Keyword>
+<Keyword>ArcIMS Feature MapService</Keyword>
+<Keyword>ArcIMS Image MapService</Keyword>
+<Keyword>USGS</Keyword>
+<Keyword>EROS Data Center</Keyword>
+<Keyword>EDC</Keyword>
+<Keyword>OGC Map Service</Keyword>
+</KeywordList>
+<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://gisdata.usgs.net:80/servlet/com.esri.wms.Esrimap/EDC_GNIS?" xlink:type="simple"/>
+<ContactInformation>
+<ContactPersonPrimary>
+<ContactPerson>Customer Services Representative</ContactPerson>
+<ContactOrganization>USGS EROS Data Center</ContactOrganization>
+</ContactPersonPrimary>
+<ContactPosition/>
+<ContactAddress>
+<AddressType>postal</AddressType>
+<Address>47914 252nd Street</Address>
+<City>Sioux Falls</City>
+<StateOrProvince>SD</StateOrProvince>
+<PostCode>57198</PostCode>
+<Country>USA</Country>
+</ContactAddress>
+<ContactVoiceTelephone>(605) 594-6151</ContactVoiceTelephone>
+<ContactFacsimileTelephone>(605) 594-6589</ContactFacsimileTelephone>
+<ContactElectronicMailAddress>webmapping@usgs.gov</ContactElectronicMailAddress>
+</ContactInformation>
+<Fees>none</Fees>
+<AccessConstraints>none</AccessConstraints>
+</Service>
+<Capability>
+<Request>
+<GetCapabilities>
+<Format>application/vnd.ogc.wms_xml</Format>
+<DCPType>
+<HTTP>
+<Get>
+<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://gisdata.usgs.net:80/servlet/com.esri.wms.Esrimap/EDC_GNIS?" xlink:type="simple"/>
+</Get>
+</HTTP>
+</DCPType>
+</GetCapabilities>
+<GetMap>
+<Format>image/png</Format>
+<Format>image/jpeg</Format>
+<DCPType>
+<HTTP>
+<Get>
+<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://gisdata.usgs.net:80/servlet/com.esri.wms.Esrimap/EDC_GNIS?" xlink:type="simple"/>
+</Get>
+</HTTP>
+</DCPType>
+</GetMap>
+<GetFeatureInfo>
+<Format>application/vnd.ogc.wms_xml</Format>
+<Format>text/xml</Format>
+<Format>text/html</Format>
+<Format>text/plain</Format>
+<DCPType>
+<HTTP>
+<Get>
+<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://gisdata.usgs.net:80/servlet/com.esri.wms.Esrimap/EDC_GNIS?" xlink:type="simple"/>
+</Get>
+</HTTP>
+</DCPType>
+</GetFeatureInfo>
+</Request>
+<Exception>
+<Format>application/vnd.ogc.se_xml</Format>
+<Format>application/vnd.ogc.se_inimage</Format>
+<Format>application/vnd.ogc.se_blank</Format>
+</Exception>
+<Layer queryable="1" opaque="0" noSubsets="0">
+<Title>EDC_GNIS</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.468059999999" miny="-14.5475000000006" maxx="179.983329999999" maxy="71.3883299999998"/>
+<Layer queryable="1">
+<Name>GNIS_WOODS</Name>
+<Title>GNIS_WOODS</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_WOODS_Labels</Name>
+<Title>GNIS_WOODS_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_WELL</Name>
+<Title>GNIS_WELL</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_WELL_Labels</Name>
+<Title>GNIS_WELL_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_VALLEY</Name>
+<Title>GNIS_VALLEY</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_VALLEY_Labels</Name>
+<Title>GNIS_VALLEY_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_TUNNEL</Name>
+<Title>GNIS_TUNNEL</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_TUNNEL_Labels</Name>
+<Title>GNIS_TUNNEL_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_TRAIL</Name>
+<Title>GNIS_TRAIL</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_TRAIL_Labels</Name>
+<Title>GNIS_TRAIL_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_TOWER</Name>
+<Title>GNIS_TOWER</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_TOWER_Labels</Name>
+<Title>GNIS_TOWER_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_SWAMP</Name>
+<Title>GNIS_SWAMP</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_SWAMP_Labels</Name>
+<Title>GNIS_SWAMP_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_SUMMIT</Name>
+<Title>GNIS_SUMMIT</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_SUMMIT_Labels</Name>
+<Title>GNIS_SUMMIT_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_SLOPE</Name>
+<Title>GNIS_SLOPE</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_SLOPE_Labels</Name>
+<Title>GNIS_SLOPE_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_SCHOOL</Name>
+<Title>GNIS_SCHOOL</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_SCHOOL_Labels</Name>
+<Title>GNIS_SCHOOL_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_RIDGE</Name>
+<Title>GNIS_RIDGE</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_RIDGE_Labels</Name>
+<Title>GNIS_RIDGE_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_RESERVE</Name>
+<Title>GNIS_RESERVE</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_RESERVE_Labels</Name>
+<Title>GNIS_RESERVE_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_RANGE</Name>
+<Title>GNIS_RANGE</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_RANGE_Labels</Name>
+<Title>GNIS_RANGE_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_PPL</Name>
+<Title>GNIS_PPL</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_PPL_Labels</Name>
+<Title>GNIS_PPL_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_PPL_250</Name>
+<Title>GNIS_PPL_250</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_PPL_250_Labels</Name>
+<Title>GNIS_PPL_250_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_PO</Name>
+<Title>GNIS_PO</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_PO_Labels</Name>
+<Title>GNIS_PO_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_PLAIN</Name>
+<Title>GNIS_PLAIN</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_PLAIN_Labels</Name>
+<Title>GNIS_PLAIN_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_PILLAR</Name>
+<Title>GNIS_PILLAR</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_PILLAR_Labels</Name>
+<Title>GNIS_PILLAR_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_PARK</Name>
+<Title>GNIS_PARK</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_PARK_Labels</Name>
+<Title>GNIS_PARK_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_OILFIELD</Name>
+<Title>GNIS_OILFIELD</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_OILFIELD_Labels</Name>
+<Title>GNIS_OILFIELD_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_MINE</Name>
+<Title>GNIS_MINE</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_MINE_Labels</Name>
+<Title>GNIS_MINE_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_MILITARY</Name>
+<Title>GNIS_MILITARY</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_MILITARY_Labels</Name>
+<Title>GNIS_MILITARY_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_LOCALE</Name>
+<Title>GNIS_LOCALE</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_LOCALE_Labels</Name>
+<Title>GNIS_LOCALE_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_LEVEE</Name>
+<Title>GNIS_LEVEE</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_LEVEE_Labels</Name>
+<Title>GNIS_LEVEE_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_LAVA</Name>
+<Title>GNIS_LAVA</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_LAVA_Labels</Name>
+<Title>GNIS_LAVA_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_ISTHMUS</Name>
+<Title>GNIS_ISTHMUS</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_ISTHMUS_Labels</Name>
+<Title>GNIS_ISTHMUS_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_ISLAND</Name>
+<Title>GNIS_ISLAND</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_ISLAND_Labels</Name>
+<Title>GNIS_ISLAND_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_HOSPITAL</Name>
+<Title>GNIS_HOSPITAL</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_HOSPITAL_Labels</Name>
+<Title>GNIS_HOSPITAL_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_GAP</Name>
+<Title>GNIS_GAP</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_GAP_Labels</Name>
+<Title>GNIS_GAP_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_FOREST</Name>
+<Title>GNIS_FOREST</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_FOREST_Labels</Name>
+<Title>GNIS_FOREST_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_FLAT</Name>
+<Title>GNIS_FLAT</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_FLAT_Labels</Name>
+<Title>GNIS_FLAT_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_DAM</Name>
+<Title>GNIS_DAM</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_DAM_Labels</Name>
+<Title>GNIS_DAM_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_CROSSING</Name>
+<Title>GNIS_CROSSING</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_CROSSING_Labels</Name>
+<Title>GNIS_CROSSING_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_CRATER</Name>
+<Title>GNIS_CRATER</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_CRATER_Labels</Name>
+<Title>GNIS_CRATER_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_CLIFF</Name>
+<Title>GNIS_CLIFF</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_CLIFF_Labels</Name>
+<Title>GNIS_CLIFF_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_CIVIL</Name>
+<Title>GNIS_CIVIL</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_CIVIL_Labels</Name>
+<Title>GNIS_CIVIL_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_CHURCH</Name>
+<Title>GNIS_CHURCH</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_CHURCH_Labels</Name>
+<Title>GNIS_CHURCH_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_CEMETERY</Name>
+<Title>GNIS_CEMETERY</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_CEMETERY_Labels</Name>
+<Title>GNIS_CEMETERY_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_CAPE</Name>
+<Title>GNIS_CAPE</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_CAPE_Labels</Name>
+<Title>GNIS_CAPE_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_BUILDING</Name>
+<Title>GNIS_BUILDING</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_BUILDING_Labels</Name>
+<Title>GNIS_BUILDING_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_BRIDGE</Name>
+<Title>GNIS_BRIDGE</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_BRIDGE_Labels</Name>
+<Title>GNIS_BRIDGE_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_BEND</Name>
+<Title>GNIS_BEND</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_BEND_Labels</Name>
+<Title>GNIS_BEND_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_BENCH</Name>
+<Title>GNIS_BENCH</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_BENCH_Labels</Name>
+<Title>GNIS_BENCH_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_BEACH</Name>
+<Title>GNIS_BEACH</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_BEACH_Labels</Name>
+<Title>GNIS_BEACH_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_BASIN</Name>
+<Title>GNIS_BASIN</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_BASIN_Labels</Name>
+<Title>GNIS_BASIN_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_BAR</Name>
+<Title>GNIS_BAR</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_BAR_Labels</Name>
+<Title>GNIS_BAR_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_ARROYO</Name>
+<Title>GNIS_ARROYO</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_ARROYO_Labels</Name>
+<Title>GNIS_ARROYO_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_AREA</Name>
+<Title>GNIS_AREA</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_AREA_Labels</Name>
+<Title>GNIS_AREA_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_ARCH</Name>
+<Title>GNIS_ARCH</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_ARCH_Labels</Name>
+<Title>GNIS_ARCH_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_AIRPORT</Name>
+<Title>GNIS_AIRPORT</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+<Layer queryable="1">
+<Name>GNIS_AIRPORT_Labels</Name>
+<Title>GNIS_AIRPORT_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="-89.999" maxx="179.998988540844" maxy="89.9990000685562"/>
+</Layer>
+</Layer>
+</Capability>
+</WMT_MS_Capabilities>

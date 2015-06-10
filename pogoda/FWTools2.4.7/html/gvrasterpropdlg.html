@@ -1,0 +1,121 @@
+<html>
+<head>
+<title>Raster Properties</title>
+</head>
+<body bgcolor="#ffffff">
+<h1>Raster Properties</h1>
+
+The Raster Properties dialog is used to display properties of a raster
+display layer.  It can be launched by right clicking on the desired
+raster layer in the Layer Manipulation Dialog.<p>
+
+<h2>General</h2>
+
+<img src="gvrasterpropdlg_general.gif"><p>
+
+<ul>
+<li> <b>Layer</b>: view, and modify the layer name.  This name is also
+displayed in the Layer Manipulation dialog.<p>
+
+<li> <b>Visibility</b>: Make this layer visible, or invisible.  The same
+thing can be accomplished with the eye icon on the Layer Manipulation
+dialog.<p>
+
+<li> <b>Editable</b>: Currently this control has no effect.<p>
+
+</ul>
+
+<h2>Drawing Style</h2>
+
+<img src="gvrasterpropdlg_drawstyle.gif"><p>
+
+<ul>
+<li> <b>Modulation Color</b>: Set the color to modulate the layer with. 
+Selecting red, green or blue will cause the layer to only affect red, 
+green or blue, with other RGB components <i>showing through</i>.  An RGB
+composite can be created from three layers by setting each to be modulated
+by different component colors.<p>
+
+Setting the opacity of the modulation 
+color (via the custom... entry) effectivly sets the opacity (alpha) for
+the whole layer.  Alpha blending can also be achieved using the Alpha band
+of RGB layers on the Raster Sources tab.<p>
+
+<li> <b>Subpixel Interpolation</b>: Determines whether screen values should
+be deduced from image values by linear interpolation, or decimation (pick 
+one of possible pixels).<p>
+
+</ul>
+
+<h2>Raster Sources</h2>
+
+<img src="gvrasterpropdlg_source.gif"><p>
+
+The Raster Sources tab allows control of the input raster bands used
+to generate the display layer.  Each input component can be independently
+scaled, band mappings can be changed, and components can be set to use
+fixed scales instead of source bands. <p>
+
+<b>Band</b>: Select the band to use for this component from the
+file for this layer.  At this time it is not possible to alter the source
+file after creation of the raster layer.  If the value <b>constant</b> is
+selected instead of a band number, the scaling min/max controls will be
+replaced with an entry control which can be used to enter a single fixed
+value to use for that component for the entire layer.<p>
+
+Non-eight bit data (16bit integer, and floating point) is scaled to eight
+bit (range 0-255) before compositing, or putting through the layer lookup
+table.  The scale minimum is mapped to 0, and the scale maximum to 255.
+The default scaling values are selected based on a 2% tail trim of a
+histogram of 10000 sample pixels from the image.  Values outside the
+initial min/max range may be selected by typing them into text entry 
+control.<p>
+
+<b>Scale Min</b>: Set the minimum value for scaling to eight bit.<p>
+
+<b>Scale Max</b>: Set the maximum value for scaling to eight bit.<p>
+
+<h2>LUT</h2>
+
+<img src="gvrasterpropdlg_lut.jpg"><p>
+
+The LUT tab only appears for complex raster layers, and allows five options
+for how the 2D (real and imaginary) components of the complex data will be
+mapped into a color for display.  The options are:
+
+<ol>
+<li> Magnitude and Phase: Produce an image with HSV hue indicated by the
+phase, and HSV value indicated by the magnitude of the complex values.<p>
+
+<li> Phase: Produce an image with HSV hue indicating the phase of the
+complex values.<p>
+
+<li> Magnitude: Produce a red scale image showing the magnitude of the
+real and imaginary values.<p>
+
+<li> Real: Produce a greyscale image showing only the real component of
+the complex data. <p>
+
+<li> Imaginary: Produce a greyscale image showing only the imaginary
+component of the complex data.
+
+</ol>
+
+The displayed color swatch is the 2D LUT, with the vertical axis indicating
+increasing real values downwards, and the horizontal axis indiating increasing
+imaginary values to the right. <p>
+
+<h2>Image Info</h2>
+
+<img src="gvrasterpropdlg_imageinfo.gif"><p>
+
+The Image Info tab displays additional information about the image, including 
+any metadata stored within the file. <p>
+
+</body>
+</html>
+
+
+
+
+

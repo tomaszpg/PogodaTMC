@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WMT_MS_Capabilities version="1.1.0">
+<Service>
+<Name>OGC:WMS</Name>
+<Title>Web Map Service USGS_WMS_REF</Title>
+<Abstract>ArcIMS USGS_WMS_REF Web Map Service</Abstract>
+<KeywordList>
+<Keyword>ArcIMS</Keyword>
+</KeywordList>
+<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://gisdata.usgs.net:80/servlet19/com.esri.wms.Esrimap/USGS_WMS_REF?" xlink:type="simple"/>
+<ContactInformation>
+<ContactPersonPrimary>
+<ContactPerson/>
+<ContactOrganization/>
+</ContactPersonPrimary>
+<ContactPosition/>
+<ContactAddress>
+<AddressType>postal</AddressType>
+<Address/>
+<City/>
+<StateOrProvince/>
+<PostCode/>
+<Country/>
+</ContactAddress>
+<ContactVoiceTelephone/>
+<ContactFacsimileTelephone/>
+<ContactElectronicMailAddress/>
+</ContactInformation>
+<Fees>none</Fees>
+<AccessConstraints>none</AccessConstraints>
+</Service>
+<Capability>
+<Request>
+<GetCapabilities>
+<Format>application/vnd.ogc.wms_xml</Format>
+<DCPType>
+<HTTP>
+<Get>
+<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://gisdata.usgs.net:80/servlet19/com.esri.wms.Esrimap/USGS_WMS_REF?" xlink:type="simple"/>
+</Get>
+</HTTP>
+</DCPType>
+</GetCapabilities>
+<GetMap>
+<Format>image/png</Format>
+<Format>image/jpeg</Format>
+<DCPType>
+<HTTP>
+<Get>
+<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://gisdata.usgs.net:80/servlet19/com.esri.wms.Esrimap/USGS_WMS_REF?" xlink:type="simple"/>
+</Get>
+</HTTP>
+</DCPType>
+</GetMap>
+<GetFeatureInfo>
+<Format>application/vnd.ogc.wms_xml</Format>
+<Format>text/xml</Format>
+<Format>text/html</Format>
+<Format>text/plain</Format>
+<DCPType>
+<HTTP>
+<Get>
+<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://gisdata.usgs.net:80/servlet19/com.esri.wms.Esrimap/USGS_WMS_REF?" xlink:type="simple"/>
+</Get>
+</HTTP>
+</DCPType>
+</GetFeatureInfo>
+</Request>
+<Exception>
+<Format>application/vnd.ogc.se_xml</Format>
+<Format>application/vnd.ogc.se_inimage</Format>
+<Format>application/vnd.ogc.se_blank</Format>
+</Exception>
+<Layer noSubsets="0" opaque="0" queryable="1">
+<Title>USGS_WMS_REF</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-125.792239491055" miny="17.6746880481283" maxx="-66.6059042998018" maxy="59.7594712167613"/>
+<Layer queryable="1">
+<Name>Federal_Lands</Name>
+<Title>Federal_Lands</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-178.212814829368" miny="24.4512077586946" maxx="179.788208504046" maxy="71.222625802254"/>
+<ScaleHint min="6360.074076729717" max="22447.32027081069"/>
+</Layer>
+<Layer queryable="1">
+<Name>Federal_Lands</Name>
+<Title>Federal_Lands</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.133392830226" miny="17.6746917523835" maxx="179.788208504046" maxy="71.3406978023638"/>
+</Layer>
+<Layer queryable="1">
+<Name>Names-Federal_Lands</Name>
+<Title>Names-Federal_Lands</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.133392830226" miny="17.6746917523835" maxx="179.788208504046" maxy="71.3406978023638"/>
+</Layer>
+<Layer queryable="1">
+<Name>Urban_Areas</Name>
+<Title>Urban_Areas</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-165.44789081748" miny="19.1917877537965" maxx="-66.9863887257806" maxy="64.8561327963246"/>
+</Layer>
+<Layer queryable="1">
+<Name>Names-Urban_Areas</Name>
+<Title>Names-Urban_Areas</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-165.44789081748" miny="19.1917877537965" maxx="-66.9863887257806" maxy="64.8561327963246"/>
+</Layer>
+<Layer queryable="1">
+<Name>Water_Bodies</Name>
+<Title>Water_Bodies</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998244831031" miny="17.6746917523835" maxx="179.983139504228" maxy="71.3981858024174"/>
+</Layer>
+<Layer queryable="1">
+<Name>Names-Water_Bodies</Name>
+<Title>Names-Water_Bodies</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998244831031" miny="17.6746917523835" maxx="179.983139504228" maxy="71.3981858024174"/>
+</Layer>
+<Layer queryable="1">
+<Name>Streams</Name>
+<Title>Streams</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998244831031" miny="17.6746917523835" maxx="179.983139504228" maxy="71.3981858024174"/>
+</Layer>
+<Layer queryable="1">
+<Name>Names-Streams</Name>
+<Title>Names-Streams</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998244831031" miny="17.6746917523835" maxx="179.983139504228" maxy="71.3981858024174"/>
+</Layer>
+<Layer queryable="1">
+<Name>Roads</Name>
+<Title>Roads</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-168.989852639924" miny="17.689473535591" maxx="179.457794272956" maxy="70.2544707378104"/>
+</Layer>
+<Layer queryable="1">
+<Name>Interstate Labels</Name>
+<Title>Interstate Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-158.092818884973" miny="21.2806699260873" maxx="-67.7811769304469" maxy="64.8623736793331"/>
+<ScaleHint min="187.0610022567563" max="9353.050112837815"/>
+</Layer>
+<Layer queryable="1">
+<Name>Route_Numbers</Name>
+<Title>Route_Numbers</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-168.989852639924" miny="17.689473535591" maxx="179.457794272956" maxy="70.2544707378104"/>
+<ScaleHint min="187.0610022567563" max="748.2440090270252"/>
+</Layer>
+<Layer queryable="1">
+<Name>Roads</Name>
+<Title>Roads</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-168.989852639924" miny="17.689473535591" maxx="179.457794272956" maxy="70.2544707378104"/>
+<ScaleHint min="561.1830067702689" max="1309.427015797294"/>
+</Layer>
+<Layer queryable="1">
+<Name>Federal_Lands</Name>
+<Title>Federal_Lands</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-178.212814829368" miny="18.2312027529017" maxx="179.788208504046" maxy="71.222625802254"/>
+<ScaleHint min="2244.732027081069" max="6360.074076729717"/>
+</Layer>
+<Layer queryable="1">
+<Name>Water_Bodies</Name>
+<Title>Water_Bodies</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-159.182113811645" miny="26.6876177607774" maxx="-67.4233247261875" maxy="60.4441447922156"/>
+<ScaleHint min="1122.3660135405378" max="29929.760361080975"/>
+</Layer>
+<Layer queryable="1">
+<Name>Urban_Areas</Name>
+<Title>Urban_Areas</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-122.60586677758" miny="25.5730087597394" maxx="-70.8939657294197" maxy="48.0126577806379"/>
+<ScaleHint min="4489.464054162154" max="11223.660135405376"/>
+</Layer>
+<Layer queryable="1">
+<Name>Urban_Areas</Name>
+<Title>Urban_Areas</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-122.60586677758" miny="25.5730087597394" maxx="-70.8939657294197" maxy="48.0126577806379"/>
+<ScaleHint min="1870.6100225675627" max="4489.464054162154"/>
+</Layer>
+<Layer queryable="1">
+<Name>Names-Urban_Areas</Name>
+<Title>Names-Urban_Areas</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-122.60586677758" miny="25.5730087597394" maxx="-70.8939657294197" maxy="48.0126577806379"/>
+<ScaleHint min="2805.915033851344" max="9353.050112837815"/>
+</Layer>
+<Layer queryable="1">
+<Name>Streams</Name>
+<Title>Streams</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-165.364638817402" miny="25.840995759989" maxx="-67.1657557259476" maxy="70.3456118014371"/>
+<ScaleHint min="1122.3660135405378" max="29929.760361080975"/>
+</Layer>
+<Layer queryable="1">
+<Name>Streams</Name>
+<Title>Streams</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-159.182113811645" miny="26.6876177607774" maxx="-67.4233247261875" maxy="60.4441447922156"/>
+</Layer>
+<Layer queryable="1">
+<Name>Roads</Name>
+<Title>Roads</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-168.989852639924" miny="17.689473535591" maxx="179.457794272956" maxy="70.2544707378104"/>
+<ScaleHint min="1309.427015797294" max="2618.854031594591"/>
+</Layer>
+<Layer queryable="1">
+<Name>Roads</Name>
+<Title>Roads</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-158.092818884973" miny="21.2806699260873" maxx="-67.7811769304469" maxy="64.8623736793331"/>
+<ScaleHint min="2618.854031594591" max="16835.490203108096"/>
+</Layer>
+<Layer queryable="1">
+<Name>States</Name>
+<Title>States</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-178.194854829352" miny="17.6790887523875" maxx="179.226867503524" maxy="71.3638988023854"/>
+</Layer>
+<Layer queryable="1">
+<Name>States</Name>
+<Title>States</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-178.182311829336" miny="17.6746887523884" maxx="179.709335503977" maxy="71.3449398023727"/>
+<ScaleHint min="1122.3660135405378" max="5237.708063189182"/>
+</Layer>
+<Layer queryable="1">
+<Name>States</Name>
+<Title>States</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.133392830226" miny="17.6746917523835" maxx="179.788208504046" maxy="71.3980488024172"/>
+<ScaleHint min="299.29760361080974" max="1122.3660135405378"/>
+</Layer>
+<Layer queryable="1">
+<Name>States</Name>
+<Title>States</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-124.8489761" miny="24.3963089" maxx="-66.8850861" maxy="49.3843575"/>
+</Layer>
+<Layer queryable="1">
+<Name>State_Labels</Name>
+<Title>State_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-178.182311829336" miny="17.6746887523884" maxx="179.709335503977" maxy="71.3449398023727"/>
+<ScaleHint min="4489.464054162154" max="16835.490203108096"/>
+</Layer>
+<Layer queryable="1">
+<Name>State_Labels</Name>
+<Title>State_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.133392830226" miny="17.6746917523835" maxx="179.788208504046" maxy="71.3980488024172"/>
+</Layer>
+<Layer queryable="1">
+<Name>County</Name>
+<Title>County</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.133392830226" miny="17.6746917523835" maxx="179.788208504046" maxy="71.3980488024172"/>
+</Layer>
+<Layer queryable="1">
+<Name>County_Labels</Name>
+<Title>County_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.133392830226" miny="17.6746917523835" maxx="179.788208504046" maxy="71.3980488024172"/>
+</Layer>
+</Layer>
+</Capability>
+</WMT_MS_Capabilities>

@@ -1,0 +1,62 @@
+<html>
+<head>
+<title>Vector Layer Selection</title>
+</head>
+<body bgcolor="#ffffff">
+<h1>Vector Layer Selection</h1>
+
+The Vector Layer Selection dialog is displayed when the user selects 
+a supported vector file other than a shapefile.  It allows the user to 
+select the layers they want to select out of the file, as well as potentially
+loading only a subarea or subset.
+<p>
+
+<img src="gvogrdlg.gif"><p>
+
+The dialog sections are:<p>
+
+<ul>
+<li> <b>Layers List</b>: Clicking on layers will toggle whether they should
+be loaded or not.  When a layer is to be loaded, the check mark will be
+drawn in black.  By default no layers are loaded.<p>
+
+<li> <b>Clip To View</b>: This toggle button can be enabled to request that
+only vectors in the current view area should be loaded.  Note that any
+vector that appears to intersect the current 2D bounding rectangle will be
+loaded and complete individual vector features are still loaded ... no
+actual clipping occurs within features.  However, any features outside the
+area of the view will not be loaded.<P>
+
+<li> <b>Execute SQL</b>: An SQL statement-like statement can be entered
+in the text area to the left of this button.  Hit execute and the result
+of the query will be returned as a layer.  Note that when accessing a real
+database (such as PostgreSQL or Oracle) this request is passed through to
+the underlying database.  Simple file formats only support a simplified
+SQL WHERE statement.  See the 
+<a href="http://gdal.velocet.ca/projects/opengis/">OGR</a> library web page 
+for further details.<p>
+
+<li> <b>Accept</b>: Loads the currently selected layers (if any) according
+to the current Clip To View setting.<p>
+
+<li> <b>Load All</b>: Loads all layers according to the current Clip To
+View setting.<p>
+
+<li> <b>Cancel</b>: Closes the dataset without any loading.<p>
+
+<li> <b>Help</b>: Displays this page.<P>
+
+</ul>
+
+<hr>
+
+The Vector Layer Selection dialog is not current user accessable when
+reading from Shapefiles, but from Python it can be used even for shapefiles
+by calling GvViewWindow.file_open_ogr_by_name() instead of the higher level
+GvViewArea.file_open_by_name().<p>
+
+</body>
+</html>
+
+
+

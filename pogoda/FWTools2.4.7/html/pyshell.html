@@ -1,0 +1,362 @@
+<html>
+<head>
+<title>Interactive Numeric Python Shell</title>
+</head>
+
+<body bgcolor="#ffffff">
+<h1><a name="contents">Interactive Numeric Python Shell</a></h1>
+
+<li><a href="#section1">Introduction</a>
+<li><a href="#section2">Environment</a>
+<li><a href="#section2a">Functions</a>
+<li><a href="#section2b">Commands</a>
+<li><a href="#section3">Examples</a>
+<li><a href="#section4">Python Shell Help</a>
+</ul>
+
+<h1><a name="section1">Introduction</a></h1>
+
+The OpenEV Python Shell provides access to image data in a Python scripting
+environment with built-in mathematical functions (supplied by the Numeric 
+Python module). The OpenEV Python Shell adds a thin extra layer of 
+interpretation to ordinary python, allowing a slightly different syntax to be 
+used for some frequently used functions for typing convenience (no brackets).  
+The core convenience functions (called <I>commands</I>) are registered
+automatically when the Python Shell launches, and have more argument
+checking infrastructure than regular python functions.  
+
+To illustrate the difference between python and command syntax,
+the following example shows two ways of saving an array from the
+Python Shell environment to a file: <p>
+
+<pre>
+Python:
+
+SaveArray(my_array,'my_filename')
+
+Command:
+
+save my_array my_filename
+
+</pre>
+
+Extension modules with other commands may be registered using the core 
+command <I>loadext</I>, but commands require more overhead to implement and 
+in most cases it is preferable to use the ordinary python syntax. <P>
+
+If you're not familiar with Python or Numeric Python (NumPy) here are some
+references:
+<ul>
+<li><a href="http://www.python.org">Python</a>
+<li><a href="http://www.pfdubois.com/numpy/">Numerical Python</a>
+</ul><P>
+
+<h1><a name="section2">Environment:</a></h1>
+At startup (from the Edit/Python Shell menu item) the Python environment
+automatically imports functions from <I>Numeric</I> and <I>gdalnumeric</I>, 
+and registers the <a href="#section2b">core commands</a>.  Numeric
+provides Numeric Python and gdalnumeric provides functions to access OpenEV
+image data.<P>
+
+The shell consists of a command input window (bottom) and an output window
+(top).  Aside from the registered commands, it behaves in the same way as 
+the Python command line interpreter.  Use the
+up and down arrow keys to scroll through previous command history.<P>
+<p>
+<img src="pyshell_default.gif">
+<p>
+
+<h2><a name="section2a">OpenEV Functions:</a></h2>
+In addition to the functions imported from Numeric python, OpenEV's Python 
+shell includes the following functions:
+
+<ul>
+<li><b>LoadFile(<I>filename</I>[,xoff][,yoff][,xsize][,ysize])</b> - returns 
+a numpy array containing the data from <i>filename</i>.  If xoff and yoff
+are specified, <I>filename</I> will be read starting at pixel (column) offset
+<I>xoff</I> and line (row) offset <I>yoff</I>.  
+If <I>xsize</I> and <I>ysize</I> are
+specified, only <I>xsize</I> pixels and <I>ysize</I> lines will be read; 
+otherwise, the remainder of the file will be read in.  The returned
+array will have dimensions <I>ysize</I> x <I>xsize</I> if the raster is
+greyscale; N x <I>ysize</I> x <I>xsize</I> if the raster has N channels.<P>
+
+<li><b>display(<I>array</I>)</b> - appends the array to the current OpenEV view and
+displays it.<P>
+
+<li><b>roi()</b> - returns the Region Of Interest (ROI) drawn out by the ROI tool 
+in the format (x, y, width, height).<P>
+
+<li><b>get_roi(<i>array</i>)</b> - given an <i>array</I>, and an ROI marked by the
+ROI tool, extract that region from <I>array</I> and return it.<P>
+
+<li><b>SaveArray(<i>array</i>,<i>filename</i>[,<i>format</i>])</b>- save <i>array</i>
+to file <i>filename</i>, using <i>format</i>.  <i>format</i> must be a GDAL write-supported
+format, such as 'GTiff' (Geotiff).  If <i>format</i> is not specified, it will default to
+'GTiff'.<P>
+
+<li><b>CopyDatasetInfo(<i>src</i>,<i>dst</i>)</b>- copy metadata and georeferencing
+information from GDAL dataset <i>src</i> to GDAL dataset <i>dst</i>.
+</ul>
+
+<h2><a name="section2b">Core commands:</a></h2>
+
+Commands make use of an infrastructure that simplifies usage and help access for commonly used procedures that interact with the main OpenEV application or describe the local environment.  These commands are intercepted and parsed before being passed to the shell's python interpreter, and are entered with the command and arguments separated by spaces rather than by round brackets and commas.  Commands cannot be loaded or used in a regular python shell; they
+only have meaning within the context of OpenEV.<P>  
+
+Core command list:<P>
+<ol>
+<li><i> newview</i>- create a new OpenEV view.                
+<li><i> view3d</i>- display a dem and drape in 3D mode in the current OpenEV view.
+<li><i> get</i>- grab data from the currently active OpenEV view/layer..
+<li><i> show</i>- display a Python Shell array or GvShapes variable in an OpenEV view.
+<li><i> clearview</i>- clear the current OpenEV view.
+<li><i> save</i>- save a Python Shell array or GvShapes variable to a file.
+<li><i> loadext</i>- register commands from an extension module (command equivalent of python's import keyword).
+<li><i> macro</i>- run a sequence of commands/Python statements from a text file.
+<li><i> journal</i>- save text entered at the Python Shell command line to a text file.
+<li><i> locals</i>- list this session's local variables and their type codes.
+<li><i> help</i>- display help for a function or command.
+<li><i> functions</i>- list loaded python functions, or scan a module for functions.
+<li><i> commands</i>- list registered commands.
+</ol>
+
+<h1><a name="section3">Examples</a></h1>
+Here is a small tutorial that illustrates simple python usage and some
+of OpenEV's python functions; for a more comprehensive general tutorial,
+see the <a href="http://www.python.org/doc/current/tut/tut.html">www.python.org tutorial</a>.
+
+<h2>Example 1:</h2>
+<P><dl><dd>
+
+Load a file into a Numeric python array:
+<pre class="verbatim">
+    array1 = LoadFile(`filename.foo`)
+</pre>
+
+Display it in the current view:
+<pre class="verbatim">
+    display(array1)
+</pre>
+
+
+To get the Region Of Interest (ROI) marked on the image:<P>
+<ol>
+<li>launch the Edit toolbar using the menu entry <i>Edit/Edit toolbar</i>.<P>
+<li>select "Draw ROI" to activate the ROI tool.<P>
+<li>use the ROI tool to mark a region (left click to start drawing, drag, release to finish)<P>
+<li><tt>roi()</tt> returns the ROI in (x, y, width, height)<P>
+</ol>
+
+Use the ROI tool to get a subarray:<P>
+<ol>
+<li>mark out an ROI with the tool on the image<P>
+<li><tt>array2 = get_roi(array1)</tt><P>
+</ol>
+
+To save array2 to a new file:<P>
+<pre class="verbatim">
+SaveArray(array2,'filename2.tif')
+</pre>
+
+</dl>
+
+Numeric python functions such as <i>ones</i> and <i>array</i> can also be 
+used to create and manipulate arrays:
+
+<P><dl><dd>
+
+To create a floating point array of ones with 5 rows and 6 columns:<P>
+<pre class="verbatim">
+    array3=ones([5,6],Float)
+</pre>
+
+Reset rows 1 to 4, columns 1 to 5 of the array with some values:<P>
+<pre class="verbatim">
+    array3[1:5,1:6]=array([[1,2,3,4,5],[6,7,8,9,10],[11,12,13,14,15],[16,17,18,19,20]],Float)
+</pre>
+
+Square it:<P>
+<pre class="verbatim">
+    array3=power(array3,2)
+</pre>
+
+Display it in the current view:<P>
+<pre class="verbatim">
+    display(array3)
+</pre>
+
+Some important points to note are:<P>
+<ol>
+<li> Numeric python arrays are indexed from zero.<P>
+<li> In slicing a Numeric python array using index range N:M, elements N, N+1, ...M-1 are included.<P>
+</ol>
+
+</dl>
+
+<h2>Example 2</h2>
+
+We are starting with Python shell (Edit-&gt;Python Shell... menu item). You
+should load some raster file into OpenEV to work with.<p>
+        
+<ul>
+
+        <li> Get active layer<p>
+
+        <pre>
+layer = gview.app.sel_manager.get_active_layer()
+        </pre>
+
+       ...and load data array into memory:<p>
+
+        <pre>
+ds = layer.get_parent().get_dataset()
+data = DatasetReadAsArray(ds)
+        </pre>
+
+        Note: using the core command <I>get</I> with the argument <I>data</I>
+        (ie. enter "get data" at the command line) will perform these three steps 
+        for you.<p>
+
+        If you don't want open and display your input data with OpenEV, but want
+        load the file(s) in memory, make some calculations and display result,
+        you can use other approach instead of previous steps:<p>
+
+        <pre>
+data = LoadFile('filename.l1b')
+        </pre>
+
+        (In this sample we will work with NOAA AVHRR data in L1B format).<p>
+
+        <li> Now we are ready to operate with loaded data. For example,
+        calculate normalised difference vegetation index (NDVI) with NOAA
+        AVHRR data. In this case NDVI is calculated as
+        (Band2 - Band1)/(Band2 + Band1). We assume we have already calibrated
+        data in our file.<p>
+
+        <pre>
+ndvi = (data[1] - data[0]) / (data[1] + data[0])
+        </pre>
+
+        <li> Display result and, optionally, save it into file:<p>
+
+        <pre>
+display(ndvi)
+SaveArray(ndvi,'ndvi.tif','GTiff')
+        </pre>
+
+        Note, that in all our computations arrays are fully loaded into
+        memory. Be sure you have enough resources for this. For large arrays
+        loading and calculations may take some time.<p>
+
+        <li> Another operation: let's make a RGB composite image. In general
+        case this operation should be interactively controlled by the user,
+        because band colors should be carefully adjusted to produce the best
+        looking results. But we will simplify our task. NOAA AVHRR data has
+        10-bit depth (GDAL stores them in 16-bit integer), so we just scale
+        input data to 8-bit and fill three-component array.<p>
+
+        <pre>
+rgb = zeros((3, ds.RasterYSize, ds.RasterXSize), UnsignedInt8)
+for i in range(3):
+    rgb[i] = (data[i] * 256 / 1024).astype(UnsignedInt8)
+display(rgb)
+        </pre>
+
+        This code produces a RGB composite from the first three channels of
+        the input image, but you can unroll the loop and use channels you
+        want. Following code uses channel 5 as red, 2 as green and 3 as blue:<p>
+
+        <pre>
+rgb[0] = (data[4] * 256 / 1024).astype(UnsignedInt8)
+rgb[1] = (data[1] * 256 / 1024).astype(UnsignedInt8)
+rgb[2] = (data[3] * 256 / 1024).astype(UnsignedInt8)
+        </pre>
+
+        <li> Now we will use other data as a sample. Let load ASTER Level 1B
+        dataset (the second band) and try to calibrate it. This dataset
+        already reprocessed and should be calibrated with the simple linear
+        function. Function coefficients contained in the metadata records with
+        the appropriate number at the end (2 in case of the second band).<p>
+
+        <pre>
+layer = gview.app.sel_manager.get_active_layer()
+ds = layer.get_parent().get_dataset()
+data = DatasetReadAsArray(ds)
+incl = float(ds.GetMetadata()["INCL2"])
+offset = float(ds.GetMetadata()["OFFSET2"])
+data_cal = data * incl + offset
+display(data_cal)
+        </pre>
+
+</ul>
+
+
+<h1><a name="section4">Python Shell Help</a></h1>
+
+The python shell has three commands used to provide help on functions
+and commands: 
+<ol>
+<li><i> help</i>- display help for a function or command.
+<li><i> commands</i>- list registered commands.
+<li><i> functions</i>- list loaded python functions, or scan a module for functions.
+</ol>
+
+These commands make use of python __doc__ strings and any help text
+files that are registered.  Help text files should only be used when
+there is some reason for not updating the python __doc__ string itself
+(eg. if documentation were going to be available in multiple languages,
+or if the package is from a third party and you don't want to use
+the doc string), or if the python documentation is fine but 
+it is desirable to display help for some
+functions/commands that are not loaded so that the user is made
+aware of them.  In the latter case, the help text file should be 
+regenerated from the python documentation each time one of the functions'
+documentation changes (at least for releases).
+  
+Help text files may have entries of the following three formats:
+
+<pre>
+COMMAND_NAME=my_command
+Module: my_module
+Group: my_group
+Html: my_html.html
+
+documentation...
+
+FUNCTION_NAME=my_func
+Module: my_module
+Html: my_html.html
+
+documentation...
+
+BUILTIN_NAME=my_builtin
+Module: my_module
+Html: my_html.html
+
+documentation...
+</pre>
+
+where my_command, my_func, and my_builtin are a user-defined command,
+function, and builtin (bound C) function respectively.  The Html entry
+is used to indicate an html file with more information, and is optional
+(currently, the python shell will not do anything with html information
+other than store the name of the link- this may be used in future though).
+The Module name is required to deal with the case of two modules defining 
+different commands/functions with the same name.  The COMMAND_NAME, 
+FUNCTION_NAME, BUILTIN_NAME, Module, and Html parts of the text file are 
+case-sensitive (ie. an error will occur if the case is not as above). 
+See gvcorecmds.py's RegisterHelp
+function for how to register a help file with the interpreter (this
+function determines the location of gvcorecmds_help.txt assuming that
+it is in the same directory as gvcorecmds.py, and loads the text from
+it if it is present).  The suggested convention
+for text help files is that if they are needed, they be placed
+in the same directory as the commands/functions they relate to, and have the
+same name as the command module, minus the '.py', plus '_help.txt'.
+<p>
+
+<a href="#contents">Top</a><p>
+<a href="openevmain.html>OpenEV Help</a><p>
+</body>
+</html>

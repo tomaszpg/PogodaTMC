@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE WMT_MS_Capabilities SYSTEM "http://www.geographynetwork.ca/wmsconnector/schema/wms/1.1.0/capabilities_1_1_0.dtd" >
+<WMT_MS_Capabilities version="1.1.0" updateSequence="0">
+	<Service>
+		<Name>OGC:WMS</Name>
+		<Title>ESRI Web Map Service</Title>
+		<Abstract>This is an OGC compliant MapService served By ESRI. The engine used to serve this MapService is ArcIMS</Abstract>
+		<KeywordList>
+			<Keyword>ESRI</Keyword>
+			<Keyword>ArcIMS Feature MapService</Keyword>
+			<Keyword>ArcIMS Image MapService</Keyword>
+		</KeywordList>
+		<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geographynetwork.ca/wmsconnector/com.esri.wsit.WMSServlet/Geobase_NRN_Quebec_I?" xlink:type="simple" />
+		<ContactInformation>
+			<ContactPersonPrimary>
+				<ContactPerson />
+				<ContactOrganization />
+			</ContactPersonPrimary>
+			<ContactPosition />
+			<ContactAddress>
+				<AddressType>postal</AddressType>
+				<Address />
+				<City />
+				<StateOrProvince />
+				<PostCode />
+				<Country />
+			</ContactAddress>
+			<ContactVoiceTelephone />
+			<ContactFacsimileTelephone />
+			<ContactElectronicMailAddress />
+		</ContactInformation>
+		<Fees>none</Fees>
+		<AccessConstraints>none</AccessConstraints>
+	</Service>
+	<Capability>
+		<Request>
+			<GetCapabilities>
+				<Format>application/vnd.ogc.wms_xml</Format>
+				<DCPType>
+					<HTTP>
+						<Get>
+							<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geographynetwork.ca/wmsconnector/com.esri.wsit.WMSServlet/Geobase_NRN_Quebec_I?" xlink:type="simple" />
+						</Get>
+					</HTTP>
+				</DCPType>
+				<DCPType>
+					<HTTP>
+						<Post>
+							<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geographynetwork.ca/wmsconnector/com.esri.wsit.WMSServlet/Geobase_NRN_Quebec_I?" xlink:type="simple" />
+						</Post>
+					</HTTP>
+				</DCPType>
+			</GetCapabilities>
+			<GetMap>
+				<Format>image/jpeg</Format>
+				<Format>image/png</Format>
+				<DCPType>
+					<HTTP>
+						<Get>
+							<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geographynetwork.ca/wmsconnector/com.esri.wsit.WMSServlet/Geobase_NRN_Quebec_I?" xlink:type="simple" />
+						</Get>
+					</HTTP>
+				</DCPType>
+			</GetMap>
+			<GetFeatureInfo>
+				<Format>text/xml</Format>
+				<Format>text/html</Format>
+				<Format>text/plain</Format>
+				<Format>application/vnd.esri.xml</Format>
+				<DCPType>
+					<HTTP>
+						<Get>
+							<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geographynetwork.ca/wmsconnector/com.esri.wsit.WMSServlet/Geobase_NRN_Quebec_I?" xlink:type="simple" />
+						</Get>
+					</HTTP>
+				</DCPType>
+			</GetFeatureInfo>
+		</Request>
+		<Exception>
+			<Format>application/vnd.ogc.se_xml</Format>
+		</Exception>
+		<VendorSpecificCapabilities />
+		<UserDefinedSymbolization SupportSLD="1" UserLayer="1" UserStyle="1" RemoteWFS="0" />
+		<Layer noSubsets="0" opaque="0" queryable="1">
+			<Title>Geobase_NRN_Quebec_I</Title>
+			<SRS>EPSG:4326 EPSG:4269</SRS>
+			<LatLonBoundingBox minx="-180" miny="-90" maxx="180" maxy="90" />
+			<BoundingBox SRS="EPSG:4269" minx="-79.7741350215498" miny="44.9913583301116" maxx="-57.1054864000169" maxy="62.5804862979787" resx="1" resy="1" />
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>Quebec</Name>
+				<Title>Provincial Boundary</Title>
+				<LatLonBoundingBox minx="-180" miny="-90" maxx="180" maxy="90" />
+				<BoundingBox SRS="EPSG:4269" minx="-79.7741350215499" miny="44.9913583301117" maxx="-57.1054864000169" maxy="62.5804862979787" resx="1" resy="1" />
+				<MetadataURL type="FGDC">
+					<Format>text/plain</Format>
+					<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geographynetwork.ca/metadata/Quebec.txt" xlink:type="simple" />
+				</MetadataURL>
+				<MetadataURL type="FGDC">
+					<Format>text/xml</Format>
+					<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geographynetwork.ca/metadata/Quebec.xml" xlink:type="simple" />
+				</MetadataURL>
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>Water</Name>
+				<Title>Water</Title>
+				<LatLonBoundingBox minx="-180" miny="-90" maxx="180" maxy="90" />
+				<BoundingBox SRS="EPSG:4269" minx="-80.255457931783" miny="44.3425284530204" maxx="-57.8229219108912" maxy="62.0957094695543" resx="1" resy="1" />
+				<MetadataURL type="FGDC">
+					<Format>text/plain</Format>
+					<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geographynetwork.ca/metadata/Water.txt" xlink:type="simple" />
+				</MetadataURL>
+				<MetadataURL type="FGDC">
+					<Format>text/xml</Format>
+					<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geographynetwork.ca/metadata/Water.xml" xlink:type="simple" />
+				</MetadataURL>
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>Highways</Name>
+				<Title>Highways</Title>
+				<LatLonBoundingBox minx="-180" miny="-90" maxx="180" maxy="90" />
+				<BoundingBox SRS="EPSG:4269" minx="-79.5174920961003" miny="44.9920784308553" maxx="-61.4732113292953" maxy="52.8642449381868" resx="1" resy="1" />
+				<MetadataURL type="FGDC">
+					<Format>text/plain</Format>
+					<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geographynetwork.ca/metadata/Highways.txt" xlink:type="simple" />
+				</MetadataURL>
+				<MetadataURL type="FGDC">
+					<Format>text/xml</Format>
+					<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geographynetwork.ca/metadata/Highways.xml" xlink:type="simple" />
+				</MetadataURL>
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>highwaysMjrRoads</Name>
+				<Title>Highways and Major Roads</Title>
+				<LatLonBoundingBox minx="-180" miny="-90" maxx="180" maxy="90" />
+				<BoundingBox SRS="EPSG:4269" minx="-79.5361368461176" miny="44.9914719308547" maxx="-61.4672118292897" maxy="54.8693789400542" resx="1" resy="1" />
+				<MetadataURL type="FGDC">
+					<Format>text/plain</Format>
+					<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geographynetwork.ca/metadata/highwaysMjrRoads.txt" xlink:type="simple" />
+				</MetadataURL>
+				<MetadataURL type="FGDC">
+					<Format>text/xml</Format>
+					<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geographynetwork.ca/metadata/highwaysMjrRoads.xml" xlink:type="simple" />
+				</MetadataURL>
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>allroads</Name>
+				<Title>All Roads</Title>
+				<LatLonBoundingBox minx="-180" miny="-90" maxx="180" maxy="90" />
+				<BoundingBox SRS="EPSG:4269" minx="-79.5361368461176" miny="44.9914719308547" maxx="-61.4672118292897" maxy="54.8693789400542" resx="1" resy="1" />
+				<MetadataURL type="FGDC">
+					<Format>text/plain</Format>
+					<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geographynetwork.ca/metadata/allroads.txt" xlink:type="simple" />
+				</MetadataURL>
+				<MetadataURL type="FGDC">
+					<Format>text/xml</Format>
+					<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geographynetwork.ca/metadata/allroads.xml" xlink:type="simple" />
+				</MetadataURL>
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>FerrySeg</Name>
+				<Title>FERRYSEG</Title>
+				<LatLonBoundingBox minx="-180" miny="-90" maxx="180" maxy="90" />
+				<BoundingBox SRS="EPSG:4269" minx="-78.2892310949564" miny="45.4430721812753" maxx="-61.6300118294413" maxy="49.3551264349187" resx="1" resy="1" />
+				<MetadataURL type="FGDC">
+					<Format>text/plain</Format>
+					<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geographynetwork.ca/metadata/FerrySeg.txt" xlink:type="simple" />
+				</MetadataURL>
+				<MetadataURL type="FGDC">
+					<Format>text/xml</Format>
+					<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geographynetwork.ca/metadata/FerrySeg.xml" xlink:type="simple" />
+				</MetadataURL>
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>Junction</Name>
+				<Title>JUNCTION</Title>
+				<LatLonBoundingBox minx="-180" miny="-90" maxx="180" maxy="90" />
+				<BoundingBox SRS="EPSG:4269" minx="-79.5339925961157" miny="44.9914719308547" maxx="-61.4672118292897" maxy="54.8693789400542" resx="1" resy="1" />
+				<MetadataURL type="FGDC">
+					<Format>text/plain</Format>
+					<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geographynetwork.ca/metadata/Junction.txt" xlink:type="simple" />
+				</MetadataURL>
+				<MetadataURL type="FGDC">
+					<Format>text/xml</Format>
+					<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geographynetwork.ca/metadata/Junction.xml" xlink:type="simple" />
+				</MetadataURL>
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>BlkPassage</Name>
+				<Title>BLKPASSAGE</Title>
+				<LatLonBoundingBox minx="-180" miny="-90" maxx="180" maxy="90" />
+				<BoundingBox SRS="EPSG:4269" minx="-79.5098195960932" miny="45.0029641808654" maxx="-61.7749853295763" maxy="54.5855494397899" resx="1" resy="1" />
+				<MetadataURL type="FGDC">
+					<Format>text/plain</Format>
+					<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geographynetwork.ca/metadata/BlkPassage.txt" xlink:type="simple" />
+				</MetadataURL>
+				<MetadataURL type="FGDC">
+					<Format>text/xml</Format>
+					<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geographynetwork.ca/metadata/BlkPassage.xml" xlink:type="simple" />
+				</MetadataURL>
+			</Layer>
+			<Layer queryable="1" opaque="0" noSubsets="0">
+				<Name>TollPoint</Name>
+				<Title>TOLLPOINT</Title>
+				<LatLonBoundingBox minx="-180" miny="-90" maxx="180" maxy="90" />
+				<BoundingBox SRS="EPSG:4269" minx="-100.060249735141" miny="51.0152619893101" maxx="-96.7919808570977" maxy="51.0521699893445" resx="1" resy="1" />
+				<MetadataURL type="FGDC">
+					<Format>text/plain</Format>
+					<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geographynetwork.ca/metadata/TollPoint.txt" xlink:type="simple" />
+				</MetadataURL>
+				<MetadataURL type="FGDC">
+					<Format>text/xml</Format>
+					<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.geographynetwork.ca/metadata/TollPoint.xml" xlink:type="simple" />
+				</MetadataURL>
+			</Layer>
+		</Layer>
+	</Capability>
+</WMT_MS_Capabilities>

@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_FileDownloader_t {
-    QByteArrayData data[6];
-    char stringdata[65];
+    QByteArrayData data[7];
+    char stringdata[69];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -32,12 +32,13 @@ static const qt_meta_stringdata_FileDownloader_t qt_meta_stringdata_FileDownload
 QT_MOC_LITERAL(0, 0, 14),
 QT_MOC_LITERAL(1, 15, 10),
 QT_MOC_LITERAL(2, 26, 0),
-QT_MOC_LITERAL(3, 27, 14),
-QT_MOC_LITERAL(4, 42, 14),
-QT_MOC_LITERAL(5, 57, 6)
+QT_MOC_LITERAL(3, 27, 3),
+QT_MOC_LITERAL(4, 31, 14),
+QT_MOC_LITERAL(5, 46, 14),
+QT_MOC_LITERAL(6, 61, 6)
     },
-    "FileDownloader\0downloaded\0\0fileDownloaded\0"
-    "QNetworkReply*\0pReply\0"
+    "FileDownloader\0downloaded\0\0num\0"
+    "fileDownloaded\0QNetworkReply*\0pReply\0"
 };
 #undef QT_MOC_LITERAL
 
@@ -55,16 +56,16 @@ static const uint qt_meta_data_FileDownloader[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,   24,    2, 0x05,
+       1,    1,   24,    2, 0x05,
 
  // slots: name, argc, parameters, tag, flags
-       3,    1,   25,    2, 0x08,
+       4,    1,   27,    2, 0x08,
 
  // signals: parameters
-    QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,    3,
 
  // slots: parameters
-    QMetaType::Void, 0x80000000 | 4,    5,
+    QMetaType::Void, 0x80000000 | 5,    6,
 
        0        // eod
 };
@@ -74,7 +75,7 @@ void FileDownloader::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
     if (_c == QMetaObject::InvokeMetaMethod) {
         FileDownloader *_t = static_cast<FileDownloader *>(_o);
         switch (_id) {
-        case 0: _t->downloaded(); break;
+        case 0: _t->downloaded((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 1: _t->fileDownloaded((*reinterpret_cast< QNetworkReply*(*)>(_a[1]))); break;
         default: ;
         }
@@ -93,7 +94,7 @@ void FileDownloader::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         int *result = reinterpret_cast<int *>(_a[0]);
         void **func = reinterpret_cast<void **>(_a[1]);
         {
-            typedef void (FileDownloader::*_t)();
+            typedef void (FileDownloader::*_t)(int );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&FileDownloader::downloaded)) {
                 *result = 0;
             }
@@ -138,8 +139,9 @@ int FileDownloader::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void FileDownloader::downloaded()
+void FileDownloader::downloaded(int _t1)
 {
-    QMetaObject::activate(this, &staticMetaObject, 0, 0);
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 QT_END_MOC_NAMESPACE

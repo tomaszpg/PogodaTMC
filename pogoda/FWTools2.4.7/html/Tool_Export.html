@@ -1,0 +1,102 @@
+<html>
+<head>
+<title>Export Tool</title>
+</head>
+<body bgcolor="#ffffff">
+<h1>Export Tool</h1>
+
+The export tool can be used to convert raster files from one format to another.
+It has a basic mode for simple conversions, and an advanced mode that 
+can interact with OpenEV to window and scale the data according to the current
+view settings (complex data and colour tables are not currently
+supported for the latter option).  The exported file will be full 
+resolution unless resolution reduction is requested.<p>
+
+<table border=0><tr>
+<td><img src="exporttool_basicgui.gif"></td>
+
+<td>
+<ul>
+<li> 
+In the basic form of the gui, the user simply selects the input and output
+file, the output file format, and the resolution of the exported file relative
+to the input file (Full, 1/2, 1/4, or 1/8). <p> 
+
+<li>
+Data Files: The files may be specified by typing in the complete path (directories 
+must exist already) or selected through the file dialogs launched when the Set Input/
+Set Output buttons are clicked.  When the export tool is launched, it will try to find
+the filename of the currently active layer and fill it into the input file field.
+<p>
+
+<li>
+Output Format: output file format (Geotiff, MFF2, etc.).
+<p>
+
+<li>
+To enable the advanced form of the gui, click the "Advanced Options" toggle.
+<p>
+
+<li>
+Click "Export" to perform the conversion, "Close" to close the tool.
+<p>
+
+</ul>
+
+</td>
+
+</table>
+
+<ul>
+
+
+
+<table border=0><tr>
+<td><img src="exporttool_advgui.gif"></td>
+
+<td>
+<ul>
+<li> 
+In the advanced form of the gui, the user has the additional options of windowing and scaling the data to the
+current view settings.<p> 
+
+<li>
+When "Window Input File" is toggled on, the Edit toolbar's "Draw ROI" mode is activated. Left-clicking and 
+dragging out a region on the view will automatically update the input window information in the gui.  The input
+window can also be entered manually.  Clicking the "Draw ROI mode" button will re-activate the ROI selection mode 
+(this is provided for convenience; launching the edit toolbar and pressing Draw ROI there will do the same thing).
+<p>
+
+<li>
+When "Scale to View Settings" is toggled on, the tool will search for the raster min/max settings of the current
+view, and will use these to scale the input file values from 0 to 255 for export.
+<p>
+
+<li>
+When "Active Layer->Input Filename" is pressed, the tool will update the Input File field with the filename of the
+currently active layer.
+<p>
+
+<li>
+The Geocoding Preference option can be used to specify the types of geocoding information to allow for storage in 
+the output file.  Selecting "Geotransform" will ensure that only geotransform-style geocoding information (if present) 
+is transferred; "GCP" will ensure that only ground control point information is stored. This can be used to force the
+georeferencing information in MFF or MFF2 files to be stored as either ground control points or geotransforms when
+translating to GeoTiff, in cases where the corner and center coordinates can be expressed as a geotransform without
+loss of information (simple rotation/translation/scaling, but no warping).   
+<p>
+
+</ul>
+
+</td>
+
+</table>
+
+<ul>
+
+<p>
+
+
+
+</body>
+</html>

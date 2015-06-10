@@ -24,11 +24,10 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QProgressBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
-#include <QtWidgets/QTextBrowser>
-#include <QtWidgets/QTextEdit>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QTreeWidget>
 #include <QtWidgets/QWidget>
@@ -41,6 +40,8 @@ public:
     QAction *actionUstawienia_programu;
     QAction *actionO_programie;
     QAction *actionWyj_cie;
+    QAction *actionMapa;
+    QAction *actionMinimapa;
     QWidget *centralWidget;
     QTabWidget *tabMapType;
     QWidget *tab_gdal;
@@ -51,16 +52,8 @@ public:
     QPushButton *bLayerDelete;
     QTreeWidget *treeWidget;
     QWidget *tab_osm;
-    QTextEdit *textEdit;
-    QTextEdit *textEdit_2;
     QPushButton *pushButton;
-    QLabel *label_5;
-    QLabel *label_6;
-    QPushButton *bLayerUp_2;
-    QPushButton *bLayerDown_2;
-    QPushButton *bLayerVisibility_2;
-    QPushButton *bLayerDelete_2;
-    QTreeWidget *treeWidget_2;
+    QProgressBar *progressBar;
     QLabel *label_MapType;
     QPushButton *bNavUp;
     QPushButton *bNavDown;
@@ -75,7 +68,6 @@ public:
     QLabel *label_hour;
     QCalendarWidget *calendarWidget;
     QLabel *label_date;
-    QCheckBox *checkBox;
     QGroupBox *groupAdvanced;
     QLabel *label_param;
     QComboBox *comboParam;
@@ -89,16 +81,17 @@ public:
     QLineEdit *lineHigher;
     QLineEdit *lineLower;
     QPushButton *bShowWeather;
+    QPushButton *b_showIcons;
     QGroupBox *groupGraph;
     QLabel *label_graph;
     QComboBox *comboGraph;
     QGraphicsView *graphicsGraph;
     QLabel *labelLog;
     QLabel *label_3;
-    QTextBrowser *textBrowser;
     QMenuBar *menuBar;
     QMenu *menuPogoda;
     QMenu *menuPomoc;
+    QMenu *menuOkno;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
@@ -121,6 +114,10 @@ public:
         actionO_programie->setObjectName(QStringLiteral("actionO_programie"));
         actionWyj_cie = new QAction(MainWindow);
         actionWyj_cie->setObjectName(QStringLiteral("actionWyj_cie"));
+        actionMapa = new QAction(MainWindow);
+        actionMapa->setObjectName(QStringLiteral("actionMapa"));
+        actionMinimapa = new QAction(MainWindow);
+        actionMinimapa->setObjectName(QStringLiteral("actionMinimapa"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         tabMapType = new QTabWidget(centralWidget);
@@ -150,37 +147,13 @@ public:
         tabMapType->addTab(tab_gdal, QString());
         tab_osm = new QWidget();
         tab_osm->setObjectName(QStringLiteral("tab_osm"));
-        textEdit = new QTextEdit(tab_osm);
-        textEdit->setObjectName(QStringLiteral("textEdit"));
-        textEdit->setGeometry(QRect(310, 10, 91, 21));
-        textEdit_2 = new QTextEdit(tab_osm);
-        textEdit_2->setObjectName(QStringLiteral("textEdit_2"));
-        textEdit_2->setGeometry(QRect(310, 30, 91, 21));
         pushButton = new QPushButton(tab_osm);
         pushButton->setObjectName(QStringLiteral("pushButton"));
         pushButton->setGeometry(QRect(310, 60, 75, 23));
-        label_5 = new QLabel(tab_osm);
-        label_5->setObjectName(QStringLiteral("label_5"));
-        label_5->setGeometry(QRect(290, 10, 41, 20));
-        label_6 = new QLabel(tab_osm);
-        label_6->setObjectName(QStringLiteral("label_6"));
-        label_6->setGeometry(QRect(290, 30, 31, 20));
-        bLayerUp_2 = new QPushButton(tab_osm);
-        bLayerUp_2->setObjectName(QStringLiteral("bLayerUp_2"));
-        bLayerUp_2->setGeometry(QRect(210, 10, 71, 23));
-        bLayerDown_2 = new QPushButton(tab_osm);
-        bLayerDown_2->setObjectName(QStringLiteral("bLayerDown_2"));
-        bLayerDown_2->setGeometry(QRect(210, 40, 71, 23));
-        bLayerVisibility_2 = new QPushButton(tab_osm);
-        bLayerVisibility_2->setObjectName(QStringLiteral("bLayerVisibility_2"));
-        bLayerVisibility_2->setGeometry(QRect(310, 90, 71, 23));
-        bLayerDelete_2 = new QPushButton(tab_osm);
-        bLayerDelete_2->setObjectName(QStringLiteral("bLayerDelete_2"));
-        bLayerDelete_2->setGeometry(QRect(210, 70, 81, 23));
-        treeWidget_2 = new QTreeWidget(tab_osm);
-        treeWidget_2->setObjectName(QStringLiteral("treeWidget_2"));
-        treeWidget_2->setGeometry(QRect(10, 10, 191, 91));
-        treeWidget_2->setRootIsDecorated(true);
+        progressBar = new QProgressBar(tab_osm);
+        progressBar->setObjectName(QStringLiteral("progressBar"));
+        progressBar->setGeometry(QRect(20, 30, 231, 23));
+        progressBar->setValue(24);
         tabMapType->addTab(tab_osm, QString());
         label_MapType = new QLabel(centralWidget);
         label_MapType->setObjectName(QStringLiteral("label_MapType"));
@@ -225,10 +198,6 @@ public:
         label_date = new QLabel(groupWeather);
         label_date->setObjectName(QStringLiteral("label_date"));
         label_date->setGeometry(QRect(10, 20, 51, 16));
-        checkBox = new QCheckBox(groupWeather);
-        checkBox->setObjectName(QStringLiteral("checkBox"));
-        checkBox->setGeometry(QRect(290, 40, 121, 17));
-        checkBox->setChecked(true);
         groupAdvanced = new QGroupBox(groupWeather);
         groupAdvanced->setObjectName(QStringLiteral("groupAdvanced"));
         groupAdvanced->setEnabled(true);
@@ -269,7 +238,10 @@ public:
         lineLower->setGeometry(QRect(100, 10, 51, 20));
         bShowWeather = new QPushButton(groupWeather);
         bShowWeather->setObjectName(QStringLiteral("bShowWeather"));
-        bShowWeather->setGeometry(QRect(330, 10, 75, 23));
+        bShowWeather->setGeometry(QRect(314, 10, 91, 23));
+        b_showIcons = new QPushButton(groupWeather);
+        b_showIcons->setObjectName(QStringLiteral("b_showIcons"));
+        b_showIcons->setGeometry(QRect(314, 40, 91, 23));
         groupGraph = new QGroupBox(centralWidget);
         groupGraph->setObjectName(QStringLiteral("groupGraph"));
         groupGraph->setEnabled(true);
@@ -289,9 +261,6 @@ public:
         label_3 = new QLabel(centralWidget);
         label_3->setObjectName(QStringLiteral("label_3"));
         label_3->setGeometry(QRect(120, 10, 91, 16));
-        textBrowser = new QTextBrowser(centralWidget);
-        textBrowser->setObjectName(QStringLiteral("textBrowser"));
-        textBrowser->setGeometry(QRect(180, 10, 211, 31));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -300,6 +269,8 @@ public:
         menuPogoda->setObjectName(QStringLiteral("menuPogoda"));
         menuPomoc = new QMenu(menuBar);
         menuPomoc->setObjectName(QStringLiteral("menuPomoc"));
+        menuOkno = new QMenu(menuBar);
+        menuOkno->setObjectName(QStringLiteral("menuOkno"));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -309,10 +280,13 @@ public:
         MainWindow->setStatusBar(statusBar);
 
         menuBar->addAction(menuPogoda->menuAction());
+        menuBar->addAction(menuOkno->menuAction());
         menuBar->addAction(menuPomoc->menuAction());
         menuPogoda->addAction(actionUstawienia_programu);
         menuPogoda->addAction(actionWyj_cie);
         menuPomoc->addAction(actionO_programie);
+        menuOkno->addAction(actionMapa);
+        menuOkno->addAction(actionMinimapa);
 
         retranslateUi(MainWindow);
 
@@ -331,6 +305,8 @@ public:
         actionUstawienia_programu->setText(QApplication::translate("MainWindow", "Ustawienia programu", 0));
         actionO_programie->setText(QApplication::translate("MainWindow", "O programie", 0));
         actionWyj_cie->setText(QApplication::translate("MainWindow", "Wyj\305\233cie", 0));
+        actionMapa->setText(QApplication::translate("MainWindow", "Mapa", 0));
+        actionMinimapa->setText(QApplication::translate("MainWindow", "Minimapa", 0));
         bLayerUp->setText(QApplication::translate("MainWindow", "\342\226\262", 0));
         bLayerDown->setText(QApplication::translate("MainWindow", "\342\226\274", 0));
         bLayerNew->setText(QApplication::translate("MainWindow", "Nowa warstwa", 0));
@@ -340,14 +316,6 @@ public:
         ___qtreewidgetitem->setText(0, QApplication::translate("MainWindow", "Warstwy", 0));
         tabMapType->setTabText(tabMapType->indexOf(tab_gdal), QApplication::translate("MainWindow", "GDAL", 0));
         pushButton->setText(QApplication::translate("MainWindow", "pobierz map\304\231", 0));
-        label_5->setText(QApplication::translate("MainWindow", "lon:", 0));
-        label_6->setText(QApplication::translate("MainWindow", "lat:", 0));
-        bLayerUp_2->setText(QApplication::translate("MainWindow", "\342\226\262", 0));
-        bLayerDown_2->setText(QApplication::translate("MainWindow", "\342\226\274", 0));
-        bLayerVisibility_2->setText(QApplication::translate("MainWindow", "Widoczno\305\233\304\207", 0));
-        bLayerDelete_2->setText(QApplication::translate("MainWindow", "Usu\305\204 warstw\304\231", 0));
-        QTreeWidgetItem *___qtreewidgetitem1 = treeWidget_2->headerItem();
-        ___qtreewidgetitem1->setText(0, QApplication::translate("MainWindow", "Warstwy", 0));
         tabMapType->setTabText(tabMapType->indexOf(tab_osm), QApplication::translate("MainWindow", "OpenStreetMap", 0));
         label_MapType->setText(QApplication::translate("MainWindow", "Wy\305\233wietlana mapa:", 0));
         bNavUp->setText(QApplication::translate("MainWindow", "\342\226\262", 0));
@@ -361,7 +329,6 @@ public:
         groupWeather->setTitle(QApplication::translate("MainWindow", "Ustawienia pogody", 0));
         label_hour->setText(QApplication::translate("MainWindow", "Godzina:", 0));
         label_date->setText(QApplication::translate("MainWindow", "Data:", 0));
-        checkBox->setText(QApplication::translate("MainWindow", "Tryb zaawansowany", 0));
         groupAdvanced->setTitle(QString());
         label_param->setText(QApplication::translate("MainWindow", "Parametr:", 0));
         checkFilter->setText(QApplication::translate("MainWindow", "Filtr", 0));
@@ -371,13 +338,17 @@ public:
         groupFilter->setTitle(QString());
         label->setText(QApplication::translate("MainWindow", ">", 0));
         label_2->setText(QApplication::translate("MainWindow", "<", 0));
+        lineHigher->setText(QApplication::translate("MainWindow", "0", 0));
+        lineLower->setText(QApplication::translate("MainWindow", "0", 0));
         bShowWeather->setText(QApplication::translate("MainWindow", "Wy\305\233wietl", 0));
+        b_showIcons->setText(QApplication::translate("MainWindow", "Poka\305\274 ikony", 0));
         groupGraph->setTitle(QApplication::translate("MainWindow", "Przebieg wybranego parametru w czasie", 0));
         label_graph->setText(QApplication::translate("MainWindow", "Okres czasu:", 0));
         labelLog->setText(QApplication::translate("MainWindow", "Wsp\303\263\305\202rz\304\231dne: xxxxxxxxx N, xxxxxxxxxxxx E;   Temperatura: 21oC, Wilgotno\305\233\304\207 powietrza: 40%, Opady: brak, Pr\304\231dko\305\233\304\207 wiatru: 25km/h, Kierunek: NE", 0));
         label_3->setText(QApplication::translate("MainWindow", "TextLabel", 0));
         menuPogoda->setTitle(QApplication::translate("MainWindow", "Opcje", 0));
         menuPomoc->setTitle(QApplication::translate("MainWindow", "Pomoc", 0));
+        menuOkno->setTitle(QApplication::translate("MainWindow", "Okno", 0));
     } // retranslateUi
 
 };

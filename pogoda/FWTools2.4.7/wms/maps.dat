@@ -1,0 +1,213 @@
+(dp0
+S'Daily MODIS'
+p1
+(dp2
+S'URL'
+p3
+S'http://wms.jpl.nasa.gov/wms.cgi?LAYERS=daily_terra&STYLES=default&SERVICE=WMS&FORMAT=image%2Fpng&REQUEST=GetMap&VERSION=1.1.1&EXCEPTIONS=application%2Fvnd.ogc.se_xml'
+p4
+sS'Server'
+p5
+S'OnEarth'
+p6
+sS'Name'
+p7
+S'modis_daily'
+p8
+sS'Title'
+p9
+g1
+ssS'SRTM30Plus auto'
+p10
+(dp11
+g3
+S'http://maps.gdal.org/cgi-bin/mapserv_dem?LAYERS=srtmplus_autoscale&STYLES=&SERVICE=WMS&FORMAT=image%2Fpng&REQUEST=GetMap&VERSION=1.1.0&EXCEPTIONS=application%2Fvnd.ogc.se_inimage'
+p12
+sg5
+S'GDAL SRTM30Plus'
+p13
+sg7
+S'srtm30_auto'
+p14
+sg9
+g10
+ssS'Blue Marble Modis'
+p15
+(dp16
+g3
+S'http://wms.jpl.nasa.gov/wms.cgi?LAYERS=modis&STYLES=default&SERVICE=WMS&FORMAT=image%2Fpng&REQUEST=GetMap&VERSION=1.1.1&EXCEPTIONS=application%2Fvnd.ogc.se_xml'
+p17
+sg5
+S'OnEarth'
+p18
+sg7
+S'modis'
+p19
+sg9
+g15
+ssS'GNIS Civil'
+p20
+(dp21
+g3
+S'http://gisdata.usgs.net:80/servlet/com.esri.wms.Esrimap/EDC_GNIS?LAYERS=GNIS_CIVIL%2CGNIS_CIVIL_Labels&STYLES=%2C&SERVICE=WMS&FORMAT=image%2Fpng&REQUEST=GetMap&VERSION=1.1.0&EXCEPTIONS=application%2Fvnd.ogc.se_inimage'
+p22
+sg5
+S'EDC GNIS'
+p23
+sg7
+S'gnis_civil'
+p24
+sg9
+g20
+ssS'True Color Landsat'
+p25
+(dp26
+S'URL'
+p27
+S'http://wms.jpl.nasa.gov/wms.cgi?VERSION=1.1.1&LAYERS=global_mosaic_base&STYLES=visual&FORMAT=image%2Fpng&REQUEST=GetMap&SERVICE=WMS&EXCEPTIONS=application%2Fvnd.ogc.se_xml'
+p28
+sS'Title'
+p29
+g25
+sS'Name'
+p30
+S'Landsat321'
+p31
+sS'Server'
+p32
+S'OnEarth'
+p33
+ssS'Atlas of Canada 2M'
+p34
+(dp35
+g27
+S'http://atlas.gc.ca:80/cgi-bin/atlaswms_en?LAYERS=can_7.5m%2Cnat_bounds%2Cwa_2m%2Cdrain_2m%2Croads_2m%2Cplaces_symb_2m%2Cplaces_labels_7.5m%2Ccap_symb_e&STYLES=%2C%2C%2C%2C%2C%2C%2C&SERVICE=WMS&FORMAT=image%2Fpng&REQUEST=GetMap&VERSION=1.0.8&EXCEPTIONS=application%2Fvnd.ogc.se_inimage'
+p36
+sg29
+g34
+sg30
+S'atlas_can2m'
+p37
+sg32
+S'Atlas of Canada'
+p38
+ssS'NRN Quebec'
+p39
+(dp40
+g3
+S'http://www.geographynetwork.ca/wmsconnector/com.esri.wsit.WMSServlet/Geobase_NRN_Quebec_I?LAYERS=allroads&STYLES=&SERVICE=WMS&FORMAT=image%2Fpng&REQUEST=GetMap&VERSION=1.1.0&EXCEPTIONS=application%2Fvnd.ogc.se_xml'
+p41
+sg5
+S'NRN Quebec'
+p42
+sg7
+S'nrn_qc'
+p43
+sg9
+g39
+ssS'GMap demo'
+p44
+(dp45
+g3
+S'http://dev1.dmsolutions.ca/cgi-bin/mswms_gmap?LAYERS=fedlimit%2Cprov_bound%2Cdrain_fn%2Cdrainage%2Croad%2Crail%2Cpopplace&STYLES=%2C%2C%2C%2C%2C%2C&SERVICE=WMS&FORMAT=image%2Fpng&REQUEST=GetMap&VERSION=1.0.8&EXCEPTIONS=application%2Fvnd.ogc.se_inimage'
+p46
+sg5
+S'DM Solutions Demo'
+p47
+sg7
+S'gmap'
+p48
+sg9
+g44
+ssS'LIBC 250K'
+p49
+(dp50
+g3
+S'http://libcwms.gov.bc.ca/wmsconnector/com.esri.wsit.WMSServlet/ogc_layer_service?LAYERS=NTS_BC_LANDCOVER_LINES_125M%2CNTS_BC_LANDFORM_LINES_125M%2CNTS_BC_RIV_LAKE_WET_POLYS_125M%2CNTS_BC_TRANSPORT_LINES_125M%2CNTS_BC_MANMADE_POINTS_125M&STYLES=%2C%2C%2C%2C&SERVICE=WMS&FORMAT=image%2Fpng&REQUEST=GetMap&VERSION=1.1.0&EXCEPTIONS=application%2Fvnd.ogc.se_xml'
+p51
+sg5
+S'LIBC'
+p52
+sg7
+S'libc_250k'
+p53
+sg9
+g49
+ssS'Los Angeles Ortho'
+p54
+(dp55
+g3
+S'http://ims.cr.usgs.gov:80/servlet/com.esri.wms.Esrimap/USGS_EDC_Ortho_133Urban?LAYERS=Laglendale01%2CLaglendale02&STYLES=%2C&SERVICE=WMS&FORMAT=image%2Fjpeg&REQUEST=GetMap&VERSION=1.1.0&EXCEPTIONS=application%2Fvnd.ogc.se_inimage'
+p56
+sg5
+S'USGS Ortho'
+p57
+sg7
+S'la_ortho'
+p58
+sg9
+g54
+ssS'Mars'
+p59
+(dp60
+g3
+S'http://demo.cubewerx.com/demo/cubeserv/cubeserv.cgi?CONFIG=mars&LAYERS=SHADEDRED%3AMARS_DATA&STYLES=default&SERVICE=WMS&FORMAT=image%2Fpng%3B+PhotometricInterpretation%3DRGB&REQUEST=GetMap&VERSION=1.1.0&EXCEPTIONS=application%2Fvnd.ogc.se_inimage'
+p61
+sg5
+S'Cubewerx Mars'
+p62
+sg7
+S'mars'
+p63
+sg9
+g59
+ssS'BTS Roads'
+p64
+(dp65
+g27
+S'http://ims.cr.usgs.gov:80/servlet/com.esri.wms.Esrimap/USGS_EDC_Trans_BTS_Roads?LAYERS=Roads_BTS&STYLES=&SERVICE=WMS&FORMAT=image%2Fpng&REQUEST=GetMap&VERSION=1.1.0&EXCEPTIONS=application%2Fvnd.ogc.se_inimage'
+p66
+sg29
+g64
+sg30
+S'bts_roads'
+p67
+sg32
+S'BTS Roads'
+p68
+ssS'CGNS'
+p69
+(dp70
+g27
+S'http://cgns.nrcan.gc.ca/wfs/cubeserv.cgi?LAYERS=GEONAMES%3Acgns&STYLES=GeoBase+Portal+Nameset&SERVICE=WMS&FORMAT=image%2Fpng&REQUEST=GetMap&VERSION=1.1.0&EXCEPTIONS=application%2Fvnd.ogc.se_inimage'
+p71
+sg29
+g69
+sg30
+S'cgns'
+p72
+sg32
+S'Canadian Geographical Names'
+p73
+ssS'GLOBE Cloud Cover'
+p74
+(dp75
+g3
+S'http://globe.digitalearth.gov/viz-bin/wmt.cgi?LAYERS=COCOV&STYLES=CONTOURS&SERVICE=WMS&FORMAT=image%2Fpng&REQUEST=GetMap&VERSION=1.1.0&EXCEPTIONS=application%2Fvnd.ogc.se_inimage'
+p76
+sg5
+S'GLOBE'
+p77
+sS'Extents'
+p78
+(dp79
+S'time'
+p80
+S'2005-03-17'
+p81
+ssg7
+S'globe_clouds'
+p82
+sg9
+g74
+ss.

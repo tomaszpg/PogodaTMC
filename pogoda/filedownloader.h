@@ -11,12 +11,12 @@ class FileDownloader : public QObject
 {
  Q_OBJECT
  public:
-  explicit FileDownloader(QUrl fileUrl, QObject *parent = 0);
+  explicit FileDownloader(QUrl fileUrl, int number=0, QObject *parent = 0);
   virtual ~FileDownloader();
   QByteArray downloadedData() const;
 
  signals:
-  void downloaded();
+  void downloaded(int num);
 
  private slots:
   void fileDownloaded(QNetworkReply* pReply);
@@ -24,6 +24,7 @@ class FileDownloader : public QObject
  private:
   QNetworkAccessManager m_WebCtrl;
   QByteArray m_DownloadedData;
+  int num;
 };
 
 #endif // FILEDOWNLOADER_H

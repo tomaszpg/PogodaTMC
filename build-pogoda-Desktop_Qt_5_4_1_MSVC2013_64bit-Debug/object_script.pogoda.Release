@@ -6,10 +6,14 @@ INPUT(
 ./release\viewport.o
 ./release\clickablelabel.o
 ./release\mapwindow.o
+./release\minimap.o
+./release\settingsdialog.o
 ./release\moc_mainwindow.o
 ./release\moc_filedownloader.o
 ./release\moc_geolayer.o
 ./release\moc_viewport.o
 ./release\moc_clickablelabel.o
 ./release\moc_mapwindow.o
+./release\moc_minimap.o
+./release\moc_settingsdialog.o
 );

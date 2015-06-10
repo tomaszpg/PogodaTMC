@@ -1,0 +1,286 @@
+<html>
+<head>
+<title>Main OpenEV Window</title>
+</head>
+<body bgcolor="#ffffff">
+<h1>Main OpenEV Window</h1>
+
+The main OpenEV display window contains the geospatial data viewing
+area, as well as menus and an iconbar.  The button and key sequences for
+manipulating view state are decribed in the separate
+<a href="viewarea_keys.html">View Area Button/Key Sequences</a> page.<p>
+
+The area at the bottom of the view window is the <b>track tool</b> and
+display position and raster value under the cursor.  Details preferences
+for controlling the tracking tool are available in the application
+preferences panel (Edit->Preferences).<P>
+
+<img src="mainwindow.gif"><p>
+
+<h2>Icon Bar</h2>
+
+<dl compact>
+
+<dt><img src="openfile.gif">
+<dd><b>Open File</b>: 
+Open a raster or vector file, and add to this view.  Same as File->Open.<p>
+
+<dt><img src="print.gif">
+<dd><b>Print</b>:
+Launch the <a href="gvprint.html">Printing Dialog</a> to print the current
+view.<p>
+
+<dt><img src="nonelut.gif">
+<dd><b>Remove Enhancement</b>:
+Remove any greyscale enhancement lut (such as applied by the equalize
+icon) from the active raster layer.  Does nothing if no raster layer is
+selected in the layers dialog.
+Note that a linear scaling stretch will still be in effect for
+non-eight bit data.<p>
+
+<dt><img src="linear.gif">
+<dd><b>Linear Enhancement</b>:
+Perform a linear stretch enhancement.<p>
+
+<dt><img src="equalize.gif">
+<dd><b>Histogram Equalization</b>:
+Apply a histogram equalization enhancement LUT to the active raster.  This
+is a non-linear constrast stretch intended to flatten out the post-enhancement
+histogram.  See the GvRasterLayer::equalize() method in pymod/gview.py for
+details on the algorithm used.  Does nothing if a raster layer is not
+selected in the layers dialog. <p>
+
+<dt><img src="log.gif">
+<dd><b>Logarithmic Enhancement</b>:
+Perform a logarithmic stretch enhancement.  The enhancment lut is recomputed
+to map the minimum to zero, the maximum to 255 and intermediate values
+based on logarithmic scaling.  See GvRasterLayer::log() for algorithmic
+details.<p>
+
+<dt><img src="windowed.gif">
+<dd><b>Windowed Raster Re-enhancement</b>:
+Recompute the last enhancement (linear, equalize, logarithmic) based on
+pixels currently visible in the view.  The scaling min/max and enhancement
+are recomputed.  In 3D mode substantial numbers of pixels not actually
+visible in the view may be included in the calculation. 
+<p>
+
+<dt><img src="classify.gif">
+<dd><b>Classify Raster</b>:
+Launches a dialog for applying a pseudo-color classification to a single
+raster band.  This is a GIS style classification, not a multispectral 
+classification.  The dialog can only be launched if a raster layer is
+selected.  The dialog is not currently further documented. 
+<p>
+
+<dt><img src="legend.gif">
+<dd><b>Show Legend</b>:
+Launches a dialog displaying the current classification legend generated
+by the Classify Raster dialog.  If there is no classification in force on
+the current raster, or if no raster layer is selected nothing will
+happen. 
+<p>
+
+<dt><img src="seeall.gif">
+<dd><b>Fit all Layers</b>:
+Resets the view position, and zoom level such that all the data in all
+view layers is shown.  As currently implemented the any rotation is lost.
+<p>
+
+<dt><img src="zoom_control.gif">
+<dd><b>Zoom Control</b>:
+Displays the zoom level of the currently selected raster layer.  A value of
+1:2 would indicate decimation by 2, while 2:1 would indicate duplication
+of raw pixels by a factor of two.  The user can selected a desired zoom level
+from popup menu, or directly type in zoom ratios.   The control has no
+effect when a non-raster layer is selected.
+<p>
+
+<dt><img src="zoomin.gif">
+<dd><b>Zoom In</b>:
+Zoom in (making features bigger) by a factor of 2.
+
+<dt><img src="zoomout.gif">
+<dd><b>Zoom Out</b>:
+Zoom out (making features larger) by a factor of 2.
+
+<dt><img src="refresh.gif">
+<dd><b>Refresh Raster from Disk</b>:
+Causes the current raster layer to be reloaded from disk, or from it's
+source Numeric Python array.  There are various levels of caching applied
+in OpenEV, and data is normally only re-read from disk when not available
+in memory.  If a file is updated on disk (or a display numerical python 
+array is updated) the refresh function can be used to force the display
+to be resyncronized from the source data.  Applies to the active raster layer.
+If no raster layer is active nothing happens. 
+<p>
+
+<dt><img src="worldg.gif"> <img src="worldrgb.gif">
+<dd><b>Georeferenced Display</b>:
+When the black and white icon is visible, the view is being displayed
+in raw pixel/line coordinates for the source raster.  When the color icon
+is displayed the view is trying to display in georeferenced units (if
+any are available).  Selecting this icon will toggle the state.  This
+icon is generally used to switch between raw and warped images for images
+that include control points that will define a polynomial warp (such as
+many CEOS images).  The initial state of this icon is determined by the
+"Display Georeferenced" control on the Raster tab of the 
+<a href="preferences.html">Preferences</a> dialog.
+<p>
+
+<dt><img src="help.gif">
+<dd><b>Online Help</b>:
+Launch the OpenEV online help, the same as Help->Help.
+<p>
+
+<dt><img src="help.gif">
+<dd><b>Online Help</b>:
+Launch the OpenEV online help, the same as Help->Help.
+<p>
+
+<dt><img src="busy.gif"> <img src="idle.gif">
+<dd><b>Busy/Idle Indicator</b>:
+The red icon shows when the application is busy, and the green icon
+displays when the application is idle.  Due to the background loading of
+data the application will often be busy for a short time after initially
+displaying a raster.  Pressing the icon has no effect, and even when the
+application is busy it should remain responsive if somewhat more sluggish
+than when idle.
+<p>
+
+</dl>
+
+<h2>Menus</h2>
+
+<h3>File</h3>
+
+<dl compact>
+
+<dt> Import
+<dd> Import raster for optimized access.  The user is prompted to select
+a raster data file.  This is converted into tiled GeoTIFF format in the current
+working directory, overview levels are built, and the imported file is 
+added to the current view (as if it had been opened).<p>
+
+The imported file is optimized for fast access, but may lose some information
+from the source file (such as metadata).  Note that vector files cannot
+be imported.<p>
+
+<dt> Open
+<dd> Open a raster or vector file, and add it to the current view as a new
+layer.  For files with a greater than eight bit data type, min/max values
+will be computed for scaling purposes.  The resulting layer will be assigned
+the name of the source file. <p>
+
+<dt> Open 3D
+<dd> Brings up a dialog for selection of a drape and elevation raster.  They
+are added to the current view as a 3D image, and the view is placed in 3D 
+mode. <p>
+
+<dt> Save Vector Layer
+<dd> Brings up a file selector for entry of a filename to save the active
+vector layer to.  The file saved to will be in ESRI Shapefile format.  ESRI
+Shapefiles can only support one type of geometry per file (point, line, area)
+so if the active layer has a mixture, only one of the types (the first 
+encountered) will be saved.  Feature attributes are only saved if they are
+described by a schema on the layer, as is the case with vectors loaded
+from a shapefile. <p>
+
+<dt> New View
+<dd> Creates a new OpenEV view window with an independent set of data
+layers, and makes it the current view.  <p>
+
+<dt> Print
+<dd> Launches the <a href="gvprint.html">Printing Dialog</a> for printing
+the view contents.<p>
+
+<dt> Recent Filenames
+<dd> A list of recently opened files is maintained in this menu.  Selecting
+one is equivelent to doing a File->Open, and entering the displayed name.<p>
+
+<dt> Close
+<dd> Close the current window.  If this is the last main display window for
+this OpenEV process the user is prompted if they want to exit the
+whole process.<p>
+
+<dt> Exit
+<dd> Close all windows, and terminate OpenEV.  The user is prompted for
+confirmation.<p>
+
+</dl>
+
+<h2>Edit</h2>
+
+<dl compact>
+
+<dt> Undo
+<dd> Undoes the last undoable operation.  Currently only the various 
+vector editing operations are undoable.  View changes, layer property
+changes and addition or deletion of layers are not undable.  The undo 
+stack is not bounded, and so in theory
+many undo steps are available; however, certain operations, like destruction
+of undoable layers results in clearing of the entire undo stack. <p>
+
+<dt> Layers...
+<dd> Launches the <a href="layerdlg.html">Layer Management Dialog</a> for
+manipulating view layers. <p>
+
+<dt> Vector Layer Attributes...
+<dd> Launches the vector features attributes dialog for inspecting, and 
+changing the attributes of the selected feature.<p>
+
+<dt> Edit Toolbar...
+<dd> Launches the <a href="edittools.html">Edit Tools</a> for controlling
+editing mode.<P>
+
+<dt> Go To...
+<dd> Launches a simple dialog for recentering the view around a particular
+georeferenced location.<P>
+
+<dt> Python Shell...
+<dd> Launches a <a href="pyshell.html">Python Shell</a>.  This is a
+dialog for interactively entering Python commands for simple image 
+processing and other scripting needs.<P>
+
+<dt> 3D Position...
+<dd> Launches a dialog for setting the 3D view position and direction.<p>
+
+<dt> Preferences...
+<dd> Launches the application preferences panel for viewing, and modifying
+application wide preferences.<p>
+
+<dt> Python Shell...
+<dd> Launches the python shell for doing numerical python operations.<p>
+
+<dt> 3D Position...
+<dd> Launches the 3D position dialog for viewing, and modifying the 3D view
+position.<p>
+
+</dl>
+
+<h2>Help</h2>
+
+Note that online help is displayed as HTML
+files, and OpenEV needs access to an HTML viewing application.  On Windows
+the default system HTML viewer is used.  On Unix various well known browsers
+are searched for (ie. netscape, Mosaic).  The user can customize this in the
+application preferences panel available under Edit->Preferences.<p>
+
+The help topic for most dialogs can be launched directly by hitting F1 after
+clicking on the dialog.<p>
+
+<dl>
+
+<dt> Help
+<dd> Displays application help.  <p>
+
+<dt> Web Page
+<dd> Displays the OpenEV web page.
+
+<dt> About
+<dd> Display OpenEV information, and credits.<p>
+
+</dl>
+
+</body>
+</html>

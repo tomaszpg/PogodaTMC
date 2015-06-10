@@ -1,0 +1,135 @@
+<html>
+<head>
+<title>File Access</title>
+</head>
+<body bgcolor="#ffffff">
+<h1>File Access</h1>
+
+OpenEV supports a number of raster and vector file formats for display.  The
+File-&gt;Open action will check to see if the selected file is a shapefile 
+(ends in .shp) and if so attempt to load it as a new vector layer.  If not, it
+will attempt to open it as a GDAL supported file format (listed below), and
+display it as a raster layer.  If this fails, the optional OGR library is
+tried to see if it is another supported vector format. <p>
+
+Note that the File-&gt;Import action only operates on GDAL supported raster
+files.  Vector files cannot be "imported". <p>
+
+<h2>Supported Raster Formats</h2>
+
+OpenEV uses 
+<a href="http://www.remotesensing.org">GDAL</a> (Geospatial Data Abstraction 
+Library) for accessing raster files, so any file formats supported by GDAL 
+should be supported by OpenEV.  The original, and authoritative list of 
+<a href="http://www.remotesensing.org/gdal/formats_list.html">GDAL
+Supported Formats</a> should be checked for a current format list, and
+details of each format. <p>
+
+<table border>
+
+<tr>
+<th>Long Format Name</th>
+<th>Code</th>
+<th>Georeferencing</th>
+</tr>
+
+<tr><td> Arc/Info Binary Grid
+</td><td> AIG
+</td><td> Yes
+</td></tr>
+
+<tr><td> CEOS (Spot for instance)
+</td><td> CEOS
+</td><td> No
+</td></tr>
+
+<tr><td> First Generation USGS DOQ
+</td><td> DOQ1
+</td><td> Yes
+</td></tr>
+
+<tr><td> New Labelled USGS DOQ
+</td><td> DOQ2
+</td><td> Yes
+</td></tr>
+
+<tr><td> Military Elevation Data
+</td><td> DTED
+</td><td> Yes
+</td></tr>
+
+<tr><td> Eosat Fast Format
+</td><td> EFF
+</td><td> No
+</td></tr>
+
+<tr><td> ESRI .hdr Labelled
+</td><td> EHdr
+</td><td> Yes
+</td></tr>
+
+<tr><td> Arc/Info Binary Grid
+</td><td> GIO
+</td><td> Yes
+</td></tr>
+
+<tr><td> TIFF / GeoTIFF
+</td><td> GTiff
+</td><td> Yes
+</td></tr>
+
+<tr><td> Erdas Imagine .hfa
+</td><td> HFA
+</td><td> No
+</td></tr>
+
+<tr><td> Atlantis HKV Blob
+</td><td> HKV
+</td><td> Yes
+</td></tr>
+
+<tr><td> JPEG JFIF
+</td><td> JPEG
+</td><td> Yes
+</td></tr>
+
+<tr><td> Atlantis MFF
+</td><td> MFF
+</td><td> Yes
+</td></tr>
+
+<tr><td> PCI .aux Labelled
+</td><td> PAux
+</td><td> No
+</td></tr>
+
+<tr><td> Portable Network Graphics
+</td><td> PNG
+</td><td> No
+</td></tr>
+
+<tr><td> USGS SDTS DEM
+</td><td> SDTS
+</td><td> Yes
+</td></tr>
+
+<tr><td> SAR CEOS
+</td><td> SAR_CEOS
+</td><td> Yes
+</td></tr>
+
+</table>
+
+<h2>Supported Vector Formats</h2>
+
+OpenEV includes builtin support for reading and writing ESRI Shapefiles. 
+This is a widely used file format for simple vector features with attributes,
+including support for points, polylines and polygonal areas (potentially
+with holes).<p>
+
+Additional formats can be read via an optional linkage to the OGR 
+vector library, providing support for formats such as Mapinfo, SDTS, S-57, 
+Tiger, and NTF.  <p>
+
+</body>
+</html>

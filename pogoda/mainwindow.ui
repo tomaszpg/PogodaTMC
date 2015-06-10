@@ -142,26 +142,6 @@
      <attribute name="title">
       <string>OpenStreetMap</string>
      </attribute>
-     <widget class="QTextEdit" name="textEdit">
-      <property name="geometry">
-       <rect>
-        <x>310</x>
-        <y>10</y>
-        <width>91</width>
-        <height>21</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QTextEdit" name="textEdit_2">
-      <property name="geometry">
-       <rect>
-        <x>310</x>
-        <y>30</y>
-        <width>91</width>
-        <height>21</height>
-       </rect>
-      </property>
-     </widget>
      <widget class="QPushButton" name="pushButton">
       <property name="geometry">
        <rect>
@@ -175,101 +155,18 @@
        <string>pobierz mapę</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_5">
+     <widget class="QProgressBar" name="progressBar">
       <property name="geometry">
        <rect>
-        <x>290</x>
-        <y>10</y>
-        <width>41</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>lon:</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_6">
-      <property name="geometry">
-       <rect>
-        <x>290</x>
+        <x>20</x>
         <y>30</y>
-        <width>31</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>lat:</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="bLayerUp_2">
-      <property name="geometry">
-       <rect>
-        <x>210</x>
-        <y>10</y>
-        <width>71</width>
+        <width>231</width>
         <height>23</height>
        </rect>
       </property>
-      <property name="text">
-       <string>▲</string>
+      <property name="value">
+       <number>24</number>
       </property>
-     </widget>
-     <widget class="QPushButton" name="bLayerDown_2">
-      <property name="geometry">
-       <rect>
-        <x>210</x>
-        <y>40</y>
-        <width>71</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>▼</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="bLayerVisibility_2">
-      <property name="geometry">
-       <rect>
-        <x>310</x>
-        <y>90</y>
-        <width>71</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Widoczność</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="bLayerDelete_2">
-      <property name="geometry">
-       <rect>
-        <x>210</x>
-        <y>70</y>
-        <width>81</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Usuń warstwę</string>
-      </property>
-     </widget>
-     <widget class="QTreeWidget" name="treeWidget_2">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>191</width>
-        <height>91</height>
-       </rect>
-      </property>
-      <property name="rootIsDecorated">
-       <bool>true</bool>
-      </property>
-      <column>
-       <property name="text">
-        <string>Warstwy</string>
-       </property>
-      </column>
      </widget>
     </widget>
    </widget>
@@ -451,22 +348,6 @@
       <string>Data:</string>
      </property>
     </widget>
-    <widget class="QCheckBox" name="checkBox">
-     <property name="geometry">
-      <rect>
-       <x>290</x>
-       <y>40</y>
-       <width>121</width>
-       <height>17</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Tryb zaawansowany</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
     <widget class="QGroupBox" name="groupAdvanced">
      <property name="enabled">
       <bool>true</bool>
@@ -607,6 +488,9 @@
          <height>20</height>
         </rect>
        </property>
+       <property name="text">
+        <string>0</string>
+       </property>
       </widget>
       <widget class="QLineEdit" name="lineLower">
        <property name="geometry">
@@ -617,20 +501,36 @@
          <height>20</height>
         </rect>
        </property>
+       <property name="text">
+        <string>0</string>
+       </property>
       </widget>
      </widget>
     </widget>
     <widget class="QPushButton" name="bShowWeather">
      <property name="geometry">
       <rect>
-       <x>330</x>
+       <x>314</x>
        <y>10</y>
-       <width>75</width>
+       <width>91</width>
        <height>23</height>
       </rect>
      </property>
      <property name="text">
       <string>Wyświetl</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="b_showIcons">
+     <property name="geometry">
+      <rect>
+       <x>314</x>
+       <y>40</y>
+       <width>91</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Pokaż ikony</string>
      </property>
     </widget>
    </widget>
@@ -709,16 +609,6 @@
      <string>TextLabel</string>
     </property>
    </widget>
-   <widget class="QTextBrowser" name="textBrowser">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>10</y>
-      <width>211</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -742,7 +632,15 @@
     </property>
     <addaction name="actionO_programie"/>
    </widget>
+   <widget class="QMenu" name="menuOkno">
+    <property name="title">
+     <string>Okno</string>
+    </property>
+    <addaction name="actionMapa"/>
+    <addaction name="actionMinimapa"/>
+   </widget>
    <addaction name="menuPogoda"/>
+   <addaction name="menuOkno"/>
    <addaction name="menuPomoc"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
@@ -767,6 +665,16 @@
   <action name="actionWyj_cie">
    <property name="text">
     <string>Wyjście</string>
+   </property>
+  </action>
+  <action name="actionMapa">
+   <property name="text">
+    <string>Mapa</string>
+   </property>
+  </action>
+  <action name="actionMinimapa">
+   <property name="text">
+    <string>Minimapa</string>
    </property>
   </action>
  </widget>

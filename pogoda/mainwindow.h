@@ -24,9 +24,11 @@ public:
 private:
     Ui::MainWindow *ui;
     bool advancedMode;
+    bool fileChanged;
+    QVector<FileDownloader *> * osm_pFileCtrl;
     FileDownloader *m_pFileCtrl;
     FileDownloader *n_pFileCtrl;
-    FileDownloader *osm_pFileCtrl;
+    //FileDownloader *osm_pFileCtrl;
     QColor colorMin;
     QColor colorMax;
     //GeoLayer *weatherLayer;
@@ -44,20 +46,24 @@ private:
     double zoom;
     SettingsDialog *settings;
     bool flaga;
-
+    int aktualX;
+    int aktualY;
+    double *zoom_levels;
+    int temp_size;
+    double *tabX;
+    double *tabY;
 private slots:
     void setupGUI();
     void logPrint(QString text);
     void setColors();
     void dlWMetaData();
-    void setWMetaData();
+    void setWMetaData(int num);
     double lat2y_d(double lat);
     double y2lat_d(double lat);
 
-    void on_checkBox_clicked(bool checked);
     void on_checkFilter_clicked(bool checked);
     void on_bShowWeather_clicked();
-    void processFile();
+    void processFile(int num);
     void showPosition();
     void updateSettings();
     QString parseUrl(QString url);
@@ -77,19 +83,25 @@ private slots:
     void on_bLayerVisibility_clicked();
 
     void on_pushButton_clicked();
-    void show_url_image();
+    void show_url_image(int num=NULL);
 
     void on_actionUstawienia_programu_triggered();
 
-    void on_bLayerVisibility_2_clicked();
-
-    void on_bLayerUp_2_clicked();
-
-    void on_bLayerDown_2_clicked();
-
     void on_tabMapType_currentChanged(int index);
 
-    void on_bLayerDelete_2_clicked();
+    void on_b_showIcons_clicked();
+
+    void on_actionWyj_cie_triggered();
+
+    void on_actionMapa_triggered();
+
+    void on_actionMinimapa_triggered();
+
+    void on_actionO_programie_triggered();
+
+    void on_comboHour_currentIndexChanged(int index);
+
+    void on_calendarWidget_selectionChanged();
 
 public slots:
     void refreshView();

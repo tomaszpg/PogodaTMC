@@ -1,0 +1,581 @@
+<html>
+<head>
+<title>OpenEV Customization</title>
+</head>
+<body bgcolor="#ffffff">
+
+<h1><a name="contents">OpenEV Customization</a></h1>
+<ul>
+
+<li><a href="#section1">Introduction</a>
+<li><a href="#section1a">Tools (Plug-ins)</a>
+<li><a href="#section1b">Tutorial: Adding a new Plug-in</a>
+<li><a href="#section1c">XML File Configuration</a>
+
+</ul>
+
+<h1><a name="section1">Introduction</a></h1>
+
+Certain applications may require capabilities beyond those of
+the standard OpenEV viewer, or may wish to hide some of the existing
+functionality where it is not needed.  While standard python inheritance
+is sometimes the best route, OpenEV does provides some mechanisms
+for customizing its appearance and functionality without rewriting the main
+application or view window code. <p>
+
+XML configuration files can be used to select which of the available menu
+and icon entries will be displayed in OpenEV view windows launched
+by the main application and in the OpenEV python shell, and whether
+or not the history area and progress bar will be shown in the OpenEV
+python shell. The names of the menu entries and icon files used can also
+be altered through the configuration files.  The XML configuration
+files cannot be used to create new callbacks, they can only dictate
+how those callbacks that are present are referenced.<p> 
+
+The functionality of OpenEV can be extended using the Tool_GViewApp class.  
+In the most general case, this class contains only a reference to the
+current OpenEV (GViewApp) instance and a set of entries to add
+to the menu and icon bars of the view windows and python shell.  
+Each menu or pymenu entry is defined by a default string
+describing the menu location (eg. 'Tools/ROI Analysis Tool'), an 
+integer position relative to the existing items within the same menu 
+(eg. 2 would place 'ROI Analysis Tool' after the second entry
+within the 'Tools' menu), and a callback.  The reference to the main 
+application allows the tool to interact with the current views, 
+layers, and edit toolbar.  Each icon entry is defined by
+an iconfile, hint text, default position, callback, help topic (not currently used),
+and text.  All except the callbacks can be customized using XML, though
+the mechanism is slightly different than for the standard window items
+because the callback must be located through the information in the
+XML file since the tool's callback code isn't part of the gvviewwindow class.<p>
+
+<h2><a name="section1a">Tools (Plug-ins)</a></h2>
+
+OpenEV allows you to add hooks to your own callback functions through the
+main application using the Tool_GViewApp class stored in gviewapp.py.
+The base class is very simple- it simply stores a reference to the
+main application (the main application can also be found by importing
+gview, where it is stored as gview.app, but a reference is stored in
+each tool for convenience), and objects that store the
+view and pyshell menu and icon entries added by the tool.
+ 
+<pre>
+class Tool_GViewApp:
+    # Abstract base class to derive tools from
+    def __init__(self,app=None):
+        self.app = app
+        self.menu_entries = Tool_GViewAppMenuEntries()
+        self.icon_entries = Tool_GViewAppIconEntries()
+        self.pymenu_entries = Tool_GViewAppMenuEntries()
+        self.pyicon_entries = Tool_GViewAppIconEntries()
+</pre>
+
+Menu entry information is stored in a dictionary, with the
+entry path as the key and the position and callback as
+a tuple for the value.
+
+<pre>
+class Tool_GViewAppMenuEntries:
+    # Class to store entries to be added to openev's menu
+    def __init__(self):
+        self.entries = {}
+    
+    def set_entry(self,item,position=0,callback=None,accelerator=None):
+        # item = a string describing menu location
+        # position = default location in the menu (integer): Ignored if an
+        #            xml menu entry is specified for the tool.  Note:
+        #            when used, the position refers to position in the
+        #            lowest level menu.  Eg. if a menu entry is
+        #            'File/menu1/entryN', position refer's to entryN's
+        #            position within menu1, not menu1's position in
+        #            File.  For more flexibility, use the xml form of
+        #            configuration.
+        # callback = callback
+        # accelerator = shortcut key
+
+        if (type(item) == type('')):
+            if (type(position) == type(0)):
+                self.entries[item] = (position,callback, accelerator)
+            else:
+                raise AttributeError,"position should be an integer"
+        else:
+            raise AttributeError,"Menu entry item must be a string"
+
+</pre>
+
+Icon entry information is stored as a list, with each
+item in the list containing icon file, hint, position,
+callback, and help topic information.  The icon files
+must be specified by a full path unless they are
+located in OpenEV's tools or pics directory, in which
+case the basename alone can be specified.
+
+<pre>
+class Tool_GViewAppIconEntries:
+    # Class to store entries to be added to openev's menu
+    def __init__(self):
+        self.entries = []
+    
+    def set_entry(self,iconfile,hint_text,position=0,callback=None,help_topic=None,label=None,icontype='xpm'):
+        # iconfile=icon filename (xpm case), or some other string not yet defined
+        #          (pixmap/widget case- not yet supported- may never be)
+        # hint_text=tooltip text to use
+        # position = default location in the icon bar (integer)
+        # callback = callback
+        # help topic = html help file (not yet used by anything)
+        # label = some gtk think- not sure what this does
+        # icontype = 'xpm' (later may allow 'pixmap' or 'widget', but not yet)
+
+        if (type(iconfile) == type('')):
+            import os
+            if os.path.isfile(iconfile):
+                fullfilename=iconfile
+            elif os.path.isfile(os.path.join(gview.home_dir,'tools',iconfile)):
+                fullfilename=os.path.join(gview.home_dir,'tools',iconfile)
+            elif os.path.isfile(os.path.join(gview.home_dir,'pics',iconfile)):
+                fullfilename=os.path.join(gview.home_dir,'pics',iconfile)                
+            else:
+                txt = "Cannot find file "+iconfile+'.  Either the full\n'
+                txt = txt+"path must be specified, or "+iconfile+ " must be\n"
+                txt = txt+"placed in the tools or pics directory."
+                raise AttributeError,txt
+
+            # On nt, path separators need to be trapped and doubled to avoid
+            # being interpreted as an escape before special characters.
+            if os.name == 'nt':
+                import string
+                fullfilename=string.replace(fullfilename,"\\","\\\\")
+                
+            if (type(position) == type(0)):
+                self.entries.append((fullfilename,label,hint_text,position,callback,help_topic,icontype))
+            else:
+                raise AttributeError,"position should be an integer"
+        else:
+            txt = "Cannot find file "+iconfile+'.  Either the full\n'
+            txt = txt+"path must be specified, or "+iconfile+ " must be\n"
+            txt = txt+"placed in the tools or pics directory."
+            raise AttributeError,txt
+
+</pre>
+
+
+<h3>An Example: The GeneralROITool</h3> 
+In practice, the user defines a class which inherits from the
+Tool_GViewApp class (or at least has the same basic components
+defined), and adds menu entries and the callbacks associated with 
+these entries.
+The GeneralROITool class in toolexample.py shows how this works.
+This is a demonstration tool that adds a 'Tools/ROI Analysis Tool' entry
+to the menu.  When called, it activates the Edit toolbar's 'Draw ROI'
+method, and displays a dialog (see below).  When the user selects
+a region, it updates the dialog to display the currently selected
+region.  Pressing 'Analyze' will get it to print these values in the
+terminal window. <p>
+
+<img src="tool_roigeneral.gif"><p>
+<img src="tools_openev.gif"><p>
+
+In its initialization function, the GeneralROITool:
+<ul>
+<li>  Calls gviewapp.Tool_GViewApp's __init__ function.  
+This creates the reference to the main application
+(self.app) and an empty set of menu entries (self.menu_entries).
+<li>  Creates a StoredROIPOI class instance to store the last selected 
+region of interest (used to avoid tool failure if the 'Draw ROI' method
+has been deactivated in the Edit toolbar).
+<li>  Calls its init_dialog function to create the dialog displayed when
+the 'Tools/ROI Analysis Tool' menu entry is selected.  This dialog is
+hidden until the menu entry is called.
+<li>  Calls its init_menu function to set up the menu entry.  The
+associated callback shows the dialog created in the init_dialog step.
+<li>  Calls init_connections to set up signal connections between the tool and
+its dialog (such as the 'analyze-pressed' signal emitted by the dialog), and 
+between the tool and the main application (such as the 'roi-changed' signal
+emitted by the roi tool in the Edit toolbar). 
+</ul> 
+
+<h3>A More Advanced Example: The Histogram Tool</h3>
+The histogram tool inherits the dialog and connections of the GeneralROITool,
+but instead of just printing out the bounds of the currently selected region,
+it extracts the values contained in that region and forms a histogram
+from them.  The tool's dialog has been extended to display this.
+This tool is available from SourceForge CVS (openev/tools/gvrastertools.py),
+but is not yet included in pre-built openev distributions, as it is still
+under development and not yet stable for all platforms and data types.
+<p>
+
+<img src="tool_hist.gif"><p>
+
+<h3>Registering A Tool</h3>
+Two mechanisms are provided for registering custom tools:<p>
+<ul>
+<li><b>Auto-Registration</b>  OpenEV will automatically search through
+all the py-files in its 'tools' directory, and will load any tools
+listed in the global 'TOOL_LIST' variable for each module. 
+<li><b>Command Line Argument</b>  OpenEV allows you to specify a text
+file that lists modules to import and the tools to load from them at
+the command line.  For instance, starting up openev with the command
+"openev -t (full or relative path)/tool_example.txt", where 
+tool_example.txt contains:<p>
+<pre>
+MODULE_NAME = toolexample
+TOOL_NAME=GeneralROITool
+TOOL_NAME=GeneralPOITool
+</pre>
+will result in OpenEV loading the GeneralROITool and GeneralPOITool
+tools from toolexample.py.  Note that the PYTHONPATH variable must
+include toolexample.py's directory for this to work. 
+</ul>
+
+<h2><a name="section1b">Tutorial: Adding a new Plug-in</a></h2>
+
+To be able to write a comprehensive OpenEV GUI plug-in you should be familiar with
+GTK+ programming using Python (PyGTK).<p>
+
+OpenEV modules should be placed in the <i>tools/</i>
+subdirectory to be loaded automatically.<p>
+
+We will write a simple GUI module to automate the Fast Fourier Transform task. As a
+first attempt we make a menu item to perform an FFT.<p>
+
+<pre>
+# OpenEV module fft.py
+
+from gtk import *
+
+import gview
+import GtkExtra
+import gviewapp
+import gdalnumeric
+import FFT
+
+class FFTTool(gviewapp.Tool_GViewApp):
+
+    def __init__(self,app=None):
+        gviewapp.Tool_GViewApp.__init__(self,app)
+        self.init_menu()
+
+    def init_menu(self):
+        self.menu_entries.set_entry("Image processing/FFT",2,self.calculate_fft)
+
+    def calculate_fft(self,*args):
+        layer = gview.app.sel_manager.get_active_layer()
+        ds = layer.get_parent().get_dataset()
+        data = gdalnumeric.DatasetReadAsArray(ds)
+        data_tr = FFT.fft2d(data)
+        array_name = gdalnumeric.GetArrayFilename(data_tr)
+        gview.app.file_open_by_name(array_name)
+
+TOOL_LIST = ['FFTTool']
+</pre>
+
+This module adds a new top level menu "Image processing" with single item
+"FFT". Save this text into file, place it into <i>tools/</i> and restart
+OpenEV. Load an image, and click on the new menu item. The transformed image
+appears as a new layer (you may need click on the "Fit All Layers" button to see
+it).<p>
+
+Note, that you can easily extend the functionality of OpenEV with this
+approach. You can write scripts for your most often performed tasks (like
+calibration or NDVI calculation, described in the python shell section) and place them
+on the menu or taskbar.<p>
+
+Ok, our simplest script works, but now we will go further and make a dialog
+box to allow the user to select what type of transformation (forward or inverse) we
+should perform and where to place the results (in new layer of the same view or
+create a new view and place results there).<p>
+
+<pre>
+# OpenEV module fft2.py
+
+from gtk import *
+
+import gview
+import GtkExtra
+import gviewapp
+import gdalnumeric
+import FFT
+
+class FFT2Tool(gviewapp.Tool_GViewApp):
+    
+    def __init__(self,app=None):
+        gviewapp.Tool_GViewApp.__init__(self,app)
+        self.init_menu()
+
+    def launch_dialog(self,*args):
+        self.win = FFTDialog()
+        self.win.show()
+
+    def init_menu(self):
+        self.menu_entries.set_entry("Image processing/FFT2",2,self.launch_dialog)
+
+class FFTDialog(GtkWindow):
+
+    def __init__(self,app=None):
+        GtkWindow.__init__(self)
+        self.set_title('Fast Fourier Transform')
+        self.create_gui()
+        self.show()
+
+    def show(self):
+        GtkWindow.show_all(self)
+
+    def close(self, *args):
+        self.destroy()
+
+    def create_gui(self):
+        self.box1 = GtkVBox(spacing = 10)
+        self.box1.set_border_width(10)
+        self.add(self.box1)
+        self.box1.show()
+
+        self.switch_forward = GtkRadioButton(None, "Forward")
+        self.box1.pack_start(self.switch_forward)
+        self.switch_forward.show()
+        self.switch_inverse = GtkRadioButton(self.switch_forward, "Inverse")
+        self.box1.pack_start(self.switch_inverse)
+        self.switch_inverse.show()
+
+        self.separator = GtkHSeparator()
+        self.box1.pack_start(self.separator, expand=FALSE)
+
+        self.switch_new_view = GtkCheckButton("Create new view")
+        self.box1.pack_start(self.switch_new_view)
+        self.switch_new_view.show()
+
+        self.separator = GtkHSeparator()
+        self.box1.pack_start(self.separator, expand=FALSE)
+
+        self.box2 = GtkHBox(spacing=10)
+        self.box1.pack_start(self.box2, expand=FALSE)
+        self.box2.show()
+
+        self.execute_btn = GtkButton("Ok")
+        self.execute_btn.connect("clicked", self.execute_cb)
+        self.box2.pack_start(self.execute_btn)
+        self.execute_btn.set_flags(CAN_DEFAULT)
+        self.execute_btn.grab_default()
+        
+        self.close_btn = GtkButton("Cancel")
+        self.close_btn.connect("clicked", self.close)
+        self.box2.pack_start(self.close_btn)
+
+    def execute_cb( self, *args ):
+        layer = gview.app.sel_manager.get_active_layer()
+        ds = layer.get_parent().get_dataset()
+        data = gdalnumeric.DatasetReadAsArray(ds)
+
+        if self.switch_forward.get_active():
+            data_tr = FFT.fft2d(data)
+        else:
+            data_tr = FFT.inverse_fft2d(data)
+        array_name = gdalnumeric.GetArrayFilename(data_tr)
+
+        if self.switch_new_view.get_active():
+            gview.app.new_view()
+            gview.app.file_open_by_name(array_name)
+        else:
+            gview.app.file_open_by_name(array_name)
+
+TOOL_LIST = ['FFT2Tool']
+</pre>
+
+As you can see, the most laborious part of the work is creating GUI
+controls.<p> 
+
+<h2><a name="section1c">XML File Configuration</a></h2>
+XML configuration files are located in OpenEV's "xmlconfig" directory.
+Parts of a view menu XML file are shown below.  The GViewAppMenu enclosing
+entry indicates that this is a configuration file for the menus in the main
+view window; this entry would be GViewAppIconBar for the main view window 
+icon bar, or GViewAppPyshell for the python shell. <p>
+
+The &#60;entry&#62; items below are used to indicate the locations of standard
+view window entries- ie. those that have callbacks defined in gvviewwindow.py.
+The &#60;path&#62; part of the entry indicates how the entry will show up in the
+menu; &#60;callback&#62; indicates which gvviewwindow callback to use.  The
+'File/rfl1' entry demonstrates how a simple argument (int or string) can
+be passed to the callback. <p>
+
+The &#60;tools&#62;, &#60;simpletoolentry&#62;, and &#60;complextoolentry&#62; items are used
+to define which tools' menu and icon entries will show up, and to
+customize their appearance.  If no tool entries will be specified, all
+currently loaded tools will be shown.  
+If a tool is indicated in the file but is not loaded, an error will occur.
+The &#60;tools&#62; entry, if present, must contain one of the strings All,
+None, or Some.  If &#60;tools&#62; is All, all currently loaded tools will have
+entries in the view menu.  If &#60;tools&#62; is None, no tool entries will be
+loaded in the view menu, and an error will occur if &#60;simpletoolentry&#62;
+or &#60;complextoolentry&#62; items occur later in the XML file.  If &#60;tools&#62; is
+Some, only entries specified through &#60;simpletoolentry&#62; or &#60;complextoolentry&#62;
+items will show up. <p>
+
+The &#60;simpletoolentry&#62; item is used to put in tool entries using their
+Menu paths.  The position of the menu entry will be determined by
+the entry's position in the XML file.  For instance, GDALTool (the
+Export tool- Tool_Export.py) defines a menu entry "File/Export".  In
+the case below, its entry would show up between "Import" and "Print" 
+in the "File" menu. <p>
+
+The &#60;complextoolentry&#62; item is used to redefine the path names, and to
+select among entries to show in cases where a tool defines more than
+one menu entry.  Each &#60;complextoolentry&#62; must define the tool,
+the old menu path (tool default) corresponding to the callback to be
+used, and a new menu path.  The old menu path is used as a key to
+the tool's menu_entries dictionary to locate the desired callback.  
+For instance, the &#60;complextoolentry&#62; item
+below indicates that the callback from RenderTestTool that corresponds
+to its "Render Test" entry under the "Tools" menu should appear in this view 
+as a "Render Test" entry under the "File" menu, between the "Print"
+and separator items.  If RenderTestTool specified other menu entries,
+they would have to appear as separate &#60;complextoolentry&#62; items in
+order to appear in the view menu. <p>
+
+<pre>
+&#60;GViewAppMenu&#62;
+ &#60;Menu&#62;
+  &#60;tools&#62;All&#60;/tools&#62;
+  &#60;entry&#62;
+    &#60;path&#62;'File/Import'&#60;/path&#62;
+    &#60;callback&#62;self.file_import_cb&#60;/callback&#62;
+  &#60;/entry&#62;
+  &#60;simpletoolentry&#62;
+     &#60;name&#62;GDALTool&#60;/name&#62;
+  &#60;/simpletoolentry&#62;
+  &#60;entry&#62;
+...
+    &#60;path&#62;'File/Print'&#60;/path&#62;
+    &#60;callback&#62;self.print_cb&#60;/callback&#62;
+  &#60;/entry&#62;
+  &#60;complextoolentry&#62;
+     &#60;name&#62;RenderTestTool&#60;/name&#62;
+     &#60;oldpath&#62;'Tools/Render Test'&#60;/oldpath&#62;
+     &#60;newpath&#62;'File/Render Test'&#60;/newpath&#62;
+  &#60;/complextoolentry&#62;
+  &#60;entry&#62;
+    &#60;path type="separator"&#62;'File/'&#60;/path&#62;
+  &#60;/entry&#62;
+  &#60;entry&#62;
+    &#60;path&#62;'File/rfl1'&#60;/path&#62;
+    &#60;callback&#62;self.rfl_cb&#60;/callback&#62;
+    &#60;arguments&#62;
+      &#60;arg&#62;1&#60;/arg&#62;
+    &#60;/arguments&#62;
+  &#60;/entry&#62;
+...
+ &#60;/Menu&#62;
+&#60;/GViewAppMenu&#62;
+</pre>
+
+In the icon bar XML file, the entry parameters defined are the file to use
+for the icon (&#60;xpm&#62;), the tooltip text (&#60;hint&#62;), and the
+callback.  Position in the icon bar is determined by an entry's position
+in the file.<p>  
+
+As in the menu bar XML file, the tool entries are specified using the &#60;tool&#62;,
+&#60;simpletoolentry&#62;, and &#60;complextoolentry&#62; items.  Tool icon entries are stored 
+internally as a list rather than a dictionary in case an application wishes to 
+use the same icon file twice with different tooltip text to differentiate between 
+callbacks, so an index is used to specify which of a tool's icon entries to use.
+The &#60;complextoolentry&#62; item can be used to override the icon file, hint, help (not
+currently used by OpenEV for icons) and position of an item.<p>
+
+An example of an XML icon file for view windows is given below (... indicates 
+where sections have been removed for brevity):
+
+<pre>
+&#60;GViewAppIconBar&#62;
+ &#60;Iconbar&#62;
+   &#60;icon&#62;
+     &#60;xpm&#62;'openfile.xpm'&#60;/xpm&#62;
+     &#60;hint&#62;'Open and Display Raster/Vector File'&#60;/hint&#62;
+     &#60;callback&#62;self.file_open_cb&#60;/callback&#62;
+   &#60;/icon&#62;
+   &#60;icon&#62;
+     &#60;xpm&#62;'print.xpm'&#60;/xpm&#62;
+     &#60;hint&#62;'Print Current View'&#60;/hint&#62;
+     &#60;callback&#62;self.print_cb&#60;/callback&#62;
+     &#60;help&#62;'gvprint.html'&#60;/help&#62;
+   &#60;/icon&#62;
+   ...
+   &#60;complextoolentry&#62;
+       &#60;name&#62;ShapesGridTool&#60;/name&#62;
+       &#60;hint&#62;Newhint&#60;/hint&#62;
+       &#60;index&#62;0&#60;/index&#62;
+   &#60;/complextoolentry&#62;
+   ...
+ &#60;/Iconbar&#62;
+&#60;/GViewAppIconBar&#62;
+</pre>
+
+The python shell menu and icons entries are combined together
+in a single file that also indicates other options in the pyshell layout, such
+as whether a history area and progress bar are present. The menu and icon
+specifications are analogous to the view menu and icon specifications.  The message
+area and prompt will always be present.  An example of a python shell XML configuration
+file is given below: <p>
+
+<pre>
+&#60;GViewAppPyshell&#62;
+ &#60;Menu&#62;
+  &#60;tools&#62;All&#60;/tools&#62;
+  &#60;entry&#62;
+    &#60;path&#62;'File/Preferences'&#60;/path&#62;
+    &#60;callback&#62;self.preferences_cb&#60;/callback&#62;
+  &#60;/entry&#62;
+  &#60;entry&#62;
+    &#60;path&#62;'File/Quit'&#60;/path&#62;
+    &#60;callback&#62;self.close_cb&#60;/callback&#62;
+    &#60;accelerator&#62;control+D&#60;/accelerator&#62;
+  &#60;/entry&#62;
+  &#60;entry&#62;
+    &#60;path&#62;'Help/Help'&#60;/path&#62;
+    &#60;callback&#62;self.launch_help_cb&#60;/callback&#62;
+  &#60;/entry&#62;
+ &#60;/Menu&#62;
+ &#60;Iconbar&#62;
+   &#60;tools&#62;Some&#60;/tools&#62;
+   &#60;complextoolentry&#62;
+       &#60;name&#62;MyTool&#60;/name&#62;
+       &#60;hint&#62;MyToolHint&#60;/hint&#62;
+       &#60;index&#62;0&#60;/index&#62;
+   &#60;/complextoolentry&#62;
+ &#60;/Iconbar&#62;
+ &#60;History&#62;
+ &#60;/History&#62;
+ &#60;Progress&#62;
+ &#60;/Progress&#62;
+&#60;/GViewAppPyshell&#62;
+</pre>
+In the case above, an empty entry (eg. &#60;History&#62; &#60;/History&#62;) 
+indicates that the entry should be present with the default settings.  
+If an entry is not present (eg. the whole &#60;Menu&#62;...&#60;/Menu&#62; 
+entry was removed), that component will not be present.  If the component is 
+present, only the subentries
+specified will be used.  The file above specifies a python shell with
+a menu with all tool menu entries, plus entries for the help callback
+(Help-&gt Help), a quit entry (File-&gt Quit), and an entry for specifying 
+paths to search for python modules (File-&gt Preferences).
+The iconbar would contain only a single
+entry- the first icon entry specified in tool MyTool, with its hint text
+replaced by MyToolHint.  The history bar and progress bar would be
+present with their default settings (currently there are no options
+to alter in these- they are either present or not present).
+The progress bar is not used automatically even if it is present, though 
+functions that are going to take a long time can update it by 
+importing gview and placing the following line inside the function
+wherever they want the progress bar to update:
+
+<pre>
+gview.app.shell.show_progress(i,msg)
+</pre>
+<p>
+where <i>i</i> is a number between 0 and 100 (the amount of progress
+to show in the bar), and msg is a string to display in the message
+section.
+<p>
+ 
+<a href="#contents">Top</a><p>
+<a href="openevmain.html>OpenEV Help</a><p>
+</body>
+</html>

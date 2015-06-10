@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WMT_MS_Capabilities version="1.1.0">
+<Service>
+<Name>OGC:WMS</Name>
+<Title>Web Map Service USGS_EDC_Trans_BTS_Roads</Title>
+<Abstract>ArcIMS USGS_EDC_Trans_BTS_Roads Web Map Service</Abstract>
+<KeywordList>
+<Keyword>ArcIMS</Keyword>
+</KeywordList>
+<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://gisdata.usgs.net:80/servlet19/com.esri.wms.Esrimap/USGS_EDC_Trans_BTS_Roads?" xlink:type="simple"/>
+<ContactInformation>
+<ContactPersonPrimary>
+<ContactPerson/>
+<ContactOrganization/>
+</ContactPersonPrimary>
+<ContactPosition/>
+<ContactAddress>
+<AddressType>postal</AddressType>
+<Address/>
+<City/>
+<StateOrProvince/>
+<PostCode/>
+<Country/>
+</ContactAddress>
+<ContactVoiceTelephone/>
+<ContactFacsimileTelephone/>
+<ContactElectronicMailAddress/>
+</ContactInformation>
+<Fees>none</Fees>
+<AccessConstraints>none</AccessConstraints>
+</Service>
+<Capability>
+<Request>
+<GetCapabilities>
+<Format>application/vnd.ogc.wms_xml</Format>
+<DCPType>
+<HTTP>
+<Get>
+<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://gisdata.usgs.net:80/servlet19/com.esri.wms.Esrimap/USGS_EDC_Trans_BTS_Roads?" xlink:type="simple"/>
+</Get>
+</HTTP>
+</DCPType>
+</GetCapabilities>
+<GetMap>
+<Format>image/png</Format>
+<Format>image/jpeg</Format>
+<DCPType>
+<HTTP>
+<Get>
+<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://gisdata.usgs.net:80/servlet19/com.esri.wms.Esrimap/USGS_EDC_Trans_BTS_Roads?" xlink:type="simple"/>
+</Get>
+</HTTP>
+</DCPType>
+</GetMap>
+<GetFeatureInfo>
+<Format>application/vnd.ogc.wms_xml</Format>
+<Format>text/xml</Format>
+<Format>text/html</Format>
+<Format>text/plain</Format>
+<DCPType>
+<HTTP>
+<Get>
+<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://gisdata.usgs.net:80/servlet19/com.esri.wms.Esrimap/USGS_EDC_Trans_BTS_Roads?" xlink:type="simple"/>
+</Get>
+</HTTP>
+</DCPType>
+</GetFeatureInfo>
+</Request>
+<Exception>
+<Format>application/vnd.ogc.se_xml</Format>
+<Format>application/vnd.ogc.se_inimage</Format>
+<Format>application/vnd.ogc.se_blank</Format>
+</Exception>
+<Layer noSubsets="0" opaque="0" queryable="1">
+<Title>USGS_EDC_Trans_BTS_Roads</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-125.792239491055" miny="17.6746880481283" maxx="-66.6059042998018" maxy="59.7594712167613"/>
+<Layer queryable="1">
+<Name>BTS_Roads_Index</Name>
+<Title>BTS_Roads_Index</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-124.847618434958" miny="24.4390124105102" maxx="-66.8856668809771" maxy="49.3843619337424"/>
+</Layer>
+<Layer queryable="1">
+<Name>Roads_BTS</Name>
+<Title>Roads_BTS</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="15.9999998426906" maxx="-62.0000000378082" maxy="74.999999913981"/>
+</Layer>
+<Layer queryable="1">
+<Name>Road_Labels_BTS</Name>
+<Title>Road_Labels_BTS</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="15.9999998426906" maxx="-62.0000000378082" maxy="74.999999913981"/>
+</Layer>
+<Layer queryable="1">
+<Name>Interstate_Labels_BTS</Name>
+<Title>Interstate_Labels_BTS</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-179.998988540844" miny="15.9999998426906" maxx="-62.0000000378082" maxy="74.999999913981"/>
+</Layer>
+</Layer>
+</Capability>
+</WMT_MS_Capabilities>

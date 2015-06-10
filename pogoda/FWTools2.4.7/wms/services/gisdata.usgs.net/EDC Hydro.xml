@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE WMT_MS_Capabilities SYSTEM "http://gisdata.usgs.net/capabilities/capabilities_1_1_0.dtd">
+<WMT_MS_Capabilities version="1.1.0">
+<Service>
+<Name>OGC:WMS</Name>
+<Title>USGS EROS Data Center WMS Map Server:  USGS_EDC_Hydro_RAD</Title>
+<Abstract>This is an OGC compliant MapService served By the USGS EROS Data Center, Sioux Falls, South Dakota </Abstract>
+<KeywordList>
+<Keyword>ArcIMS</Keyword>
+<Keyword>ESRI</Keyword>
+<Keyword>ArcIMS Feature MapService</Keyword>
+<Keyword>ArcIMS Image MapService</Keyword>
+<Keyword>USGS</Keyword>
+<Keyword>EROS Data Center</Keyword>
+<Keyword>EDC</Keyword>
+<Keyword>OGC Map Service</Keyword>
+</KeywordList>
+<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://gisdata.usgs.net:80/servlet/com.esri.wms.Esrimap/USGS_EDC_Hydro_RAD?" xlink:type="simple"/>
+<ContactInformation>
+<ContactPersonPrimary>
+<ContactPerson>Customer Services Representative</ContactPerson>
+<ContactOrganization>USGS EROS Data Center</ContactOrganization>
+</ContactPersonPrimary>
+<ContactPosition/>
+<ContactAddress>
+<AddressType>postal</AddressType>
+<Address>47914 252nd Street</Address>
+<City>Sioux Falls</City>
+<StateOrProvince>SD</StateOrProvince>
+<PostCode>57198</PostCode>
+<Country>USA</Country>
+</ContactAddress>
+<ContactVoiceTelephone>(605) 594-6151</ContactVoiceTelephone>
+<ContactFacsimileTelephone>(605) 594-6589</ContactFacsimileTelephone>
+<ContactElectronicMailAddress>webmapping@usgs.gov</ContactElectronicMailAddress>
+</ContactInformation>
+<Fees>none</Fees>
+<AccessConstraints>none</AccessConstraints>
+</Service>
+<Capability>
+<Request>
+<GetCapabilities>
+<Format>application/vnd.ogc.wms_xml</Format>
+<DCPType>
+<HTTP>
+<Get>
+<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://gisdata.usgs.net:80/servlet/com.esri.wms.Esrimap/USGS_EDC_Hydro_RAD?" xlink:type="simple"/>
+</Get>
+</HTTP>
+</DCPType>
+</GetCapabilities>
+<GetMap>
+<Format>image/png</Format>
+<Format>image/jpeg</Format>
+<DCPType>
+<HTTP>
+<Get>
+<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://gisdata.usgs.net:80/servlet/com.esri.wms.Esrimap/USGS_EDC_Hydro_RAD?" xlink:type="simple"/>
+</Get>
+</HTTP>
+</DCPType>
+</GetMap>
+<GetFeatureInfo>
+<Format>application/vnd.ogc.wms_xml</Format>
+<Format>text/xml</Format>
+<Format>text/html</Format>
+<Format>text/plain</Format>
+<DCPType>
+<HTTP>
+<Get>
+<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://gisdata.usgs.net:80/servlet/com.esri.wms.Esrimap/USGS_EDC_Hydro_RAD?" xlink:type="simple"/>
+</Get>
+</HTTP>
+</DCPType>
+</GetFeatureInfo>
+</Request>
+<Exception>
+<Format>application/vnd.ogc.se_xml</Format>
+<Format>application/vnd.ogc.se_inimage</Format>
+<Format>application/vnd.ogc.se_blank</Format>
+</Exception>
+<Layer queryable="1" opaque="0" noSubsets="0">
+<Title>USGS_EDC_Hydro_RAD</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-125.792239491055" miny="17.6746880481283" maxx="-66.6059042998018" maxy="59.7594712167613"/>
+<Layer queryable="1">
+<Name>Waterbodies</Name>
+<Title>Waterbodies</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-160.997248388816" miny="18.4977260734801" maxx="-66.8850804190524" maxy="49.3843330047441"/>
+</Layer>
+<Layer queryable="1">
+<Name>Drainage_Network</Name>
+<Title>Drainage_Network</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-160.246527367822" miny="18.9107344392984" maxx="-66.9498284377104" maxy="49.3766132398654"/>
+</Layer>
+<Layer queryable="1">
+<Name>Waterbodies_Labels</Name>
+<Title>Waterbodies_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-160.23110723209" miny="19.6411731267019" maxx="-66.9978666379965" maxy="49.3461083410163"/>
+</Layer>
+<Layer queryable="1">
+<Name>Drainage_Network_Labels</Name>
+<Title>Drainage_Network_Labels</Title>
+<SRS>EPSG:4326</SRS>
+<LatLonBoundingBox minx="-160.246527367823" miny="18.9107344392984" maxx="-66.9498284377114" maxy="49.3766132398654"/>
+</Layer>
+</Layer>
+</Capability>
+</WMT_MS_Capabilities>

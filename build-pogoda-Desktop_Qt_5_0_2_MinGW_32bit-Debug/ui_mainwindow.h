@@ -28,10 +28,10 @@
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTextBrowser>
+#include <QtWidgets/QTextEdit>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QTreeWidget>
 #include <QtWidgets/QWidget>
-#include <clickablelabel.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -51,7 +51,16 @@ public:
     QPushButton *bLayerDelete;
     QTreeWidget *treeWidget;
     QWidget *tab_osm;
-    QTextBrowser *textBrowser;
+    QTextEdit *textEdit;
+    QTextEdit *textEdit_2;
+    QPushButton *pushButton;
+    QLabel *label_5;
+    QLabel *label_6;
+    QPushButton *bLayerUp_2;
+    QPushButton *bLayerDown_2;
+    QPushButton *bLayerVisibility_2;
+    QPushButton *bLayerDelete_2;
+    QTreeWidget *treeWidget_2;
     QLabel *label_MapType;
     QPushButton *bNavUp;
     QPushButton *bNavDown;
@@ -85,9 +94,8 @@ public:
     QComboBox *comboGraph;
     QGraphicsView *graphicsGraph;
     QLabel *labelLog;
-    clickableLabel *imageLabel;
     QLabel *label_3;
-    QLabel *label_4;
+    QTextBrowser *textBrowser;
     QMenuBar *menuBar;
     QMenu *menuPogoda;
     QMenu *menuPomoc;
@@ -98,14 +106,14 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(960, 620);
+        MainWindow->resize(430, 620);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(MainWindow->sizePolicy().hasHeightForWidth());
         MainWindow->setSizePolicy(sizePolicy);
-        MainWindow->setMinimumSize(QSize(960, 620));
-        MainWindow->setMaximumSize(QSize(960, 620));
+        MainWindow->setMinimumSize(QSize(430, 620));
+        MainWindow->setMaximumSize(QSize(500, 620));
         MainWindow->setMouseTracking(false);
         actionUstawienia_programu = new QAction(MainWindow);
         actionUstawienia_programu->setObjectName(QStringLiteral("actionUstawienia_programu"));
@@ -142,9 +150,37 @@ public:
         tabMapType->addTab(tab_gdal, QString());
         tab_osm = new QWidget();
         tab_osm->setObjectName(QStringLiteral("tab_osm"));
-        textBrowser = new QTextBrowser(tab_osm);
-        textBrowser->setObjectName(QStringLiteral("textBrowser"));
-        textBrowser->setGeometry(QRect(10, 10, 381, 91));
+        textEdit = new QTextEdit(tab_osm);
+        textEdit->setObjectName(QStringLiteral("textEdit"));
+        textEdit->setGeometry(QRect(310, 10, 91, 21));
+        textEdit_2 = new QTextEdit(tab_osm);
+        textEdit_2->setObjectName(QStringLiteral("textEdit_2"));
+        textEdit_2->setGeometry(QRect(310, 30, 91, 21));
+        pushButton = new QPushButton(tab_osm);
+        pushButton->setObjectName(QStringLiteral("pushButton"));
+        pushButton->setGeometry(QRect(310, 60, 75, 23));
+        label_5 = new QLabel(tab_osm);
+        label_5->setObjectName(QStringLiteral("label_5"));
+        label_5->setGeometry(QRect(290, 10, 41, 20));
+        label_6 = new QLabel(tab_osm);
+        label_6->setObjectName(QStringLiteral("label_6"));
+        label_6->setGeometry(QRect(290, 30, 31, 20));
+        bLayerUp_2 = new QPushButton(tab_osm);
+        bLayerUp_2->setObjectName(QStringLiteral("bLayerUp_2"));
+        bLayerUp_2->setGeometry(QRect(210, 10, 71, 23));
+        bLayerDown_2 = new QPushButton(tab_osm);
+        bLayerDown_2->setObjectName(QStringLiteral("bLayerDown_2"));
+        bLayerDown_2->setGeometry(QRect(210, 40, 71, 23));
+        bLayerVisibility_2 = new QPushButton(tab_osm);
+        bLayerVisibility_2->setObjectName(QStringLiteral("bLayerVisibility_2"));
+        bLayerVisibility_2->setGeometry(QRect(310, 90, 71, 23));
+        bLayerDelete_2 = new QPushButton(tab_osm);
+        bLayerDelete_2->setObjectName(QStringLiteral("bLayerDelete_2"));
+        bLayerDelete_2->setGeometry(QRect(210, 70, 81, 23));
+        treeWidget_2 = new QTreeWidget(tab_osm);
+        treeWidget_2->setObjectName(QStringLiteral("treeWidget_2"));
+        treeWidget_2->setGeometry(QRect(10, 10, 191, 91));
+        treeWidget_2->setRootIsDecorated(true);
         tabMapType->addTab(tab_osm, QString());
         label_MapType = new QLabel(centralWidget);
         label_MapType->setObjectName(QStringLiteral("label_MapType"));
@@ -192,9 +228,10 @@ public:
         checkBox = new QCheckBox(groupWeather);
         checkBox->setObjectName(QStringLiteral("checkBox"));
         checkBox->setGeometry(QRect(290, 40, 121, 17));
+        checkBox->setChecked(true);
         groupAdvanced = new QGroupBox(groupWeather);
         groupAdvanced->setObjectName(QStringLiteral("groupAdvanced"));
-        groupAdvanced->setEnabled(false);
+        groupAdvanced->setEnabled(true);
         groupAdvanced->setGeometry(QRect(230, 70, 181, 131));
         label_param = new QLabel(groupAdvanced);
         label_param->setObjectName(QStringLiteral("label_param"));
@@ -235,7 +272,7 @@ public:
         bShowWeather->setGeometry(QRect(330, 10, 75, 23));
         groupGraph = new QGroupBox(centralWidget);
         groupGraph->setObjectName(QStringLiteral("groupGraph"));
-        groupGraph->setEnabled(false);
+        groupGraph->setEnabled(true);
         groupGraph->setGeometry(QRect(10, 390, 311, 141));
         label_graph = new QLabel(groupGraph);
         label_graph->setObjectName(QStringLiteral("label_graph"));
@@ -249,19 +286,16 @@ public:
         labelLog = new QLabel(centralWidget);
         labelLog->setObjectName(QStringLiteral("labelLog"));
         labelLog->setGeometry(QRect(20, 540, 931, 20));
-        imageLabel = new clickableLabel(centralWidget);
-        imageLabel->setObjectName(QStringLiteral("imageLabel"));
-        imageLabel->setGeometry(QRect(430, 20, 512, 512));
         label_3 = new QLabel(centralWidget);
         label_3->setObjectName(QStringLiteral("label_3"));
-        label_3->setGeometry(QRect(190, 20, 91, 16));
-        label_4 = new QLabel(centralWidget);
-        label_4->setObjectName(QStringLiteral("label_4"));
-        label_4->setGeometry(QRect(300, 13, 101, 20));
+        label_3->setGeometry(QRect(120, 10, 91, 16));
+        textBrowser = new QTextBrowser(centralWidget);
+        textBrowser->setObjectName(QStringLiteral("textBrowser"));
+        textBrowser->setGeometry(QRect(180, 10, 211, 31));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 960, 21));
+        menuBar->setGeometry(QRect(0, 0, 430, 21));
         menuPogoda = new QMenu(menuBar);
         menuPogoda->setObjectName(QStringLiteral("menuPogoda"));
         menuPomoc = new QMenu(menuBar);
@@ -282,7 +316,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabMapType->setCurrentIndex(0);
+        tabMapType->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -305,6 +339,15 @@ public:
         QTreeWidgetItem *___qtreewidgetitem = treeWidget->headerItem();
         ___qtreewidgetitem->setText(0, QApplication::translate("MainWindow", "Warstwy", 0));
         tabMapType->setTabText(tabMapType->indexOf(tab_gdal), QApplication::translate("MainWindow", "GDAL", 0));
+        pushButton->setText(QApplication::translate("MainWindow", "pobierz map\304\231", 0));
+        label_5->setText(QApplication::translate("MainWindow", "lon:", 0));
+        label_6->setText(QApplication::translate("MainWindow", "lat:", 0));
+        bLayerUp_2->setText(QApplication::translate("MainWindow", "\342\226\262", 0));
+        bLayerDown_2->setText(QApplication::translate("MainWindow", "\342\226\274", 0));
+        bLayerVisibility_2->setText(QApplication::translate("MainWindow", "Widoczno\305\233\304\207", 0));
+        bLayerDelete_2->setText(QApplication::translate("MainWindow", "Usu\305\204 warstw\304\231", 0));
+        QTreeWidgetItem *___qtreewidgetitem1 = treeWidget_2->headerItem();
+        ___qtreewidgetitem1->setText(0, QApplication::translate("MainWindow", "Warstwy", 0));
         tabMapType->setTabText(tabMapType->indexOf(tab_osm), QApplication::translate("MainWindow", "OpenStreetMap", 0));
         label_MapType->setText(QApplication::translate("MainWindow", "Wy\305\233wietlana mapa:", 0));
         bNavUp->setText(QApplication::translate("MainWindow", "\342\226\262", 0));
@@ -332,9 +375,7 @@ public:
         groupGraph->setTitle(QApplication::translate("MainWindow", "Przebieg wybranego parametru w czasie", 0));
         label_graph->setText(QApplication::translate("MainWindow", "Okres czasu:", 0));
         labelLog->setText(QApplication::translate("MainWindow", "Wsp\303\263\305\202rz\304\231dne: xxxxxxxxx N, xxxxxxxxxxxx E;   Temperatura: 21oC, Wilgotno\305\233\304\207 powietrza: 40%, Opady: brak, Pr\304\231dko\305\233\304\207 wiatru: 25km/h, Kierunek: NE", 0));
-        imageLabel->setText(QString());
         label_3->setText(QApplication::translate("MainWindow", "TextLabel", 0));
-        label_4->setText(QApplication::translate("MainWindow", "TextLabel", 0));
         menuPogoda->setTitle(QApplication::translate("MainWindow", "Opcje", 0));
         menuPomoc->setTitle(QApplication::translate("MainWindow", "Pomoc", 0));
     } // retranslateUi

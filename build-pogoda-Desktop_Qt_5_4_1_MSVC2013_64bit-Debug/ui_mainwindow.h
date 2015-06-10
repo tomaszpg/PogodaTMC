@@ -27,7 +27,7 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
-#include <QtWidgets/QTextBrowser>
+#include <QtWidgets/QTextEdit>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QTreeWidget>
 #include <QtWidgets/QWidget>
@@ -50,7 +50,11 @@ public:
     QPushButton *bLayerDelete;
     QTreeWidget *treeWidget;
     QWidget *tab_osm;
-    QTextBrowser *textBrowser;
+    QTextEdit *textEdit;
+    QTextEdit *textEdit_2;
+    QPushButton *pushButton;
+    QLabel *label_5;
+    QLabel *label_6;
     QLabel *label_MapType;
     QPushButton *bNavUp;
     QPushButton *bNavDown;
@@ -103,7 +107,7 @@ public:
         sizePolicy.setHeightForWidth(MainWindow->sizePolicy().hasHeightForWidth());
         MainWindow->setSizePolicy(sizePolicy);
         MainWindow->setMinimumSize(QSize(430, 620));
-        MainWindow->setMaximumSize(QSize(430, 620));
+        MainWindow->setMaximumSize(QSize(500, 620));
         MainWindow->setMouseTracking(false);
         actionUstawienia_programu = new QAction(MainWindow);
         actionUstawienia_programu->setObjectName(QStringLiteral("actionUstawienia_programu"));
@@ -140,9 +144,21 @@ public:
         tabMapType->addTab(tab_gdal, QString());
         tab_osm = new QWidget();
         tab_osm->setObjectName(QStringLiteral("tab_osm"));
-        textBrowser = new QTextBrowser(tab_osm);
-        textBrowser->setObjectName(QStringLiteral("textBrowser"));
-        textBrowser->setGeometry(QRect(10, 10, 381, 91));
+        textEdit = new QTextEdit(tab_osm);
+        textEdit->setObjectName(QStringLiteral("textEdit"));
+        textEdit->setGeometry(QRect(50, 10, 104, 21));
+        textEdit_2 = new QTextEdit(tab_osm);
+        textEdit_2->setObjectName(QStringLiteral("textEdit_2"));
+        textEdit_2->setGeometry(QRect(50, 40, 104, 21));
+        pushButton = new QPushButton(tab_osm);
+        pushButton->setObjectName(QStringLiteral("pushButton"));
+        pushButton->setGeometry(QRect(240, 60, 75, 23));
+        label_5 = new QLabel(tab_osm);
+        label_5->setObjectName(QStringLiteral("label_5"));
+        label_5->setGeometry(QRect(10, 10, 41, 20));
+        label_6 = new QLabel(tab_osm);
+        label_6->setObjectName(QStringLiteral("label_6"));
+        label_6->setGeometry(QRect(10, 40, 31, 20));
         tabMapType->addTab(tab_osm, QString());
         label_MapType = new QLabel(centralWidget);
         label_MapType->setObjectName(QStringLiteral("label_MapType"));
@@ -190,9 +206,10 @@ public:
         checkBox = new QCheckBox(groupWeather);
         checkBox->setObjectName(QStringLiteral("checkBox"));
         checkBox->setGeometry(QRect(290, 40, 121, 17));
+        checkBox->setChecked(true);
         groupAdvanced = new QGroupBox(groupWeather);
         groupAdvanced->setObjectName(QStringLiteral("groupAdvanced"));
-        groupAdvanced->setEnabled(false);
+        groupAdvanced->setEnabled(true);
         groupAdvanced->setGeometry(QRect(230, 70, 181, 131));
         label_param = new QLabel(groupAdvanced);
         label_param->setObjectName(QStringLiteral("label_param"));
@@ -233,7 +250,7 @@ public:
         bShowWeather->setGeometry(QRect(330, 10, 75, 23));
         groupGraph = new QGroupBox(centralWidget);
         groupGraph->setObjectName(QStringLiteral("groupGraph"));
-        groupGraph->setEnabled(false);
+        groupGraph->setEnabled(true);
         groupGraph->setGeometry(QRect(10, 390, 311, 141));
         label_graph = new QLabel(groupGraph);
         label_graph->setObjectName(QStringLiteral("label_graph"));
@@ -277,7 +294,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabMapType->setCurrentIndex(0);
+        tabMapType->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -300,6 +317,9 @@ public:
         QTreeWidgetItem *___qtreewidgetitem = treeWidget->headerItem();
         ___qtreewidgetitem->setText(0, QApplication::translate("MainWindow", "Warstwy", 0));
         tabMapType->setTabText(tabMapType->indexOf(tab_gdal), QApplication::translate("MainWindow", "GDAL", 0));
+        pushButton->setText(QApplication::translate("MainWindow", "pobierz map\304\231", 0));
+        label_5->setText(QApplication::translate("MainWindow", "lon:", 0));
+        label_6->setText(QApplication::translate("MainWindow", "lat:", 0));
         tabMapType->setTabText(tabMapType->indexOf(tab_osm), QApplication::translate("MainWindow", "OpenStreetMap", 0));
         label_MapType->setText(QApplication::translate("MainWindow", "Wy\305\233wietlana mapa:", 0));
         bNavUp->setText(QApplication::translate("MainWindow", "\342\226\262", 0));

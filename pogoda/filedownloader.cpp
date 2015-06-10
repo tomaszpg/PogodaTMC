@@ -1,8 +1,9 @@
 #include "filedownloader.h"
 
-FileDownloader::FileDownloader(QUrl fileUrl, QObject *parent) :
+FileDownloader::FileDownloader(QUrl fileUrl,int number, QObject *parent) :
  QObject(parent)
 {
+  num=number;
  connect(
   &m_WebCtrl, SIGNAL (finished(QNetworkReply*)),
   this, SLOT (fileDownloaded(QNetworkReply*))
@@ -18,7 +19,7 @@ void FileDownloader::fileDownloaded(QNetworkReply* pReply) {
  m_DownloadedData = pReply->readAll();
  //emit a signal
  pReply->deleteLater();
- emit downloaded();
+ emit downloaded(num);
 }
 
 QByteArray FileDownloader::downloadedData() const {
